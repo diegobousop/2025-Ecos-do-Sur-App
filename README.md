@@ -2,13 +2,15 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Project creation
+## Project setup
 
 npx create-expo-app EcosBot
 
 cd EcosBot
 
 npx expo install react-dom react-native-web @expo/metro-runtime
+
+
 
 ## Get started
 
