@@ -10,6 +10,12 @@ cd EcosBot
 
 npx expo install react-dom react-native-web @expo/metro-runtime
 
+## First steps
+
+Menú lateral: npx expo install @react-navigation/drawer
+
+Listas: npx expo install @shopify/flash-list
+
 
 
 ## Get started
