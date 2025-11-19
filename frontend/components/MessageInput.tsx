@@ -4,22 +4,24 @@ import { Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 export type MessageInputProps = {
     onShouldSendMessage: (message: string) => void;
 }
 
 const MessageInput = () => {
-    const [message, setMessage] = useState("")
-    const { bottom } = useSafeAreaInsets();
-    const expanded = useSharedValue(0);
+  const {t} = useTranslation();
+  const [message, setMessage] = useState("")
+  const { bottom } = useSafeAreaInsets();
+  const expanded = useSharedValue(0);
 
     const handlePress = (type: 'urgent' | 'info') => {
     };
 
   return (
     <View className="border border-[#E5E7EB] bg-[#D1E9FF] rounded-2xl p-5 m-5 mb-10">
-      <Text className="text-center font-bold text-lg">Introduce una consulta</Text>
+      <Text className="text-center font-bold text-lg">{t("chat.querySuggestion")}</Text>
       <Ionicons className="absolute right-4 top-4" name="send" size={24} color="black"  />
 
       {/* Urgente */}
@@ -37,7 +39,7 @@ const MessageInput = () => {
               className="text-center text-xl"
               style={{ color: pressed ? '#B91C1C' : '#000000' }}
             >
-              Urgente
+              {t("chat.message.urgent")}
             </Text>
           </View>
         )}
@@ -58,7 +60,7 @@ const MessageInput = () => {
               className="text-center text-xl"
               style={{ color: pressed ? '#1D4ED8' : '#000000' }}
             >
-              Información
+              {t("chat.message.info")}
             </Text>
           </View>
         )}

@@ -1,0 +1,24 @@
+{
+    "drawer.chat":"EcosBot",
+    "drawer.Ecos":"Ecos do Sur",
+    "drawer.settings":"Settings",
+
+
+    "chat.welcomeTile": "Welcome to Ecosbot!",
+    "chat.presentation": "Hello! I am the Ecosbot chatbot, and my mission is to help you in cases of aggression and discrimination based on racist, xenophobic, or Islamophobic motives.\n\nPlease let me know if you need urgent help or non-urgent information.",
+    "chat.querySuggestion": "Enter a query",
+    "chat.message.urgent": "Urgent",
+    "chat.message.info": "Information",
+
+    "settings.account": "Account",
+    "settings.email": "Email",
+    "settings.notifications": "Notifications",
+    "settings.application": "Application",
+    "settings.language": "Language",
+    "settings.selectLanguage": "Select language",
+    "settings.version": "Version",
+    "settings.about": "About",
+    "settings.help-center": "Help center",
+    "settings.contact": "Contact",
+    "settings.sign-out": "Sign out"
+}
