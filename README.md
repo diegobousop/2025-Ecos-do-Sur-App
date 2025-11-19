@@ -39,3 +39,16 @@ Na saída, encontrarás varias opcións para abrir a app
 
 
 
+
+
+listar paquetes instalados RN npm list --depth=0
+
+npm install react-native-ios-context-menu@3.1.0 --legacy-peer-deps
+npm install @react-native-menu/menu@1.2.2 --legacy-peer-deps
+npm install react-native-ios-utilities@5.1.2 --legacy-peer-deps
+
+antigua version react-native -> 0.81.5
+
+
+
+
