@@ -1,66 +1,91 @@
-# Welcome to your Expo app 👋
-
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
-
-## Project setup
-
-npx create-expo-app EcosBot
-
-cd EcosBot
-
-npx expo install react-dom react-native-web @expo/metro-runtime
-
-## First steps
-
-Menú lateral: npx expo install @react-navigation/drawer
-
-Listas: npx expo install @shopify/flash-list
+# 🌍 Ecos do Sur App
 
 
 
-## Get started
+---
 
-1. Install dependencies
+## ✨ Motivación
 
-   ```bash
-   npm install
-   ```
+### Sociais e éticas
 
-2. Start the app
+- **Accesibilidade:**  
+  É un dereito fundamental que asegura a igualdade de participación na nosa sociedade para as persoas en condicións adversas. Grazas ás novas tecnoloxías que se crean cada ano, conséguese cada vez solventar mellor os casos de violencia.
 
-   ```bash
-   npx expo start
-   ```
+- **Empoderamento:**  
+  A aplicación serve como canle segura e discreta para acceder a información, recursos e acompañamento.
 
-In the output, you'll find options to open the app in a
+### Tecnolóxicas
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Integración de tecnoloxías abertas:**  
+  O uso de ferramentas libres e multiplataforma (como Flutter, React Native ou similares) promove a independencia tecnolóxica e a colaboración comunitaria.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Reutilización e innovación tecnolóxica:**  
+  A reutilización dun proxecto existente garante continuidade e aproveitamento de recursos, fomentando o desenvolvemento software sostible e solidario.
 
-## Get a fresh project
+A organización Ecos do Sur previamente lanzou o seu asistente ante estas situacións, accesible mediante Telegram, describindo funcionalidades como:
 
-When you're ready, run:
+- Axuda en situacións de urxencia
+- Información de utilidade de varios campos:
+  - Discurso de odio nas redes
+  - Sanidade
+  - Recursos por comunidade
+  - Comercios
 
+## 🎯 Obxectivos
+
+- 💻 **Desenvolver unha aplicación accesible** dende Android e iOS cun chat manexado mediante pasos.
+- 🔑 **Permitir rexistrar usuarios**, os cales poden gardar os seus datos persoais como historial de chats, idioma, preferencias e outros varios.
+- 🌍 **Internacionalización da aplicación**, coa posibilidade de engadir máis idiomas nun futuro.
+- 📱 **Asegurar un deseño responsivo, accesible e personalizable**.
+- 📂 **Manter un código open-source** e mantido coas mellores prácticas.
+- 🤝 **Colaborar con Ecos do Sur**, adaptando o proxecto aos seus intereses e visión.
+
+## ⚙️ Tech Stack
+
+- **Frontend:** React Native + Expo + TypeScript
+- **Backend:** Maven e Spring Boot con base de datos H2 para desenvolvemento
+- **Estilos** NativeWind (Tailwind para React Native)
+- **Autenticación** Token jwt
+
+---
+
+## 🚀 Execución do proxecto
+
+
+### 1) Instalar dependencias e iniciar a app (Expo)
 ```bash
-npm run reset-project
+cd app
+npm install
+npx expo start
+```
+### 2) Inicio do backend
+```bash
+mvn clean install
+mvn spring-boot:run
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-## Learn more
+Na saída, encontrarás varias opcións para abrir a app
 
-To learn more about developing your project with Expo, look at the following resources:
+- [compilación de desenvolvemento](https://docs.expo.dev/develop/development-builds/introduction/)
+- [emulador de Android](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [simulador de iOS](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), un contorno limitado para probar o desenvolvemento de apps con Expo
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 📂 Versión 1.0.0
 
-## Join the community
 
-Join our community of developers creating universal apps.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+
+listar paquetes instalados RN npm list --depth=0
+
+npm install react-native-ios-context-menu@3.1.0 --legacy-peer-deps
+npm install @react-native-menu/menu@1.2.2 --legacy-peer-deps
+npm install react-native-ios-utilities@5.1.2 --legacy-peer-deps
+
+antigua version react-native -> 0.81.5
+
+
+
+
