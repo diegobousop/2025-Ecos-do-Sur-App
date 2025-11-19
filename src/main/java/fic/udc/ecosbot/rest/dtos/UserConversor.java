@@ -1,20 +1,17 @@
 package fic.udc.ecosbot.rest.dtos;
-
-import fic.udc.ecosbot.model.entities.User;
-import fic.udc.ecosbot.rest.dtos.UserRegisterParamsDto;
+import fic.udc.ecosbot.model.entities.Users;
 
 
 public class UserConversor {
     private UserConversor() {
 	}
 
+    public static final Users toUser(UserRegisterParamsDto userDto) {
 
-
-    public static final User toUser(UserRegisterParamsDto userDto) {
-
-		return new User(
+		return new Users(
             userDto.getUserName(),
-            userDto.getEmail()
+            userDto.getEmail(),
+            userDto.getPassword()
         );
 	}
 }

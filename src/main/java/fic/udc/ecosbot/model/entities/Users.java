@@ -9,8 +9,13 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class Users {
 
+    public enum RoleType {
+		/** The user. */
+		USER,
+		ADMIN
+	}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,19 +24,32 @@ public class User {
     @Column(nullable = false, unique = true, length = 100)
     private String userName;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
-
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false, unique = true, length = 100)
+    private String email;
 
+    private RoleType role;
 
-    public User() {}
+    public Users() {}
 
-    public User(String userName, String email) {
+    public Users(String userName, String email) {
         this.userName = userName;
         this.email = email;
+    }
+
+    public Users(String userName, String email, String password) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
+
+    public Users(String userName, String email, String password, RoleType role) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public Long getId() { return id; }
@@ -45,5 +63,8 @@ public class User {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public RoleType getRole() { return role; }
+    public void setRole(RoleType role) { this.role = role; }
 
 }

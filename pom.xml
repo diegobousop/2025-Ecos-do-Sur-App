@@ -7,15 +7,16 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.7</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/> 
 	</parent>
 
 	<groupId>fic.udc</groupId>
 	<artifactId>ecosbot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>ecosbot</name>
 	<description>TFG de Ecos do Sur</description>
 	<url/>
+	<inceptionYear>2025</inceptionYear>
 	<licenses>
 		<license/>
 	</licenses>
@@ -30,7 +31,6 @@
 	</scm>
 
 
-
 	<!-- PROPERTIES -->
 
 	<properties>
@@ -41,7 +41,25 @@
 		<jjwt.version>0.11.5</jjwt.version>
 
 		<project.contextPath>/ecos-bot</project.contextPath>
+
+		<hibernate.validator.version>8.0.1.Final</hibernate.validator.version>
+
+		<!--  Plugins versions  -->
+		<plugin.jkube.version>1.3.0</plugin.jkube.version>
+		<plugin.jacoco.version>0.8.10</plugin.jacoco.version>
+		<plugin.frontend.version>1.6</plugin.frontend.version>
+		<plugin.m2e.version>1.0.0</plugin.m2e.version>
+		<plugin.sql.version>1.5</plugin.sql.version>
 	</properties>
+
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>tudelft</id>
+			<name>Tudelft Repository</name>
+			<url>https://simulation.tudelft.nl/maven/</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<!-- PROFILES -->
 
@@ -52,7 +70,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<dataSource.url>jdbc:h2:file:./data/gym_tonic</dataSource.url>
+				<dataSource.url>jdbc:h2:file:./data/ecos_bot</dataSource.url>
 				<dataSource.user>sa</dataSource.user>
 				<dataSource.password></dataSource.password>
 			</properties>
@@ -79,7 +97,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -114,6 +132,36 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.validator.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<!-- BUILD -->
@@ -124,7 +172,32 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${plugin.jacoco.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<!-- attached to Maven test phase -->
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+
+		
+
+
 	</build>
 
 </project>
