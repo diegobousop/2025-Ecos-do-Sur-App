@@ -1,47 +1,44 @@
 # 🌍 Ecos do Sur App
 
-Aplicación móbil creada con **Expo + React Native** (TypeScript). Inclúe navegación con caixón, listas eficientes con FlashList e un chat inicial “EcosBot”.
+
 
 ---
 
 ## ✨ Motivación
-Sociais e éticas:
-○ Accesibilidade: é un dereito fundamental que asegura a igualdade
-de participación na nosa sociedade para as persoas en condicións
-adversas. Grazas ás novas tecnoloxías que se crean cada ano,
-consíguese cada vez solventar mellor os casos de violencia.
-○ Empoderamento: a aplicación serve como canle segura e discreta
-para acceder a información, recursos e acompañamento.
-● Tecnolóxicas:
-○ Integración de tecnoloxías abertas: o uso de ferramentas libres
-e multiplataforma (como Flutter, React Native ou similares)
-promove a independencia tecnolóxica e a colaboración
-comunitaria.
-○ Reutilización e innovación tecnolóxica: a reutilización dun
-proxecto existente garante continuidade e aproveitamento de
-recursos, fomentando o desenvolvemento software sostible e
-solidario. A organización Ecos do Sur previamente lanzou o seu
-asistente ante estas situacións, accesible mediante Telegram,
-describiendo funcionalidades como:
-■ Axuda en situacións de urxencia
-■ Información de utilidade de varios campos:
-● Discurso de odio nas redes
-● Sanidade
-● Recursos por comunidade
-● Comercios
+
+### Sociais e éticas
+
+- **Accesibilidade:**  
+  É un dereito fundamental que asegura a igualdade de participación na nosa sociedade para as persoas en condicións adversas. Grazas ás novas tecnoloxías que se crean cada ano, conséguese cada vez solventar mellor os casos de violencia.
+
+- **Empoderamento:**  
+  A aplicación serve como canle segura e discreta para acceder a información, recursos e acompañamento.
+
+### Tecnolóxicas
+
+- **Integración de tecnoloxías abertas:**  
+  O uso de ferramentas libres e multiplataforma (como Flutter, React Native ou similares) promove a independencia tecnolóxica e a colaboración comunitaria.
+
+- **Reutilización e innovación tecnolóxica:**  
+  A reutilización dun proxecto existente garante continuidade e aproveitamento de recursos, fomentando o desenvolvemento software sostible e solidario.
+
+A organización Ecos do Sur previamente lanzou o seu asistente ante estas situacións, accesible mediante Telegram, describindo funcionalidades como:
+
+- Axuda en situacións de urxencia
+- Información de utilidade de varios campos:
+  - Discurso de odio nas redes
+  - Sanidade
+  - Recursos por comunidade
+  - Comercios
 
 ## 🎯 Obxectivos
-●💻Desenvolver unha aplicación accesible dende Android e iOS cun chat
-manexado mediante pasos.
-● 🔑Permitir rexistrar usuarios, os cales poden gardar os seus datos
-personales como historial de chats, idioma, preferencias e outros varios.
-● 🌍Internacionalización da aplicación, coa posibilidade de engadir máis
-idiomas nun futuro.
-● 📱Asegurar un diseño da aplicación responsivo, accesible e
-personalizable.
-● 📂Manter un código open-source e mantido coas mellores prácticas.
-● 🤝Colaborar con Ecos do Sur, adaptando o proxecto aos seus intereses e
-visión.
+
+- 💻 **Desenvolver unha aplicación accesible** dende Android e iOS cun chat manexado mediante pasos.
+- 🔑 **Permitir rexistrar usuarios**, os cales poden gardar os seus datos persoais como historial de chats, idioma, preferencias e outros varios.
+- 🌍 **Internacionalización da aplicación**, coa posibilidade de engadir máis idiomas nun futuro.
+- 📱 **Asegurar un deseño responsivo, accesible e personalizable**.
+- 📂 **Manter un código open-source** e mantido coas mellores prácticas.
+- 🤝 **Colaborar con Ecos do Sur**, adaptando o proxecto aos seus intereses e visión.
 
 ## ⚙️ Tech Stack
 
@@ -54,16 +51,19 @@ visión.
 
 ## 🚀 Execución do proxecto
 
-### 1) Clonar o repositorio
-```bash
-```
 
-### 2) Instalar dependencias e iniciar a app (Expo)
+### 1) Instalar dependencias e iniciar a app (Expo)
 ```bash
 cd app
 npm install
 npx expo start
 ```
+### 2) Inicio do backend
+```bash
+mvn clean install
+mvn spring-boot:run
+```
+
 
 Na saída, encontrarás varias opcións para abrir a app
 
