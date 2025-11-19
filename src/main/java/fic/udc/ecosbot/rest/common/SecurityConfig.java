@@ -72,14 +72,15 @@ public class SecurityConfig {
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         // @formatter:off
-        http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())
+        http.cors(cors -> cors.disable()).csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(antMatcher("/api/test/**")).permitAll()
                 .requestMatchers(antMatcher("/api/hello")).permitAll()
+                .requestMatchers(antMatcher("/api/user/**")).permitAll()
                 .requestMatchers(antMatcher("/api/user/sign-up")).permitAll()
+
+                .requestMatchers(antMatcher("/h2-console/*")).permitAll() 
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

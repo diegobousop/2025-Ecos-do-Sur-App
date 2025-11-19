@@ -1,11 +1,12 @@
 package fic.udc.ecosbot.model.services;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import fic.udc.ecosbot.model.common.exceptions.DuplicateInstanceException;
-import fic.udc.ecosbot.model.entities.User;
 import fic.udc.ecosbot.model.entities.UserDao;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import fic.udc.ecosbot.model.entities.Users;
 
 
 @Service
@@ -19,7 +20,7 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public void signUp(User user) throws DuplicateInstanceException {
+    public void signUp(Users user) throws DuplicateInstanceException {
         
         if (userDao.existsByUserName(user.getUserName())) {
 			throw new DuplicateInstanceException("project.entities.user", user.getUserName());
