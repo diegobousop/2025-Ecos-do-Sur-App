@@ -50,5 +50,8 @@ npm install react-native-ios-utilities@5.1.2 --legacy-peer-deps
 antigua version react-native -> 0.81.5
 
 
+eas build -p android --profile development
+
+
 
 

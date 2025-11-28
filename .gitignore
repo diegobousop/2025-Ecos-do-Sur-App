@@ -75,3 +75,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### Backend ###
+*.db
