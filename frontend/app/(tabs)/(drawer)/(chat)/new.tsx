@@ -1,32 +1,98 @@
 import ChatMessage from '@/components/ChatMessage';
 import MessageInput from '@/components/MessageInput';
-import { Message, Role } from '@/utils/interfaces';
+import { useChatContext } from '@/contexts/ChatContext';
+import chatbotService from '@/utils/chatbotService';
+import { Message, MessageOption, Role } from '@/utils/interfaces';
 import { FlashList } from '@shopify/flash-list';
-import { useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const TEST_MESSAGES: Message[] = [
-   {
-    role: Role.Bot,
-    content: 'Hola, ¿en qué puedo ayudarte hoy?'
-  },
-  { 
-    role: Role.User,
-    content: '¿Cuál es el clima de hoy?'
-  },
-  {
-    role: Role.Bot,
-    content: 'El clima de hoy es soleado con una temperatura máxima de 25°C.'
-  } 
-]
+import { ActivityIndicator, Alert, Image, Text, View } from 'react-native';
 
 const IndexChatPage = () => {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  const { registerResetHandler } = useChatContext();
 
   const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState(() => `user_${Date.now()}`); // Generar ID único para el usuario
+  const [currentOptions, setCurrentOptions] = useState<MessageOption[][] | undefined>(undefined);
 
+  // Función para resetear el chat
+  const resetChat = useCallback(() => {
+    setMessages([]);
+    setCurrentOptions(undefined);
+    setUserId(`user_${Date.now()}`); // Nuevo ID de usuario para nueva conversación
+    setLoading(false);
+  }, []);
+
+  // Registrar la función resetChat en el contexto
+  useEffect(() => {
+    registerResetHandler(resetChat);
+  }, [registerResetHandler, resetChat]);
+
+  // Verificar conexión con el backend al cargar
+  useEffect(() => {
+    checkBackendConnection();
+  }, []);
+
+  const checkBackendConnection = async () => {
+    try {
+      const isHealthy = await chatbotService.checkHealth();
+      if (!isHealthy) {
+        Alert.alert(
+          'Conexión',
+          'No se pudo conectar con el servidor del chatbot. Asegúrate de que el backend de Elixir esté ejecutándose.'
+        );
+      }
+    } catch (error) {
+      console.error('Error checking backend:', error);
+    }
+  };
+
+  const handleOptionSelect = async (callbackData: string) => {
+    if (loading) return;
+
+    // Agregar mensaje del usuario a la lista
+    const userMessage: Message = {
+      role: Role.User,
+      content: callbackData
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setLoading(true);
+
+    try {
+      // Enviar mensaje al backend de Elixir
+      const botResponse = await chatbotService.sendMessage({
+        message: callbackData,
+        user_id: userId,
+        type: 'text'
+      });
+
+      // Agregar respuesta del bot
+      setMessages(prev => [...prev, botResponse]);
+
+      // Actualizar las opciones del MessageInput con las nuevas opciones del backend
+      setCurrentOptions(botResponse.options);
+    } catch (error) {
+      console.error('Error sending message:', error);
+
+      // Mostrar mensaje de error
+      const errorMessage: Message = {
+        role: Role.Bot,
+        content: 'Lo siento, hubo un error al procesar tu mensaje. Por favor, intenta de nuevo.'
+      };
+      setMessages(prev => [...prev, errorMessage]);
+
+      Alert.alert(
+        'Error',
+        'No se pudo enviar el mensaje. Verifica tu conexión con el servidor.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View className="flex-1">
@@ -44,12 +110,20 @@ const IndexChatPage = () => {
         ) : (
           <FlashList
             data={messages}
-            renderItem={({ item }) => <ChatMessage {...item} />}
-           />
+            renderItem={({ item }) => <ChatMessage {...item} onOptionSelect={handleOptionSelect} />}
+            estimatedItemSize={100}
+          />
+        )}
+
+        {loading && (
+          <View className="items-center py-4">
+            <ActivityIndicator size="large" color="#2563EB" />
+            <Text className="mt-2 text-gray-600">Esperando respuesta...</Text>
+          </View>
         )}
       </View>
 
-      <MessageInput />
+      <MessageInput options={currentOptions} onOptionSelect={handleOptionSelect} />
     </View>
   )
 }
