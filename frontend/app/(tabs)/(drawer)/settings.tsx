@@ -54,7 +54,7 @@ export default function Settings() {
   return (
     <SafeAreaView className=" bg-[#F3F2F8] dark:bg-black">
       <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      <ScrollView style={{ backgroundColor: '#000000' }} contentContainerStyle={{ padding: 16 }}>
+      <ScrollView style={{ backgroundColor: colorScheme === 'dark' ? '#000' : '#F3F2F8' }} contentContainerStyle={{ padding: 16 }}>
         <View className="mb-6 ">
           <Text className="text-m font-semibold text-gray-900 dark:text-gray-100">{t("settings.account")}</Text>
           <View className="mt-3 rounded-xl  p-4  bg-white dark:bg-[#1C1C1E] gap-5 ">
