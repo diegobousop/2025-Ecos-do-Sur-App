@@ -121,7 +121,7 @@ const IndexChatPage = () => {
   };
 
   return (
-    <View className={`flex-1 bg-[#ffffff] ${colorScheme === 'dark' ? 'bg-[#000000]' : 'bg-[#ffffff]'}`}>
+    <View className={`flex-1  ${colorScheme === 'dark' ? 'bg-[#000000]' : 'bg-[#ffffff]'}`}>
         {messages.length === 0 ? (
           <View className="flex-1 justify-start items-center px-4">
             <Image source={require('@/assets/images/ecos-logo.png')} alt="EcosBot Illustration" resizeMode="contain" className="w-40 h-40 mb-12 mt-24" />

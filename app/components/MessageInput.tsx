@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
+import { Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 
 import { MessageOption } from '@/utils/interfaces';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { BackButton } from './BackButton';
+import { useChatContext } from '@/contexts/ChatContext';
 
 export type MessageInputProps = {
   options?: MessageOption[][];
@@ -22,6 +23,7 @@ const getFinishedOptions = (t: (key: string) => string): MessageOption[][] => [
 ];
 
 const MessageInput = ({ options, onOptionSelect, chatInitialized }: MessageInputProps) => {
+  const { resetChat } = useChatContext();
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
 
@@ -41,13 +43,19 @@ const MessageInput = ({ options, onOptionSelect, chatInitialized }: MessageInput
   return (
     <View className={`border ${colorScheme === 'dark' ? 'border-[#323234]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#161618]' : 'bg-[#D1E9FF]'} rounded-3xl p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} style={{ maxHeight: '50%'}}>
       
-      {hasBackOption || options?.length === 0 && (
+      {(hasBackOption || options?.length === 0) && (
         <BackButton 
-          className="absolute left-4 top-4 z-10" 
-          onPress={() => onOptionSelect('BACK')} 
+          className="absolute left-2 top-4 z-10" 
+          onPress={() => {
+            if (options?.length === 0) {
+              resetChat()
+            } else  {
+            onOptionSelect('BACK')
+            }
+          }} 
         />
       )}
-      {options?.length !== 0 && (<Text className={`text-center font-bold text-[18px] mb-5 mt-5 ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>{t("chat.querySuggestion")}</Text>)}
+      {options?.length !== 0 && (<Text className={`text-center font-bold text-[18px] mb-8 mt-5 ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>{t("chat.querySuggestion")}</Text>)}
       
       <Ionicons className="absolute right-10 top-10" name="send" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
 

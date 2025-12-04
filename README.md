@@ -49,6 +49,11 @@ A organización Ecos do Sur previamente lanzou o seu asistente ante estas situac
 
 ---
 
+## 💻 Pantallas de mostra
+
+
+
+
 ## 🚀 Execución do proxecto
 
 
