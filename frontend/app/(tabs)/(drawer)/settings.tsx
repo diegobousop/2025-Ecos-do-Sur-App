@@ -130,7 +130,7 @@ export default function Settings() {
                   onPress={() => router.push('/(tabs)/VersionDetails')}
                 >
                   
-                  <Text className=" text-lg text-center text-gray-700 dark:text-gray-300">1.0.0</Text>
+                  <Text className=" text-lg text-center text-gray-700 dark:text-gray-300">1.1.0</Text>
                   <Ionicons name="chevron-forward-outline" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
 
                 </TouchableOpacity>

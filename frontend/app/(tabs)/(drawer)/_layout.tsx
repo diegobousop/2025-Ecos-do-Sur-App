@@ -1,19 +1,20 @@
 import { Drawer } from 'expo-router/drawer';
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { ChatProvider, useChatContext } from '@/contexts/ChatContext';
-
+  
 // Componente para el botón de nuevo chat
 const NewChatButton = () => {
+    const colorScheme = useColorScheme(); 
   const { resetChat } = useChatContext();
   
   return (
     <TouchableOpacity onPress={resetChat}>
-      <Ionicons name="create-outline" size={24} color="black" style={{ marginRight: 12 }} />
+      <Ionicons name="create-outline" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} style={{ marginRight: 12 }} />
     </TouchableOpacity>
   );
 };

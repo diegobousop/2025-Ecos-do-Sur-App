@@ -14,7 +14,7 @@ export default function VersionDetails() {
 
   return (
     <ScrollView style={{ flex: 1, padding: 24, backgroundColor: isDark ? '#000' : '#F3F2F8' }}>
-      <Text style={{ fontSize: 32, fontWeight: 'bold', marginBottom: 22, color: isDark ? '#fff' : '#000' }}>v. 1.0.0</Text>
+      <Text style={{ fontSize: 32, fontWeight: 'bold', marginBottom: 22, color: isDark ? '#fff' : '#000' }}>v. 1.1.0</Text>
 
       <Text style={{ fontSize: 14, color: isDark ? '#D1D5DB' : '#7E7E7E', marginTop: 20, marginLeft: 5, marginBottom: 4 }}>CHANGELOG</Text>
       <View style={{ borderWidth: 1, borderColor: isDark ? '#1C1C1E' : '#F3F2F8', borderRadius: 12, overflow: 'hidden', backgroundColor: isDark ? '#1C1C1E' : '#ffffff' }}>
@@ -35,7 +35,7 @@ export default function VersionDetails() {
       <Text style={{ fontSize: 14, color: isDark ? '#D1D5DB' : '#7E7E7E', marginTop: 20, marginLeft: 5, marginBottom: 4 }}>DISPOSITIVOS DE PRUEBA</Text>
       <View style={{ borderWidth: 1, borderColor: isDark ? '#1C1C1E' : '#F3F2F8', borderRadius: 12, overflow: 'hidden', backgroundColor: isDark ? '#1C1C1E' : '#ffffff' }}>
         <Row label="iOS" value="iPhone 13" first />
-        <Row label="Android" value="Xiaomi Redmi Note 8T" />
+        <Row label="Android" value="Xiaomi Redmi Note 8T y Pixel 9" />
         <Row label="Unit testing" value="Jest" />
       </View>
 
