@@ -1,55 +1,165 @@
 import ChatMessage from '@/components/ChatMessage';
 import MessageInput from '@/components/MessageInput';
-import { Message, Role } from '@/utils/interfaces';
+import { useChatContext } from '@/contexts/ChatContext';
+import chatbotService from '@/utils/chatbotService';
+import { Message, MessageOption, Role } from '@/utils/interfaces';
 import { FlashList } from '@shopify/flash-list';
-import { useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const TEST_MESSAGES: Message[] = [
-   {
-    role: Role.Bot,
-    content: 'Hola, ¿en qué puedo ayudarte hoy?'
-  },
-  { 
-    role: Role.User,
-    content: '¿Cuál es el clima de hoy?'
-  },
-  {
-    role: Role.Bot,
-    content: 'El clima de hoy es soleado con una temperatura máxima de 25°C.'
-  } 
-]
+import { Alert, Image, Text, useColorScheme, View } from 'react-native';
 
 const IndexChatPage = () => {
-
-  const {t} = useTranslation();
+  const colorScheme = useColorScheme()
+  const { t } = useTranslation();
+  const { registerResetHandler } = useChatContext();
+  const flatListRef = useRef<any>(null);
 
   const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState(() => `user_${Date.now()}`); // Generar ID único para el usuario
+  const [currentOptions, setCurrentOptions] = useState<MessageOption[][] | undefined>(undefined);
+  const [chatInitialized, setChatInitialized] = useState(true);
 
+  const [hiddenMessageInput, setHiddenMessageInput] = useState(false);
+  const lastContentOffset = useRef(0);
+
+  const handleScroll = (event: any) => {
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    
+    // Solo actuar si hay un cambio significativo para evitar rebotes
+    if (Math.abs(currentOffset - lastContentOffset.current) < 10) return;
+
+    if (currentOffset < lastContentOffset.current) {
+      // Scrolling up (finger down) -> Hide input
+      if (!hiddenMessageInput) setHiddenMessageInput(true);
+    } else if (currentOffset > lastContentOffset.current) {
+      // Scrolling down (finger up) -> Show input
+      if (hiddenMessageInput) setHiddenMessageInput(false);
+    }
+    
+    lastContentOffset.current = currentOffset;
+  };
+
+  // Función para resetear el chat
+  const resetChat = useCallback(() => {
+    setMessages([]);
+    setCurrentOptions(undefined);
+    setUserId(`user_${Date.now()}`); // Nuevo ID de usuario para nueva conversación
+    setLoading(false);
+    setChatInitialized(true);
+  }, []);
+
+  // Registrar la función resetChat en el contexto
+  useEffect(() => {
+    registerResetHandler(resetChat);
+  }, [registerResetHandler, resetChat]);
+
+  // Verificar conexión con el backend al cargar
+  useEffect(() => {
+    checkBackendConnection();
+  }, []);
+
+  
+
+  const checkBackendConnection = async () => {
+    try {
+      const isHealthy = await chatbotService.checkHealth();
+      if (!isHealthy) {
+        Alert.alert(
+          'Conexión',
+          'No se pudo conectar con el servidor del chatbot. Asegúrate de que el backend de Elixir esté ejecutándose.'
+        );
+      }
+    } catch (error) {
+      console.error('Error checking backend:', error);
+    }
+  };
+
+  const handleOptionSelect = async (callbackData: string) => {
+    if (loading) return;
+
+    // Agregar mensaje del usuario a la lista
+    const userMessage: Message = {
+      role: Role.User,
+      content: callbackData
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setLoading(true);
+
+    try {
+      // Enviar mensaje al backend de Elixir
+      const botResponse = await chatbotService.sendMessage({
+        message: callbackData,
+        user_id: userId,
+        type: 'text'
+      });
+
+      // Agregar respuesta del bot
+      setMessages(prev => [...prev, botResponse]);
+
+      // Actualizar las opciones del MessageInput con las nuevas opciones del backend
+      setCurrentOptions(botResponse.options);
+      setChatInitialized(false);
+    } catch (error) {
+      console.error('Error sending message:', error);
+
+      // Mostrar mensaje de error
+      const errorMessage: Message = {
+        role: Role.Bot,
+        content: 'Lo siento, hubo un error al procesar tu mensaje. Por favor, intenta de nuevo.'
+      };
+      setMessages(prev => [...prev, errorMessage]);
+
+      Alert.alert(
+        'Error',
+        'No se pudo enviar el mensaje. Verifica tu conexión con el servidor.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <View className="flex-1">
-      <View className="flex-1">
+    <View className={`flex-1  ${colorScheme === 'dark' ? 'bg-[#000000]' : 'bg-[#ffffff]'}`}>
         {messages.length === 0 ? (
           <View className="flex-1 justify-start items-center px-4">
             <Image source={require('@/assets/images/ecos-logo.png')} alt="EcosBot Illustration" resizeMode="contain" className="w-40 h-40 mb-12 mt-24" />
-            <Text className="text-center text-black text-[28px] font-bold">
+            <Text className={`text-center text-[28px] font-bold ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>
               {t("chat.welcomeTile")}
             </Text>
-            <Text className="mt-5 px-5">
+            <Text className={`mt-5 px-5 ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>
               {t("chat.presentation")}
             </Text>
           </View>
         ) : (
           <FlashList
+            ref={flatListRef}
             data={messages}
-            renderItem={({ item }) => <ChatMessage {...item} />}
-           />
+            renderItem={({ item }) => <ChatMessage {...item} onOptionSelect={handleOptionSelect} />}
+            estimatedItemSize={400}
+            onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+          />
         )}
-      </View>
 
-      <MessageInput />
+        {loading && (
+          <View className="items-center py-4">
+            <Image 
+              source={require('@/assets/images/loading-ecos.gif')} 
+              className="w-16 h-16"
+              resizeMode="contain"
+            />
+            <Text className="mt-2 text-gray-600">Esperando respuesta...</Text>
+          </View>
+        )}
+
+      <MessageInput 
+        options={currentOptions} 
+        onOptionSelect={handleOptionSelect} 
+        chatInitialized={chatInitialized} 
+      />
     </View>
   )
 }

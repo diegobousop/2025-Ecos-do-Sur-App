@@ -52,14 +52,14 @@ export default function Settings() {
   }
 
   return (
-    <SafeAreaView className=" bg-[#F3F2F8] dark:bg-neutral-950">
+    <SafeAreaView className=" bg-[#F3F2F8] dark:bg-black">
       <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      <ScrollView style={{ backgroundColor: '#F3F2F8' }} contentContainerStyle={{ padding: 16 }}>
-        <View className="mb-6">
+      <ScrollView style={{ backgroundColor: colorScheme === 'dark' ? '#000' : '#F3F2F8' }} contentContainerStyle={{ padding: 16 }}>
+        <View className="mb-6 ">
           <Text className="text-m font-semibold text-gray-900 dark:text-gray-100">{t("settings.account")}</Text>
-          <View className="mt-3 rounded-xl  p-4  bg-white dark:bg-neutral-900 gap-5 ">
+          <View className="mt-3 rounded-xl  p-4  bg-white dark:bg-[#1C1C1E] gap-5 ">
 
-            <View className="flex flex-row items-center">
+            <View className="flex flex-row items-center ">
               <Ionicons name="mail-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
               <Text className="w-[30%] text-lg text-black dark:text-white font-semibold">{t("settings.email")}</Text>
               <Text className="w-[60%] text-lg text-center text-gray-700 dark:text-gray-300"> example@example.com</Text>
@@ -79,7 +79,7 @@ export default function Settings() {
           <Text className="text-m font-semibold text-gray-900 dark:text-gray-100">
             {t("settings.application")}
           </Text>
-          <View className="mt-3 rounded-xl  p-4 bg-white dark:bg-neutral-900 gap-5">
+          <View className="mt-3 rounded-xl  p-4 bg-white dark:dark:bg-[#1C1C1E] gap-5">
 
             <TouchableOpacity className="flex flex-row items-center" onPress={handleLanguagePress} activeOpacity={0.7}>
               <Ionicons name="language-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
@@ -121,28 +121,28 @@ export default function Settings() {
 
             <View className="h-px bg-gray-200 dark:bg-neutral-600 opacity-60 pl-[10%]" />
 
-            <View className="flex flex-row items-center">
-              <Ionicons name="information-circle-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
-              <Text className="w-[70%] text-lg text-black dark:text-white font-semibold">{t("settings.version")}</Text>
-              <TouchableOpacity
-                className="w-[20%] flex flex-row items-center"
-                activeOpacity={0.7}
-                onPress={() => router.push('/(tabs)/VersionDetails')}
-              >
-                
-                <Text className=" text-lg text-center text-gray-700 dark:text-gray-300">1.0.0</Text>
-                <Ionicons name="chevron-forward-outline" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
+              <View className="flex flex-row items-center">
+                <Ionicons name="information-circle-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
+                <Text className="w-[70%] text-lg text-black dark:text-white font-semibold">{t("settings.version")}</Text>
+                <TouchableOpacity
+                  className="w-[20%] flex flex-row items-center"
+                  activeOpacity={0.7}
+                  onPress={() => router.push('/(tabs)/VersionDetails')}
+                >
+                  
+                  <Text className=" text-lg text-center text-gray-700 dark:text-gray-300">1.1.0</Text>
+                  <Ionicons name="chevron-forward-outline" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
 
-              </TouchableOpacity>
+                </TouchableOpacity>
 
-            </View>
+              </View>
 
           </View>
         </View>
 
         <View className="mb-6">
           <Text className="text-m font-semibold text-gray-900 dark:text-gray-100">{t("settings.about")}</Text>
-          <View className="mt-3 rounded-xl  p-4 bg-white dark:bg-neutral-900 gap-5">
+          <View className="mt-3 rounded-xl  p-4 bg-white dark:bg-[#1C1C1E] gap-5">
 
             <TouchableOpacity className="flex flex-row items-center" >
               <Ionicons name="help-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
@@ -160,7 +160,7 @@ export default function Settings() {
         </View>
 
         <View className="mb-6">
-          <View className="mt-3 rounded-xl  p-4 bg-white dark:bg-neutral-900 gap-5">
+          <View className="mt-3 rounded-xl  p-4 bg-white dark:bg-[#1C1C1E] gap-5">
             <View className="flex flex-row items-center">
               <Ionicons name="log-out-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
               <Text className="w-[40%] text-lg text-black dark:text-white font-semibold">{t("settings.sign-out")}</Text>

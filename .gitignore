@@ -75,3 +75,31 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Frontend ###
+
+
+### Backend ###
+*.db
+
+
+### Android ###
+.gradle/
+local.properties
+*.iml
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+.DS_Store
+_build
+deps
+.elixir_ls/
+mix.lock
+.vscode
+erl_crash.dump
+.elixir_ls/

@@ -19,7 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-        
+
     private static final String ADMIN_STRING = "ADMIN";
 
     private static final String USER_STRING = "USER";
@@ -60,7 +60,7 @@ public class SecurityConfig {
         return source;
 
     }
-    
+
     /**
      * Configure.
      *
@@ -79,8 +79,10 @@ public class SecurityConfig {
                 .requestMatchers(antMatcher("/api/hello")).permitAll()
                 .requestMatchers(antMatcher("/api/user/**")).permitAll()
                 .requestMatchers(antMatcher("/api/user/sign-up")).permitAll()
+                .requestMatchers(antMatcher("/api/user/login")).permitAll()
 
                 .requestMatchers(antMatcher("/h2-console/*")).permitAll() 
+                .requestMatchers(antMatcher("/error")).permitAll() 
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
