@@ -4,6 +4,45 @@
 
 ---
 
+## 💻 Pantallas de mostra
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="assets/readme/home-light.png" width="200" alt="Home Light Mode" />
+        <br />
+        <sub>Home (Light)</sub>
+      </td>
+      <td align="center">
+        <img src="assets/readme/home-dark.png" width="200" alt="Home Dark Mode" />
+        <br />
+        <sub>Home (Dark)</sub>
+      </td>
+      <td align="center">
+        <img src="assets/readme/options-light.png" width="200" alt="Opciones" />
+        <br />
+        <sub>Opcións</sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="assets/readme/urgencia-light.png" width="200" alt="Pantalla de Urgencia" />
+        <br />
+        <sub>Urgencia</sub>
+      </td>
+      <td align="center">
+        <img src="assets/readme/webview.png" width="200" alt="Vista Web" />
+        <br />
+        <sub>Web Ecos do Sur</sub>
+      </td>
+      <td></td>
+    </tr>
+  </table>
+</div>
+
+
+
 ## ✨ Motivación
 
 ### Sociais e éticas
@@ -49,10 +88,6 @@ A organización Ecos do Sur previamente lanzou o seu asistente ante estas situac
 
 ---
 
-## 💻 Pantallas de mostra
-
-
-
 
 ## 🚀 Execución do proxecto
 
@@ -77,22 +112,7 @@ Na saída, encontrarás varias opcións para abrir a app
 - [simulador de iOS](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go), un contorno limitado para probar o desenvolvemento de apps con Expo
 
-## 📂 Versión 1.0.0
-
-
-
-
-
-listar paquetes instalados RN npm list --depth=0
-
-npm install react-native-ios-context-menu@3.1.0 --legacy-peer-deps
-npm install @react-native-menu/menu@1.2.2 --legacy-peer-deps
-npm install react-native-ios-utilities@5.1.2 --legacy-peer-deps
-
-antigua version react-native -> 0.81.5
-
-
-eas build -p android --profile development
+## 📂 Versión 1.1.0
 
 
 
