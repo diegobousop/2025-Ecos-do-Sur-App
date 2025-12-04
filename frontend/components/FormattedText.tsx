@@ -1,17 +1,16 @@
 import React from 'react';
-import { Image, Linking, Text, TextProps, View } from 'react-native';
+import { Image, Linking, Text, TextProps, useColorScheme, View } from 'react-native';
 
 interface FormattedTextProps extends TextProps {
   children: string;
 }
 
 export const FormattedText = ({ children, className, ...props }: FormattedTextProps) => {
+  const colorScheme = useColorScheme();
   if (!children) return null;
 
-  // 1. Initial split by Bold/Box markers
   const rawParts = children.split(/(\*[^*]+\*)/g);
   
-  // 2. Refine parts to identify Boxes, Bolds, Dividers, and plain Text
   const tokens: any[] = [];
   let stepCounter = 0;
 
@@ -25,7 +24,6 @@ export const FormattedText = ({ children, className, ...props }: FormattedTextPr
         tokens.push({ type: 'bold', content });
       }
     } else {
-      // Check for dividers in plain text
       const dashRegex = /(-{3,})/g;
       const dashParts = part.split(dashRegex);
       dashParts.forEach(dashPart => {
@@ -38,7 +36,6 @@ export const FormattedText = ({ children, className, ...props }: FormattedTextPr
     }
   });
 
-  // 3. Group consecutive inline tokens (text, bold) into a single Text container
   const elements: any[] = [];
   let currentInlineGroup: any[] = [];
 
@@ -67,7 +64,7 @@ export const FormattedText = ({ children, className, ...props }: FormattedTextPr
             <View key={`box-${index}`} className="relative flex-row items-center py-3 px-3 bg-transparent rounded-3xl mx-1 border border-2 border-[#ECB6B7] w-full my-1">
               <Image source={require('@/assets/images/step.png')} style={{ width: 50, height: 50, marginRight: 8 }} resizeMode="contain" />
               <Text className="absolute left-5 font-semibold">{element.id}</Text>
-              <Text className="font-bold text-black text-base text-[16px] flex-1 flex-wrap">
+              <Text className={`font-bold ${colorScheme === 'dark' ? 'text-white' : 'text-black'} text-base text-[16px] flex-1 flex-wrap`}>
                 {element.content}
               </Text>
             </View>

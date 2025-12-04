@@ -1,10 +1,10 @@
 import React from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Button, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 
 import { MessageOption } from '@/utils/interfaces';
 import { Ionicons } from '@expo/vector-icons';
-import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTranslation } from 'react-i18next';
 import { BackButton } from './BackButton';
 
 export type MessageInputProps = {
@@ -13,7 +13,6 @@ export type MessageInputProps = {
   chatInitialized: boolean;
 }
 
-// Opciones por defecto cuando no hay opciones del backend
 const getDefaultOptions = (t: (key: string) => string): MessageOption[][] => [
   [{ text: t("chat.message.urgent"), callback_data: "urgent" }],
   [{ text: t("chat.message.info"), callback_data: "info" }]
@@ -23,21 +22,34 @@ const getFinishedOptions = (t: (key: string) => string): MessageOption[][] => [
 ];
 
 const MessageInput = ({ options, onOptionSelect, chatInitialized }: MessageInputProps) => {
+  const colorScheme = useColorScheme();
   const { t } = useTranslation();
 
-  // Usar opciones del backend o las predeterminadas
-  const displayOptions = options && options.length > 0 ? options : (chatInitialized ? getDefaultOptions(t) : getFinishedOptions(t));
+  const hasBackOption = options?.some(row => row.some(opt => opt.callback_data === 'BACK'));
+
+  const filteredOptions = options?.map(row => row.filter(opt => opt.callback_data !== 'BACK')).filter(row => row.length > 0);
+
+  const displayOptions = (options && options.length > 0) 
+    ? (filteredOptions || []) 
+    : (chatInitialized ? getDefaultOptions(t) : getFinishedOptions(t));
 
   const flatOptions = displayOptions.flat();
   const totalOptions = flatOptions.length;
 
+
+
   return (
-    <View className=" border border-[#E5E7EB] bg-[#D1E9FF] rounded-3xl p-5 m-5 mb-10" style={{ maxHeight: '50%', backgroundColor: 'rgba(209, 233, 255, 0.98)' }}>
+    <View className={`border ${colorScheme === 'dark' ? 'border-[#323234]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#161618]' : 'bg-[#D1E9FF]'} rounded-3xl p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} style={{ maxHeight: '50%'}}>
       
-      <BackButton />
-      <Text className="text-center font-bold text-[16px] mb-5 mt-5">{t("chat.querySuggestion")}</Text>
+      {hasBackOption || options?.length === 0 && (
+        <BackButton 
+          className="absolute left-4 top-4 z-10" 
+          onPress={() => onOptionSelect('BACK')} 
+        />
+      )}
+      {options?.length !== 0 && (<Text className={`text-center font-bold text-[18px] mb-5 mt-5 ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>{t("chat.querySuggestion")}</Text>)}
       
-      <Ionicons className="absolute right-14 top-10" name="send" size={24} color="black" />
+      <Ionicons className="absolute right-10 top-10" name="send" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
 
       <ScrollView 
         className="mt-2" 
@@ -79,25 +91,23 @@ const MessageInput = ({ options, onOptionSelect, chatInitialized }: MessageInput
             onPress={() => onOptionSelect(option.callback_data)}
           >
             {({ pressed }) => (
-              <View
-                className="relative flex flex-row items-center justify-center mt-2 rounded-full border px-4 py-5 gap-3"
+              <LinearGradient
+                colors={pressed ? ['#EFF6FF', '#D1E9FF'] : ['#FBFDFF', '#EEF7FF']}
+                className="relative flex flex-row items-center justify-center mt-2  border px-4 py-5 gap-3"
                 style={{
-                  backgroundColor: pressed ? '#EFF6FF' : '#FFFFFF',
                   borderColor: pressed ? '#60A5FA' : '#E5E7EB',
+                  borderRadius: 20,
+                  paddingVertical: 15,
+                  marginBottom: 12,
                 }}
               >
-                <Ionicons
-                  name="chatbubble-ellipses-outline"
-                  size={24}
-                  color={pressed ? '#2563EB' : 'black'}
-                />
                 <Text
-                  className="text-center text-lg flex-1"
+                  className="text-center text-lg flex-1 font-semibold"
                   style={{ color: pressed ? '#1D4ED8' : '#000000' }}
                 >
                   {option.text}
                 </Text>
-              </View>
+              </LinearGradient>
             )}
           </Pressable>
         ))}
@@ -109,25 +119,23 @@ const MessageInput = ({ options, onOptionSelect, chatInitialized }: MessageInput
             onPress={() => onOptionSelect(option.callback_data)}
           >
             {({ pressed }) => (
-              <View
-                className="relative flex flex-row items-center justify-center mt-2 rounded-full border px-4 py-5 gap-3"
+              <LinearGradient
+                colors={pressed ? ['#EFF6FF', '#D1E9FF'] : ['#FBFDFF', '#EEF7FF']}
+                className="relative flex flex-row items-center justify-center mt-2  border px-4 py-2 gap-3"
                 style={{
-                  backgroundColor: pressed ? '#EFF6FF' : '#FFFFFF',
                   borderColor: pressed ? '#60A5FA' : '#E5E7EB',
+                  borderRadius: 20,
+                  paddingVertical: 15,
+                  marginBottom: 12,
                 }}
               >
-                <Ionicons
-                  name="chatbubble-ellipses-outline"
-                  size={24}
-                  color={pressed ? '#2563EB' : 'black'}
-                />
                 <Text
-                  className="text-center text-lg flex-1"
+                  className="text-center text-lg flex-1 font-semibold"
                   style={{ color: pressed ? '#1D4ED8' : '#000000' }}
                 >
                   {option.text}
                 </Text>
-              </View>
+              </LinearGradient>
             )}
           </Pressable>
         ))}

@@ -6,10 +6,10 @@ import { Message, MessageOption, Role } from '@/utils/interfaces';
 import { FlashList } from '@shopify/flash-list';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Image, Text, View } from 'react-native';
+import { Alert, Image, Text, useColorScheme, View } from 'react-native';
 
 const IndexChatPage = () => {
-
+  const colorScheme = useColorScheme()
   const { t } = useTranslation();
   const { registerResetHandler } = useChatContext();
   const flatListRef = useRef<any>(null);
@@ -19,6 +19,26 @@ const IndexChatPage = () => {
   const [userId, setUserId] = useState(() => `user_${Date.now()}`); // Generar ID único para el usuario
   const [currentOptions, setCurrentOptions] = useState<MessageOption[][] | undefined>(undefined);
   const [chatInitialized, setChatInitialized] = useState(true);
+
+  const [hiddenMessageInput, setHiddenMessageInput] = useState(false);
+  const lastContentOffset = useRef(0);
+
+  const handleScroll = (event: any) => {
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    
+    // Solo actuar si hay un cambio significativo para evitar rebotes
+    if (Math.abs(currentOffset - lastContentOffset.current) < 10) return;
+
+    if (currentOffset < lastContentOffset.current) {
+      // Scrolling up (finger down) -> Hide input
+      if (!hiddenMessageInput) setHiddenMessageInput(true);
+    } else if (currentOffset > lastContentOffset.current) {
+      // Scrolling down (finger up) -> Show input
+      if (hiddenMessageInput) setHiddenMessageInput(false);
+    }
+    
+    lastContentOffset.current = currentOffset;
+  };
 
   // Función para resetear el chat
   const resetChat = useCallback(() => {
@@ -101,14 +121,14 @@ const IndexChatPage = () => {
   };
 
   return (
-    <View className="flex-1 bg-[#ffffff] ">
+    <View className={`flex-1 bg-[#ffffff] ${colorScheme === 'dark' ? 'bg-[#000000]' : 'bg-[#ffffff]'}`}>
         {messages.length === 0 ? (
           <View className="flex-1 justify-start items-center px-4">
             <Image source={require('@/assets/images/ecos-logo.png')} alt="EcosBot Illustration" resizeMode="contain" className="w-40 h-40 mb-12 mt-24" />
-            <Text className="text-center text-black text-[28px] font-bold">
+            <Text className={`text-center text-[28px] font-bold ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>
               {t("chat.welcomeTile")}
             </Text>
-            <Text className="mt-5 px-5">
+            <Text className={`mt-5 px-5 ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>
               {t("chat.presentation")}
             </Text>
           </View>
@@ -119,7 +139,8 @@ const IndexChatPage = () => {
             renderItem={({ item }) => <ChatMessage {...item} onOptionSelect={handleOptionSelect} />}
             estimatedItemSize={400}
             onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
-
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
           />
         )}
 
@@ -134,7 +155,11 @@ const IndexChatPage = () => {
           </View>
         )}
 
-      <MessageInput options={currentOptions} onOptionSelect={handleOptionSelect} chatInitialized={chatInitialized} />
+      <MessageInput 
+        options={currentOptions} 
+        onOptionSelect={handleOptionSelect} 
+        chatInitialized={chatInitialized} 
+      />
     </View>
   )
 }
