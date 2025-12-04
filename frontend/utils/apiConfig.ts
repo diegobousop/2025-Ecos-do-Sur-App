@@ -8,7 +8,7 @@ export const API_CONFIG = {
     // - Emulador Android: 'http://10.0.2.2:4000'
     // - Emulador iOS: 'http://localhost:4000'
     // - Dispositivo físico: 'http://TU_IP_LOCAL:4000' (ej: 'http://192.168.1.100:4000')
-    BASE_URL: 'http://172.20.10.2:4000',
+    BASE_URL: 'http://192.168.1.132:4000',
 
     ENDPOINTS: {
         CHAT: '/chat',

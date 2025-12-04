@@ -4,19 +4,21 @@ import { useChatContext } from '@/contexts/ChatContext';
 import chatbotService from '@/utils/chatbotService';
 import { Message, MessageOption, Role } from '@/utils/interfaces';
 import { FlashList } from '@shopify/flash-list';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Alert, Image, Text, View } from 'react-native';
+import { Alert, Image, Text, View } from 'react-native';
 
 const IndexChatPage = () => {
 
   const { t } = useTranslation();
   const { registerResetHandler } = useChatContext();
+  const flatListRef = useRef<any>(null);
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(() => `user_${Date.now()}`); // Generar ID único para el usuario
   const [currentOptions, setCurrentOptions] = useState<MessageOption[][] | undefined>(undefined);
+  const [chatInitialized, setChatInitialized] = useState(true);
 
   // Función para resetear el chat
   const resetChat = useCallback(() => {
@@ -24,6 +26,7 @@ const IndexChatPage = () => {
     setCurrentOptions(undefined);
     setUserId(`user_${Date.now()}`); // Nuevo ID de usuario para nueva conversación
     setLoading(false);
+    setChatInitialized(true);
   }, []);
 
   // Registrar la función resetChat en el contexto
@@ -35,6 +38,8 @@ const IndexChatPage = () => {
   useEffect(() => {
     checkBackendConnection();
   }, []);
+
+  
 
   const checkBackendConnection = async () => {
     try {
@@ -75,6 +80,7 @@ const IndexChatPage = () => {
 
       // Actualizar las opciones del MessageInput con las nuevas opciones del backend
       setCurrentOptions(botResponse.options);
+      setChatInitialized(false);
     } catch (error) {
       console.error('Error sending message:', error);
 
@@ -95,8 +101,7 @@ const IndexChatPage = () => {
   };
 
   return (
-    <View className="flex-1">
-      <View className="flex-1">
+    <View className="flex-1 bg-[#ffffff] ">
         {messages.length === 0 ? (
           <View className="flex-1 justify-start items-center px-4">
             <Image source={require('@/assets/images/ecos-logo.png')} alt="EcosBot Illustration" resizeMode="contain" className="w-40 h-40 mb-12 mt-24" />
@@ -109,21 +114,27 @@ const IndexChatPage = () => {
           </View>
         ) : (
           <FlashList
+            ref={flatListRef}
             data={messages}
             renderItem={({ item }) => <ChatMessage {...item} onOptionSelect={handleOptionSelect} />}
-            estimatedItemSize={100}
+            estimatedItemSize={400}
+            onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+
           />
         )}
 
         {loading && (
           <View className="items-center py-4">
-            <ActivityIndicator size="large" color="#2563EB" />
+            <Image 
+              source={require('@/assets/images/loading-ecos.gif')} 
+              className="w-16 h-16"
+              resizeMode="contain"
+            />
             <Text className="mt-2 text-gray-600">Esperando respuesta...</Text>
           </View>
         )}
-      </View>
 
-      <MessageInput options={currentOptions} onOptionSelect={handleOptionSelect} />
+      <MessageInput options={currentOptions} onOptionSelect={handleOptionSelect} chatInitialized={chatInitialized} />
     </View>
   )
 }
