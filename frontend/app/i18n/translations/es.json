@@ -7,6 +7,7 @@
     "chat.welcomeTile": "¡Bienvenido/a a Ecosbot!",
     "chat.presentation": "Hola! Soy el chatbot Ecosbot, y mi misión es ayudarte en casos de agresión y discriminación por motivos racistas, xenófobos o islamófobos.\n\nPor favor, indícame si necesitas ayuda urgente o información no urgente.",
     "chat.querySuggestion": "Introduce una consulta",
+    "chat.answerSuggestion": "Selecciona una respuesta",
     "chat.message.urgent": "Urgente",
     "chat.message.info": "Información",
     "chat.message.copied": "Copiado al portapapeles",
@@ -53,5 +54,7 @@
     "settings.about": "Acerca de",
     "settings.help-center": "Centro de ayuda",
     "settings.contact": "Contacto",
-    "settings.sign-out": "Cerrar sesión"
+    "settings.sign-out": "Cerrar sesión",
+    "settings.userName": "Nombre de usuario",
+    "settings.leave": "Salir"
 }

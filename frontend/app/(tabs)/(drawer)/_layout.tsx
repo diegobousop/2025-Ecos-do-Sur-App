@@ -6,16 +6,16 @@ import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navi
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { ChatProvider, useChatContext } from '@/contexts/ChatContext';
+import BubbleButton from '@/components/common/BubbleButton';
   
 // Componente para el botón de nuevo chat
 const NewChatButton = () => {
     const colorScheme = useColorScheme(); 
   const { resetChat } = useChatContext();
-  
-  return (
-    <TouchableOpacity onPress={resetChat}>
-      <Ionicons name="create-outline" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} style={{ marginRight: 12 }} />
-    </TouchableOpacity>
+    
+    return (
+
+    <BubbleButton onPress={resetChat} additionalStyles="top-2 right-2" />
   );
 };
 
@@ -59,8 +59,17 @@ const Layout = () => {
       >
         <Drawer.Screen 
           name='(chat)/new' 
+
           options={{ 
-            title: t('drawer.chat'), 
+            title: "", 
+            drawerLabel: "Ecos Bot",
+            headerShown: false,
+            headerShadowVisible: false,
+            headerTransparent: true,
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            
             drawerIcon: () => (
               <View>
                 <Text>💬</Text>
