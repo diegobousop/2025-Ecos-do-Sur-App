@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, Linking, Text, TextProps, useColorScheme, View } from 'react-native';
+import { Image, Linking, TextProps, useColorScheme, View } from 'react-native';
+import Text from '@/components/common/Text';
 
 interface FormattedTextProps extends TextProps {
   children: string;
@@ -80,23 +81,55 @@ export const FormattedText = ({ children, className, ...props }: FormattedTextPr
                 if (item.type === 'bold') {
                   return <Text key={`bold-${itemIndex}`} className="font-bold">{item.content}</Text>;
                 }
+                
                 // item.type === 'text'
-                const urlRegex = /(https?:\/\/[^\s]+)/g;
-                const textParts = item.content.split(urlRegex);
-                return textParts.map((subPart: string, subIndex: number) => {
-                  if (subPart.match(urlRegex)) {
-                    return (
-                      <Text
-                        key={`link-${itemIndex}-${subIndex}`}
-                        className="text-blue-600 underline"
-                        onPress={() => Linking.openURL(subPart)}
-                      >
-                        {subPart}
-                      </Text>
-                    );
-                  }
-                  return <Text key={`text-${itemIndex}-${subIndex}`}>{subPart}</Text>;
-                });
+                // Procesar enlaces Markdown [texto](url)
+                const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+                const mdParts = item.content.split(markdownLinkRegex);
+                
+                // El split con grupos de captura devuelve: [texto, linkText, linkUrl, texto, linkText, linkUrl, ...]
+                const result = [];
+                for (let i = 0; i < mdParts.length; i += 3) {
+                    // Parte de texto normal (antes del enlace o al final)
+                    const textPart = mdParts[i];
+                    if (textPart) {
+                        // Buscar URLs sueltas dentro del texto normal
+                        const urlRegex = /(https?:\/\/[^\s]+)/g;
+                        const textSubParts = textPart.split(urlRegex);
+                        
+                        textSubParts.forEach((subPart, subIndex) => {
+                            if (subPart.match(urlRegex)) {
+                                result.push(
+                                    <Text
+                                        key={`raw-link-${itemIndex}-${i}-${subIndex}`}
+                                        className="text-blue-600 underline"
+                                        onPress={() => Linking.openURL(subPart)}
+                                    >
+                                        {subPart}
+                                    </Text>
+                                );
+                            } else {
+                                result.push(<Text key={`text-${itemIndex}-${i}-${subIndex}`}>{subPart}</Text>);
+                            }
+                        });
+                    }
+
+                    // Parte del enlace Markdown (si existe)
+                    if (i + 2 < mdParts.length) {
+                        const linkText = mdParts[i+1];
+                        const linkUrl = mdParts[i+2];
+                        result.push(
+                            <Text
+                                key={`md-link-${itemIndex}-${i}`}
+                                className="text-blue-600 underline"
+                                onPress={() => Linking.openURL(linkUrl)}
+                            >
+                                {linkText}
+                            </Text>
+                        );
+                    }
+                }
+                return <React.Fragment key={`frag-${itemIndex}`}>{result}</React.Fragment>;
               })}
             </Text>
           );

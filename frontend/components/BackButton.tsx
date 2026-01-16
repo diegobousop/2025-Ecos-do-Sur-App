@@ -26,7 +26,7 @@ export const BackButton = ({ onPress, style, iconColor = 'black', className = ''
   return (
     <Pressable
       onPress={handlePress}
-      className={`absolute top-2 left-2 rounded-full m-2  ${className}`}
+      className={`rounded-full m-2  ${className}`}
       style={style}
     >
       {({ pressed }) => (

@@ -19,6 +19,10 @@ export const setLocale = (locale: string) => {
     i18next.changeLanguage(locale);
 };
 
+export const getLocale = () => {
+    return i18next.language;
+}
+
 i18next.use(initReactI18next).init({
     debug: true,
     lng: 'es',

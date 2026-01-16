@@ -5,11 +5,14 @@ import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Linking, Modal, Pressable, Text, TouchableOpacity, useColorScheme, View } from 'react-native'
+import { ActivityIndicator, Linking, Modal, Pressable, TouchableOpacity, useColorScheme, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { WebView } from 'react-native-webview'
 import { Platform } from 'react-native'
+import { useAuth } from '@/contexts/AuthContext';
+import { useChatContext } from '@/contexts/ChatContext'
+import Text from '@/components/common/Text'
                              
 
 export default function Settings() {
@@ -17,7 +20,8 @@ export default function Settings() {
   const [pickerVisible, setPickerVisible] = useState(false)
   const [webViewVisible, setWebViewVisible] = useState(false)
   const [webViewUrl, setWebViewUrl] = useState('')
-
+  const { signOut, isLoaded, token, isSignedIn, user } = useAuth()
+  const { resetChat } = useChatContext()
   const colorScheme = useColorScheme()
   const { t } = useTranslation()
   const router = useRouter()
@@ -34,7 +38,7 @@ export default function Settings() {
   const handleLanguageChange = (value: string) => {
     setSelectedLanguage(value)
     setPickerVisible(false)
-    // Aquí puedes añadir lógica para cambiar el idioma en i18n si lo necesitas
+    resetChat()
     setLocale(value)
   }
 
@@ -51,6 +55,15 @@ export default function Settings() {
     }
   }
 
+  const handleSignOut = async () => {
+    await signOut();
+    router.replace('/intro');
+  }
+
+  const handleLeave = async () => {
+    await router.push('intro');
+  }
+
   return (
     <SafeAreaView className=" bg-[#F3F2F8] dark:bg-black">
       <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
@@ -60,16 +73,29 @@ export default function Settings() {
           <View className="mt-3 rounded-xl  p-4  bg-white dark:bg-[#1C1C1E] gap-5 ">
 
             <View className="flex flex-row items-center ">
+              <Ionicons name="person-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
+              <Text className="w-[30%] text-lg text-black dark:text-white font-semibold">{t("settings.userName")}</Text>
+              <Text className="w-[60%] text-lg text-center text-gray-700 dark:text-gray-300">{user?.username || 'Usuario invitado'}</Text>
+            </View>
+            {isSignedIn && (
+            <>
+            <View className="h-px bg-gray-200 dark:bg-neutral-600 opacity-60 pl-[10%]" />
+              <View className="flex flex-row items-center ">
               <Ionicons name="mail-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
               <Text className="w-[30%] text-lg text-black dark:text-white font-semibold">{t("settings.email")}</Text>
-              <Text className="w-[60%] text-lg text-center text-gray-700 dark:text-gray-300"> example@example.com</Text>
+              <Text className="w-[60%] text-lg text-center text-gray-700 dark:text-gray-300">{user?.email || ''}</Text>
             </View>
+            </>
+            )}
+            
 
             <View className="h-px bg-gray-200 dark:bg-neutral-600 opacity-60 pl-[10%]" />
 
             <TouchableOpacity className="flex flex-row items-center" onPress={handleOpenAppSettings} activeOpacity={0.7}>
               <Ionicons name="notifications-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
               <Text className="w-[40%] text-lg text-black dark:text-white font-semibold">{t("settings.notifications")}</Text>
+              <Ionicons className="ml-[40%]" name="chevron-forward-outline" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
+
             </TouchableOpacity>
 
           </View>
@@ -130,7 +156,7 @@ export default function Settings() {
                   onPress={() => router.push('/(tabs)/VersionDetails')}
                 >
                   
-                  <Text className=" text-lg text-center text-gray-700 dark:text-gray-300">1.1.0</Text>
+                  <Text className=" text-lg text-center text-gray-700 dark:text-gray-300">1.2.0</Text>
                   <Ionicons name="chevron-forward-outline" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
 
                 </TouchableOpacity>
@@ -159,14 +185,42 @@ export default function Settings() {
           </View>
         </View>
 
-        <View className="mb-6">
+        {!isSignedIn ? (
+          <View className="mb-6">
           <View className="mt-3 rounded-xl  p-4 bg-white dark:bg-[#1C1C1E] gap-5">
-            <View className="flex flex-row items-center">
+            <TouchableOpacity className="flex flex-row items-center" onPress={handleLeave}>
               <Ionicons name="log-out-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
-              <Text className="w-[40%] text-lg text-black dark:text-white font-semibold">{t("settings.sign-out")}</Text>
-            </View>
+              <Text className="w-[40%] text-lg text-black dark:text-white font-semibold">{t("settings.leave")}</Text>
+            </TouchableOpacity>
           </View>
         </View>
+        ):(
+          <View className="mb-6">
+          <View className="mt-3 rounded-xl  p-4 bg-white dark:bg-[#1C1C1E] gap-5">
+            <TouchableOpacity className="flex flex-row items-center" onPress={handleSignOut}>
+              <Ionicons name="log-out-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
+              <Text className="w-[40%] text-lg text-black dark:text-white font-semibold">{t("settings.sign-out")}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        )}
+        
+
+
+        {/* Datos de debug de sesión: */}
+        <Text>
+          {`Device OS: ${Platform.OS} ${Platform.Version}`}
+          {`\nApp Language: ${selectedLanguage}`}
+          {`\nColor Scheme: ${colorScheme}`}
+          {`\nAuthentified: ${ isLoaded }`}
+          {`\nToken: ${ token}`}
+          {`\nSigned In: ${ isSignedIn }`}
+          {`\nUser: ${ JSON.stringify(user) }`}
+
+
+        </Text>
+
 
       </ScrollView>
 

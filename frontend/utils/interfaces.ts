@@ -1,6 +1,7 @@
 export enum Role {
     User = 0,
     Bot = 1,
+    BotHeader = 2
 }
 
 export interface MessageOption {
@@ -9,6 +10,7 @@ export interface MessageOption {
 }
 
 export interface Message {
+    id: string;
     role: Role;
     content: string;
     imageUrl?: string;
