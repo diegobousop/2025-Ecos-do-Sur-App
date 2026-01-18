@@ -24,7 +24,7 @@ export const getLocale = () => {
 }
 
 i18next.use(initReactI18next).init({
-    debug: true,
+    debug: false,
     lng: 'es',
     fallbackLng: 'es',
     interpolation: {

@@ -71,6 +71,21 @@ export const svgIcons = {
       />
     </Svg>
   ),
+  
+  InformationIcon: (props: SvgProps) => (
+    <Svg
+      width={20}
+      height={20}
+      viewBox="0 0 20 20"
+      fill="none"
+      {...props}
+    >
+      <Path
+        d="M20 10a10 10 0 10-20 0 10 10 0 0020 0zM9.385 8.637a.625.625 0 011.23 0l.01.113v5.627l-.01.113a.625.625 0 01-1.23 0l-.01-.113V8.75l.01-.113zm-.322-2.7a.937.937 0 111.874 0 .937.937 0 01-1.874 0z"
+        fill="#4054A1"
+      />
+    </Svg>
+  ),
 
   IncognitoIcon: (props: SvgProps) => (
     <Svg
@@ -85,6 +100,24 @@ export const svgIcons = {
         clipRule="evenodd"
         d="M3.364 4.545L2.938 6.25H.75a.75.75 0 000 1.5h20a.75.75 0 100-1.5h-2.187l-.427-1.705c-.546-2.183-.818-3.274-1.632-3.91C15.69 0 14.565 0 12.315 0h-3.13C6.935 0 5.81 0 4.996.635c-.814.636-1.087 1.727-1.632 3.91zM5.25 17a3.5 3.5 0 003.384-2.604l1.11-.555a2.25 2.25 0 012.012 0l1.11.555a3.501 3.501 0 10-.026-1.69l-.413-.206a3.75 3.75 0 00-3.354 0l-.413.206a3.501 3.501 0 00-6.91.794 3.5 3.5 0 003.5 3.5z"
         fill="#4054A1"
+      />
+    </Svg>
+  ),
+
+  ArrowIcon: (props: SvgProps) => (
+    <Svg
+      width={14}
+      height={8}
+      viewBox="0 0 14 8"
+      fill="none"
+      {...props}
+    >
+      <Path
+        d="M13 1L7 7 1 1"
+        stroke="#7C7C7C"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </Svg>
   )

@@ -80,17 +80,11 @@ export default function Register() {
       }); 
     }catch (error) {
       setError(error instanceof Error ? error.message : 'Error desconocido');
-      console.log('Error during registration:', error);
     }finally{
       setLoading (false);
           router.push('/(tabs)/(drawer)/(chat)/new');
-
-      
     }
-
   }
-
-
   const onNavigateToLogin = () => {
     router.push('/login');
   };

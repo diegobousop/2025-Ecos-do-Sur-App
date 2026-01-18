@@ -1,11 +1,13 @@
 import { useAuth } from '@/contexts/AuthContext';
-import { Redirect, Stack } from 'expo-router';
+import { migrateDbIfNeeded } from '@/utils/database';
+import { Stack } from 'expo-router';
+import { SQLiteProvider } from 'expo-sqlite';
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 
 export default function TabLayout() {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded } = useAuth();
 
   if (!isLoaded) {
     return (
@@ -17,8 +19,10 @@ export default function TabLayout() {
 
   
   return (
-     <Stack>
-      <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
-     </Stack>
+    <SQLiteProvider databaseName="chat.db" onInit={migrateDbIfNeeded}>      
+      <Stack>
+        <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+      </Stack>
+    </SQLiteProvider>
   );
 }
