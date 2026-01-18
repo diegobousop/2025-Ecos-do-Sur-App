@@ -20,5 +20,9 @@ export interface Message {
 
 export interface Chat {
     id: number;
+    type: 'urgent' | 'information';
     title: string;
+    messages: Message[];
+    createdAt: string;
+    updatedAt: string;
 }

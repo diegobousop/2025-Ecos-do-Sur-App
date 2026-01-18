@@ -3,6 +3,8 @@
     "drawer.ecos":"Ecos do Sur",
     "drawer.settings":"Configuración",
 
+    "common.cancel": "Cancelar",
+    "common.delete": "Eliminar",
 
     "chat.welcomeTile": "¡Bienvenido/a a Ecosbot!",
     "chat.presentation": "Hola! Soy el chatbot Ecosbot, y mi misión es ayudarte en casos de agresión y discriminación por motivos racistas, xenófobos o islamófobos.\n\nPor favor, indícame si necesitas ayuda urgente o información no urgente.",
@@ -42,7 +44,11 @@
     "chat.message.answer_nine": "Pregunta 9",
     "chat.message.answer_ten": "Pregunta 10",
 
-
+    "drawer.promo_text": "Guarda tus conversaciones con Ecosbot y personaliza tu experiencia",
+    "drawer.register_or_login": "Registrarse o Iniciar sesión",
+    "drawer.no_conversations": "No hay conversaciones guardadas",
+    "drawer.delete_title": "Confirmar",
+    "drawer.delete_message": "¿Estás seguro de que deseas eliminar todo el historial de chat?",
 
     "settings.account": "Cuenta",
     "settings.email": "Correo electrónico",

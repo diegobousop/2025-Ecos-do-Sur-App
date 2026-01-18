@@ -6,7 +6,7 @@ export type AuthUser = {
   id: string;
   userName?: string;
   name?: string;
-  roles?: string[];
+  role?: string;
 };
 
 type AuthSession = {

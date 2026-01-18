@@ -3,6 +3,8 @@
     "drawer.Ecos":"Ecos do Sur",
     "drawer.settings":"Settings",
 
+    "common.cancel": "Cancel",
+    "common.delete": "Delete",
 
     "chat.welcomeTile": "Welcome to Ecosbot!",
     "chat.presentation": "Hello! I am the Ecosbot chatbot, and my mission is to help you in cases of aggression and discrimination based on racist, xenophobic, or Islamophobic motives.\n\nPlease let me know if you need urgent help or non-urgent information.",
@@ -44,6 +46,12 @@
     "chat.message.answer_eight": "Question 8",
     "chat.message.answer_nine": "Question 9",
     "chat.message.answer_ten": "Question 10",
+
+    "drawer.promo_text": "Save your conversations with Ecosbot and customize your experience",
+    "drawer.register_or_login": "Register or login",
+    "drawer.no_conversations": "No saved conversations",
+    "drawer.delete_title": "Confirm",
+    "drawer.delete_message": "Are you sure you want to delete the entire chat history?",
 
     "settings.account": "Account",
     "settings.email": "Email",

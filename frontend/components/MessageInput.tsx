@@ -12,8 +12,9 @@ export type MessageInputProps = {
   options?: MessageOption[][];
   onOptionSelect: (callbackData: string) => void;
   chatInitialized: boolean;
-  firstLoad: boolean;
+  firstLoad?: boolean;
   query: boolean;
+  chatHistoryId: string;
 }
 
 const getDefaultOptions = (t: (key: string) => string): MessageOption[][] => [
@@ -24,7 +25,7 @@ const getDefaultOptions = (t: (key: string) => string): MessageOption[][] => [
 const getFinishedOptions = (t: (key: string) => string): MessageOption[][] => [
 ];
 
-const MessageInput = ({ options, onOptionSelect, chatInitialized, firstLoad, query }: MessageInputProps) => {
+const MessageInput = ({ options, onOptionSelect, chatInitialized, firstLoad, query, chatHistoryId }: MessageInputProps) => {
   const { resetChat } = useChatContext();
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
@@ -39,9 +40,9 @@ const MessageInput = ({ options, onOptionSelect, chatInitialized, firstLoad, que
   const flatOptions = displayOptions.flat();
   const totalOptions = flatOptions.length;
 
-  if (!chatInitialized) {
+  if (!chatInitialized && !chatHistoryId) {
     const defaultOptions = getDefaultOptions(t).flat();
-    
+
     return (
       <View 
         className={`absolute bottom-0 left-0 right-0 border ${colorScheme === 'dark' ? 'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10`} 
@@ -93,6 +94,25 @@ const MessageInput = ({ options, onOptionSelect, chatInitialized, firstLoad, que
       </View>
     );
   }
+/* 
+  if(!!chatHistoryId) {
+    return (
+
+      <View className={`flex flex-col mt-28 border ${colorScheme === 'dark' ? 'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} style={{ maxHeight: '50%'}}>
+        <BackButton 
+              className=" z-10" 
+              onPress={() => {
+                if (options?.length === 0) {
+                  resetChat()
+                } else  {
+                onOptionSelect('BACK')
+                }
+              }} 
+            />
+      
+      </View>  
+    );
+  } */
 
   return (
     <View className={`flex flex-col border ${colorScheme === 'dark' ? 'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} style={{ maxHeight: '50%'}}>
