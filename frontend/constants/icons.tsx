@@ -120,7 +120,27 @@ export const svgIcons = {
         strokeLinejoin="round"
       />
     </Svg>
-  )
+  ),
+
+  CloseIcon: (props: SvgProps) => (
+    <Svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      {...props}
+    >
+      <Path
+        d="M1 1l14 14M15 1L1 15"
+        stroke="#7C7C7C"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  ),
+
+
 
 };
 

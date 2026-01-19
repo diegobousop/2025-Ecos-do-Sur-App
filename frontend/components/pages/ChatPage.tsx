@@ -154,7 +154,6 @@ const IndexChatPage = () => {
         addMessage(db, parseInt(chatId.split('_')[1]), botResponse);
         const cleanedContent = botResponse.content.replace(/\*/g, '').split('\n')[0];
         changeChatTitle(db, parseInt(chatId.split('_')[1]), cleanedContent.slice(0, 30) + '...');
-
       }
 
     } catch (error) {

@@ -92,7 +92,11 @@ export const getMessages = async (db: SQLiteDatabase, chatId: number): Promise<M
 };
 
 export const changeChatTitle = async (db: SQLiteDatabase, chatId: number, newTitle: string) => {
-  await db.runAsync('UPDATE chats SET title = ? WHERE id = ?', newTitle, chatId);
+  await db.runAsync(
+    "UPDATE chats SET title = ?, createdAt = datetime('now') WHERE id = ?",
+    newTitle,
+    chatId
+  );
 }
 
 export const addType = async (db: SQLiteDatabase, chatId: number, type: string) => {
