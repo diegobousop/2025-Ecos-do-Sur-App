@@ -1,0 +1,147 @@
+import React from 'react';
+import { Image, Linking, TextProps, useColorScheme, View } from 'react-native';
+import Text from '@/components/common/Text';
+
+interface FormattedTextProps extends TextProps {
+  children: string;
+}
+
+export const FormattedText = ({ children, className, ...props }: FormattedTextProps) => {
+  const colorScheme = useColorScheme();
+  if (!children) return null;
+
+  const rawParts = children.split(/(\*[^*]+\*)/g);
+  
+  const tokens: any[] = [];
+  let stepCounter = 0;
+
+  rawParts.forEach((part) => {
+    if (part.startsWith('*') && part.endsWith('*')) {
+      const content = part.slice(1, -1);
+      if (content.startsWith('Si ') && content.endsWith(':')) {
+        stepCounter++;
+        tokens.push({ type: 'box', content, id: stepCounter });
+      } else {
+        tokens.push({ type: 'bold', content });
+      }
+    } else {
+      const dashRegex = /(-{3,})/g;
+      const dashParts = part.split(dashRegex);
+      dashParts.forEach(dashPart => {
+        if (dashPart.match(dashRegex)) {
+          tokens.push({ type: 'divider' });
+        } else if (dashPart) {
+           tokens.push({ type: 'text', content: dashPart });
+        }
+      });
+    }
+  });
+
+  const elements: any[] = [];
+  let currentInlineGroup: any[] = [];
+
+  const flushInlineGroup = () => {
+    if (currentInlineGroup.length > 0) {
+      elements.push({ type: 'inline-group', items: [...currentInlineGroup] });
+      currentInlineGroup = [];
+    }
+  };
+
+  tokens.forEach(token => {
+    if (token.type === 'box' || token.type === 'divider') {
+      flushInlineGroup();
+      elements.push(token);
+    } else {
+      currentInlineGroup.push(token);
+    }
+  });
+  flushInlineGroup();
+
+  return (
+    <View className="flex-col items-start w-full">
+      {elements.map((element, index) => {
+        if (element.type === 'box') {
+          return (
+            <View key={`box-${index}`} className="relative flex-row items-center py-3 px-3 bg-transparent
+             rounded-3xl mx-1 border-2 border-[#ECB6B7] w-full my-1">
+              <Image 
+                source={require('@/assets/images/step.png')} 
+                style={{ width: 50, height: 50, marginRight: 8 }} 
+                resizeMode="contain" 
+              />
+              <Text className="absolute left-5 font-semibold">{element.id}</Text>
+              <Text className={`font-bold ${colorScheme === 'dark' ? 'text-white' : 'text-black'} text-base
+               text-[16px] flex-1 flex-wrap`}>
+                {element.content}
+              </Text>
+            </View>
+          );
+        }
+        if (element.type === 'divider') {
+          return <View key={`divider-${index}`} className="w-full h-[1px] bg-gray-300 my-2" />;
+        }
+        if (element.type === 'inline-group') {
+          return (
+            <Text key={`group-${index}`} className={className} {...props}>
+              {element.items.map((item: any, itemIndex: number) => {
+                if (item.type === 'bold') {
+                  return <Text key={`bold-${itemIndex}`} className="font-bold">{item.content}</Text>;
+                }
+                
+                // item.type === 'text'
+                // Procesar enlaces Markdown [texto](url)
+                const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+                const mdParts = item.content.split(markdownLinkRegex);
+                
+                // El split con grupos de captura devuelve: [texto, linkText, linkUrl, texto, linkText, linkUrl, ...]
+                const result = [];
+                for (let i = 0; i < mdParts.length; i += 3) {
+                    // Parte de texto normal (antes del enlace o al final)
+                    const textPart = mdParts[i];
+                    if (textPart) {
+                        // Buscar URLs sueltas dentro del texto normal
+                        const urlRegex = /(https?:\/\/[^\s]+)/g;
+                        const textSubParts = textPart.split(urlRegex);
+                        
+                        textSubParts.forEach((subPart, subIndex) => {
+                            if (subPart.match(urlRegex)) {
+                                result.push(
+                                    <Text
+                                        key={`raw-link-${itemIndex}-${i}-${subIndex}`}
+                                        className="text-blue-600 underline"
+                                        onPress={() => Linking.openURL(subPart)}
+                                    >
+                                        {subPart}
+                                    </Text>
+                                );
+                            } else {
+                                result.push(<Text key={`text-${itemIndex}-${i}-${subIndex}`}>{subPart}</Text>);
+                            }
+                        });
+                    }
+
+                    // Parte del enlace Markdown (si existe)
+                    if (i + 2 < mdParts.length) {
+                        const linkText = mdParts[i+1];
+                        const linkUrl = mdParts[i+2];
+                        result.push(
+                            <Text
+                                key={`md-link-${itemIndex}-${i}`}
+                                className="text-blue-600 underline"
+                                onPress={() => Linking.openURL(linkUrl)}
+                            >
+                                {linkText}
+                            </Text>
+                        );
+                    }
+                }
+                return <React.Fragment key={`frag-${itemIndex}`}>{result}</React.Fragment>;
+              })}
+            </Text>
+          );
+        }
+        return null;
+      })}
+    </View>
+  );
+};

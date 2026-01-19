@@ -10,33 +10,36 @@
   <table>
     <tr>
       <td align="center">
-        <img src="assets/readme/home-light.png" width="200" alt="Home Light Mode" />
-        <br />
-        <sub>Home (Light)</sub>
+        <img src="assets/readme/1.png" width="200" alt="Pantalla 1" />
       </td>
       <td align="center">
-        <img src="assets/readme/home-dark.png" width="200" alt="Home Dark Mode" />
-        <br />
-        <sub>Home (Dark)</sub>
+        <img src="assets/readme/2.jpg" width="200" alt="Pantalla 2" />
       </td>
       <td align="center">
-        <img src="assets/readme/options-light.png" width="200" alt="Opciones" />
-        <br />
-        <sub>Opcións</sub>
+        <img src="assets/readme/3.jpg" width="200" alt="Pantalla 3" />
       </td>
     </tr>
     <tr>
       <td align="center">
-        <img src="assets/readme/urgencia-light.png" width="200" alt="Pantalla de Urgencia" />
-        <br />
-        <sub>Urgencia</sub>
+        <img src="assets/readme/4.jpg" width="200" alt="Pantalla 4" />
       </td>
       <td align="center">
-        <img src="assets/readme/webview.png" width="200" alt="Vista Web" />
-        <br />
-        <sub>Web Ecos do Sur</sub>
+        <img src="assets/readme/5.jpg" width="200" alt="Pantalla 5" />
       </td>
-      <td></td>
+      <td align="center">
+        <img src="assets/readme/6.jpg" width="200" alt="Pantalla 6" />
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="assets/readme/7.jpg" width="200" alt="Pantalla 7" />
+      </td>
+      <td align="center">
+        <img src="assets/readme/8.jpg" width="200" alt="Pantalla 8" />
+      </td>
+      <td align="center">
+        <img src="assets/readme/9.png" width="200" alt="Pantalla 9" />
+      </td>
     </tr>
   </table>
 </div>
@@ -112,8 +115,7 @@ Na saída, encontrarás varias opcións para abrir a app
 - [simulador de iOS](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go), un contorno limitado para probar o desenvolvemento de apps con Expo
 
-## 📂 Versión 1.1.0
-
+## 📂 Versión 1.2.0
 
 
 

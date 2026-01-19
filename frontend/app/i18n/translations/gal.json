@@ -1,0 +1,71 @@
+{
+    
+    "drawer.chat":"EcosBot",
+    "drawer.Ecos":"Ecos do Sur",
+    "drawer.settings":"Configuración",
+
+    "common.cancel": "Cancelar",
+    "common.delete": "Eliminar",
+
+    "chat.welcomeTile": "¡Benvido/a a Ecosbot!",
+    "chat.presentation": "Ola! Son o chatbot Ecosbot, e a miña misión é axudarche en casos de agresión e discriminación por motivos racistas, xenófobos ou islamófobos.\n\nPor favor, indícame se necesitas axuda urxente ou información non urxente.",
+    "chat.querySuggestion": "Introduce unha consulta",
+    "chat.answerSuggestion": "Selecciona unha resposta",
+    "chat.message.urgent": "Urxente",
+    "chat.message.info": "Información",
+    "chat.message.copied": "Copiado ao portapapeis",
+    "chat.message.spanish": "Español",
+    "chat.message.yes": "Si",
+    "chat.message.no": "Non",
+    "chat.message.back": "Atrás",
+
+    "chat.message.hospital": "Hospital",
+    "chat.message.school": "Escola",
+    "chat.message.home": "Fogar",
+    "chat.message.street": "Rúa",
+    "chat.message.work": "Traballo",
+    "chat.message.leisure": "Ocio",
+    "chat.message.commerce": "Comercio",
+    "chat.message.other": "Outro",
+    "chat.message.staff": "Persoal",
+
+    "chat.message.ecos_information": "Información sobre Ecos",
+    "chat.message.hate_speech_definition": "Definición de discurso de odio",
+
+    "chat.message.healthcare": "Atención sanitaria",
+    "chat.message.resources": "Recursos",
+    "chat.message.rent": "Aluguer",
+    "chat.message.chatbot_information": "Información do Chatbot",
+
+    "chat.message.answer_one": "Pregunta 1",
+    "chat.message.answer_two": "Pregunta 2",
+    "chat.message.answer_three": "Pregunta 3",
+    "chat.message.answer_four": "Pregunta 4",
+    "chat.message.answer_five": "Pregunta 5",
+    "chat.message.answer_six": "Pregunta 6",
+    "chat.message.answer_seven": "Pregunta 7",
+    "chat.message.answer_eight": "Pregunta 8",
+    "chat.message.answer_nine": "Pregunta 9",
+    "chat.message.answer_ten": "Pregunta 10",
+
+    "drawer.promo_text": "Garda as túas conversas con Ecosbot e personaliza a túa experiencia",
+    "drawer.register_or_login": "Rexistrarse ou Iniciar sesión",
+    "drawer.no_conversations": "Non hai conversas gardadas",
+    "drawer.delete_title": "Confirmar",
+    "drawer.delete_message": "¿Estás seguro de que desexas eliminar todo o historial de chat?",
+
+
+    "settings.account": "Conta",
+    "settings.email": "Correo electrónico",
+    "settings.notifications": "Notificacións",
+    "settings.application": "Aplicación",
+    "settings.language": "Idioma",
+    "settings.selectLanguage": "Seleccionar idioma",
+    "settings.version": "Versión",
+    "settings.about": "Acerca de",
+    "settings.help-center": "Centro de axuda",
+    "settings.contact": "Contacto",
+    "settings.sign-out": "Pechar sesión",
+    "settings.userName": "Nome de usuario",
+    "settings.leave": "Saír"
+}
