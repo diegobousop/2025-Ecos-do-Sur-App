@@ -61,7 +61,7 @@ export default function Login() {
           />
         
         <Text className="text-center text-[28px] " style={{ fontFamily: 'Merriweather_400Regular', color: colorScheme === 'dark' ? 'white' : '#4054A1' }}>
-          Ecos Bot
+          Ecos do Sur App
         </Text>
 
         <TouchableOpacity className="absolute top-2 right-2 bg-gray-400 rounded-full" onPress={() => { router.push('/(tabs)/(drawer)/(chat)/new') }}>

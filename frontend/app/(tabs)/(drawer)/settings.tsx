@@ -1,17 +1,18 @@
-import { ActivityIndicator, Linking, Modal, Pressable, TouchableOpacity, useColorScheme, View, Platform } from 'react-native'
 import { setLocale } from '@/app/i18n/i18n.config'
+import Text from '@/components/common/Text'
+import AccountSection from '@/components/settings/AccountSection'
+import { useAuth } from '@/contexts/AuthContext'
+import { useChatContext } from '@/contexts/ChatContext'
 import { Ionicons } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
 import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ActivityIndicator, Linking, Modal, Platform, Pressable, TouchableOpacity, useColorScheme, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { WebView } from 'react-native-webview'
-import { useAuth } from '@/contexts/AuthContext';
-import { useChatContext } from '@/contexts/ChatContext'
-import Text from '@/components/common/Text'
                              
 
 export default function Settings() {
@@ -67,6 +68,8 @@ export default function Settings() {
     <SafeAreaView className=" bg-[#F3F2F8] dark:bg-black">
       <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       <ScrollView style={{ backgroundColor: colorScheme === 'dark' ? '#000' : '#F3F2F8' }} contentContainerStyle={{ padding: 16 }}>
+        
+        <AccountSection />
         <View className="mb-6 ">
           <Text className="text-m font-semibold text-gray-900 dark:text-gray-100">{t("settings.account")}</Text>
           <View className="mt-3 rounded-xl  p-4  bg-white dark:bg-[#1C1C1E] gap-5 ">

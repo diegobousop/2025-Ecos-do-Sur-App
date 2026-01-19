@@ -76,7 +76,7 @@ export const CustomDrawerContent = (props: any) => {
           />
         ) : (
           <View className="flex flex-col justify-between gap-5 text-center px-5 mb-10">
-            <Text className="text-center font-sans-semibold px-4">{t('drawer.promo_text')}</Text>
+            <Text className="text-center  px-4">{t('drawer.promo_text')}</Text>
             <ActionButton 
               iconName="log-in" 
               message={t('drawer.register_or_login')} 
@@ -91,15 +91,15 @@ export const CustomDrawerContent = (props: any) => {
       </ScrollView>
 
       <View className="absolute top-[720px] px-4 ml-8 w-[75%] bg-white border-2 border-[#BCB6DC] rounded-[60px]">
-          <DrawerItem
-            style={{ marginBottom: 0 }}
-            labelStyle={{ color: 'black' }}
-            label={t('drawer.settings')}
-            icon={({ color, size }) => (
-              <Ionicons name="settings-outline" size={size} color={color} />
-            )}
-            onPress={() => props.navigation.navigate('settings')}
-          />
+          <Link href="/(tabs)/(modal)/settings" asChild>
+            <TouchableOpacity>
+              <View className="flex flex-row items-center justify-between py-3">
+                <Ionicons name="person-outline" size={24} color="black" />
+                <Text>{user?.username || 'Usuario invitado'}</Text>
+                <Ionicons name="settings-outline" size={24} color="black" />
+              </View>
+            </TouchableOpacity>
+          </Link>
         </View>
     </View>
   )

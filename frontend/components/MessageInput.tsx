@@ -94,26 +94,6 @@ const MessageInput = ({ options, onOptionSelect, chatInitialized, firstLoad, que
       </View>
     );
   }
-/* 
-  if(!!chatHistoryId) {
-    return (
-
-      <View className={`flex flex-col mt-28 border ${colorScheme === 'dark' ? 'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} style={{ maxHeight: '50%'}}>
-        <BackButton 
-              className=" z-10" 
-              onPress={() => {
-                if (options?.length === 0) {
-                  resetChat()
-                } else  {
-                onOptionSelect('BACK')
-                }
-              }} 
-            />
-      
-      </View>  
-    );
-  } */
-
   return (
     <View className={`flex flex-col border ${colorScheme === 'dark' ? 'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} style={{ maxHeight: '50%'}}>
       <View className="flex flex-row justify-center items-center gap-3">

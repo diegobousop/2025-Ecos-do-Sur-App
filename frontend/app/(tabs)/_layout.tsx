@@ -1,9 +1,11 @@
+import { BackButton } from '@/components/BackButton';
+import { svgIcons } from '@/constants/icons';
 import { useAuth } from '@/contexts/AuthContext';
 import { migrateDbIfNeeded } from '@/utils/database';
-import { Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
 import React from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native';
 
 
 export default function TabLayout() {
@@ -22,7 +24,42 @@ export default function TabLayout() {
     <SQLiteProvider databaseName="chat.db" onInit={migrateDbIfNeeded}>      
       <Stack>
         <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+        <Stack.Screen
+            name="(modal)/settings"
+            options={{
+              headerTitle: 'Settings',
+              presentation: 'modal',
+              headerShadowVisible: false,
+              headerRight: () => (
+                <TouchableOpacity     
+                  onPress={() => {
+                    router.back();
+                  }}
+                  style={{ width: 44, height: 40, alignItems: 'center', justifyContent: 'center' }}>
+                    <svgIcons.CloseIcon  />
+                </TouchableOpacity>
+              ),
+              headerLeft: () => (
+                <TouchableOpacity     
+                  onPress={() => router.back()}
+                  style={{ width: 44, height: 40, alignItems: 'center', justifyContent: 'center' }}>
+                    <svgIcons.ArrowIcon 
+                      style={{ transform: [{ rotate: '90deg' }] }}
+                  />
+                </TouchableOpacity>
+              ),
+                headerTransparent: true,
+
+              headerStyle: {
+                backgroundColor: 'transparent',
+              },
+
+            }}
+          />
+          
+
       </Stack>
+      
     </SQLiteProvider>
   );
 }

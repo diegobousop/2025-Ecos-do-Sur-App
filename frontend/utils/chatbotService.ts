@@ -151,6 +151,22 @@ class ChatbotService {
             return false;
         }
     }
+
+    async updateUsername(userId: string, newUsername: string): Promise<boolean> {
+        try {
+            const response = await fetch(getApiUrl('UPDATE_USERNAME'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId, newUsername }),
+            });
+            return response.ok;
+        } catch (error) {
+            console.error('Error updating username:', error);
+            return false;
+        }
+    }
 }
 
 export default new ChatbotService();
