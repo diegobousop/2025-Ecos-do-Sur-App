@@ -1,11 +1,16 @@
 import React from 'react';
-import { ActivityIndicator, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 
 import { useChatContext } from '@/contexts/ChatContext';
 import { MessageOption } from '@/utils/interfaces';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { BackButton } from './BackButton';
+import BlurView from 'expo-blur/build/BlurView';
+import { svgIcons } from '@/constants/icons';
+import ScrollToBottomButton from './chat/ScrollToBottomButton';
+import { StreamingMessageListRef } from 'react-native-streaming-message-list';
+
 
 
 export type MessageInputProps = {
@@ -15,6 +20,9 @@ export type MessageInputProps = {
   firstLoad?: boolean;
   query: boolean;
   chatHistoryId: string;
+  listRef?: React.RefObject<StreamingMessageListRef | null>;
+  showScrollButton?: boolean;
+  loading: boolean;
 }
 
 const getDefaultOptions = (t: (key: string) => string): MessageOption[][] => [
@@ -25,7 +33,18 @@ const getDefaultOptions = (t: (key: string) => string): MessageOption[][] => [
 const getFinishedOptions = (t: (key: string) => string): MessageOption[][] => [
 ];
 
-const MessageInput = ({ options, onOptionSelect, chatInitialized, firstLoad, query, chatHistoryId }: MessageInputProps) => {
+const MessageInput = ({ 
+  options, 
+  onOptionSelect, 
+  chatInitialized, 
+  firstLoad, 
+  query, 
+  chatHistoryId, 
+  listRef,
+  showScrollButton,
+  loading
+}: MessageInputProps) => {
+
   const { resetChat } = useChatContext();
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
@@ -95,6 +114,8 @@ const MessageInput = ({ options, onOptionSelect, chatInitialized, firstLoad, que
     );
   }
   return (
+    <>
+    {listRef && (<ScrollToBottomButton listRef={listRef} showScrollButton={showScrollButton} loading={loading} />)}
     <View className={`flex flex-col border ${colorScheme === 'dark' ? 'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} style={{ maxHeight: '50%'}}>
       <View className="flex flex-row justify-center items-center gap-3">
             {(hasBackOption || options?.length === 0) && (
@@ -218,6 +239,8 @@ const MessageInput = ({ options, onOptionSelect, chatInitialized, firstLoad, que
         ))}
       </ScrollView>
     </View>
+    
+    </>
   )
 }
 

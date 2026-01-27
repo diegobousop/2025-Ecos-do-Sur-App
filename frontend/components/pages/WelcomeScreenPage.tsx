@@ -9,6 +9,7 @@ import { MessageOption } from '@/utils/interfaces';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { svgIcons } from '@/constants/icons';
+import ScreenSelector from '../common/ScreenSelector';
 
 interface WelcomeScreenPageProps {
   openDrawer: () => void;
@@ -44,6 +45,11 @@ const WelcomeScreenPage = ({
           iconName="menu"
           additionalStyles="top-14 left-4 z-10"
         />
+
+{/*         <ScreenSelector
+          onPress={openDrawer}
+          iconName="menu"
+        /> */}
 
         <BubbleButton
           onPress={resetChat}

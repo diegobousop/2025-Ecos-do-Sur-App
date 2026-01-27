@@ -122,16 +122,84 @@ class ChatbotService {
         }
     }
 
-    async register(userName: string, email: string, password: string, language: string, gender: string) {
+    async checkUserExists(identifier: string) {
+        try {
+            const response = await fetch(getApiUrl('CHECK_USER'), {
+                method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json',
+                 },
+                 body: JSON.stringify({ identifier }),
+             });
+             return response.json();
+        } catch (error) {
+            console.error('Error checking user:', error);
+            throw error;
+        }
+    }
+
+    async requestSignUpCode(email: string) {
+        const response = await fetch(getApiUrl('REQUEST_SIGNUP_CODE'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            const error: any = new Error('Failed to send verification code');
+            error.status = response.status;
+            error.data = data;
+            throw error;
+        }
+
+        return data;
+    }
+
+    async verifySignUpCode(email: string, code: string) {
+        const response = await fetch(getApiUrl('VERIFY_SIGNUP_CODE'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, code }),
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            const error: any = new Error('Verification failed');
+            error.status = response.status;
+            error.data = data;
+            throw error;
+        }
+
+        return data;
+    }
+
+    async register(userName: string, email: string, password: string, language: string, gender: string, verificationCode?: string) {
         try{
             const response = await fetch (getApiUrl('REGISTER'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({userName, email, password, language, gender, role: 'user'}),
+                body: JSON.stringify({userName, email, password, language, gender, role: 'user', verificationCode}),
             });
-            return response.json();
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                const error: any = new Error('Signup failed');
+                error.status = response.status;
+                error.data = data;
+                throw error;
+            }
+
+            return data;
 
         }catch (error) {
             console.error('Error signing up:', error);

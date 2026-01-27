@@ -1,4 +1,3 @@
-import { BackButton } from '@/components/BackButton';
 import { svgIcons } from '@/constants/icons';
 import { useAuth } from '@/contexts/AuthContext';
 import { migrateDbIfNeeded } from '@/utils/database';
@@ -35,14 +34,14 @@ export default function TabLayout() {
                   onPress={() => {
                     router.back();
                   }}
-                  style={{ width: 44, height: 40, alignItems: 'center', justifyContent: 'center' }}>
+                  style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
                     <svgIcons.CloseIcon  />
                 </TouchableOpacity>
               ),
               headerLeft: () => (
                 <TouchableOpacity     
                   onPress={() => router.back()}
-                  style={{ width: 44, height: 40, alignItems: 'center', justifyContent: 'center' }}>
+                  style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
                     <svgIcons.ArrowIcon 
                       style={{ transform: [{ rotate: '90deg' }] }}
                   />

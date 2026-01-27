@@ -1,7 +1,7 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Redirect, Stack } from 'expo-router';
+import { Redirect, router, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native';
 import 'react-native-reanimated';
 import './globals.css';
 import './i18n/i18n.config';
@@ -17,6 +17,7 @@ import {
 } from '@expo-google-fonts/merriweather';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { svgIcons } from '@/constants/icons';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -37,11 +38,42 @@ function InitialLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="intro" />
-      <Stack.Screen name="login" />
-      <Stack.Screen name="register" />
-      <Stack.Screen name="(tabs)" />
+    <Stack>
+      <Stack.Screen name="intro" options={{ headerShown: false }}/>
+      <Stack.Screen name="login" 
+      options={{
+        presentation: 'modal',
+        headerShadowVisible: false,
+        headerTitle: '',
+        headerRight: () => (
+          <TouchableOpacity     
+            onPress={() => {
+            router.back();
+                }}
+            style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
+            <svgIcons.CloseIcon  />
+          </TouchableOpacity>
+        ),
+      }}
+      />
+      <Stack.Screen name="register" 
+        options={{
+          presentation: 'modal',
+          headerShadowVisible: false,
+          headerTitle: '',
+          headerRight: () => (
+            <TouchableOpacity     
+              onPress={() => {
+              router.back();
+                  }}
+              style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
+              <svgIcons.CloseIcon  />
+            </TouchableOpacity>
+          ),
+      }}
+      />
+      <Stack.Screen name="(tabs)" 
+        options={{ headerShown: false }}/>
     </Stack>
   );
 }

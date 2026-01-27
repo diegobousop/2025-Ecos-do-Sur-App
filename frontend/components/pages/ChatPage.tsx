@@ -9,7 +9,7 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 
 import ChatMessage from '@/components/ChatMessage';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
-import { AnchorItem, StreamingItem } from 'react-native-streaming-message-list'; // Añadir StreamingMessageListProvider
+import { AnchorItem, StreamingItem, StreamingMessageListRef } from 'react-native-streaming-message-list'; // Añadir StreamingMessageListProvider
 
 import { addChat, addMessage, changeChatTitle, getMessages } from '@/utils/database';
 import { useLocalSearchParams } from 'expo-router';
@@ -35,6 +35,9 @@ const IndexChatPage = () => {
   const [chatInitialized, setChatInitialized] = useState(false);
   const [firstLoad, setFirstLoad] = useState(false);
   const db = useSQLiteContext();
+  const listRef = useRef<StreamingMessageListRef>(null);
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  
 
 
   // Contador para generar IDs únicos
@@ -119,7 +122,6 @@ const IndexChatPage = () => {
         content: "Cargando..."
       };
       setMessages(prev => [...prev, headerMessage]);
-      
       Promise.all([
         addMessage(db, parseInt(chatId.split('_')[1]), userMessage),
         addMessage(db, parseInt(chatId.split('_')[1]), headerMessage)
@@ -211,6 +213,9 @@ const IndexChatPage = () => {
         renderMessage={renderMessage}
         loading={loading}
         id={id}
+        listRef={listRef}
+        showScrollButton={showScrollButton}
+        setShowScrollButton={setShowScrollButton}
       />
     )
   }
