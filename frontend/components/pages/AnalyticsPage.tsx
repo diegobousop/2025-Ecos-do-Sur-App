@@ -38,7 +38,6 @@ const AnalyticsPage = () => {
       
       // Obtener usuarios con sus estadísticas agregadas
       const usersResponse = await userService.getAllUsers(1, 100);
-      console.log('Users response:', usersResponse);
       const users = usersResponse.users;
       
       if (!users || users.length === 0) {
@@ -91,16 +90,12 @@ const AnalyticsPage = () => {
         });
       }
 
-      console.log('Daily conversations:', dailyConversations);
-
       const finalStats = {
         totalConversations,
         conversationsByType,
         conversationsByUser,
         dailyConversations,
       };
-
-      console.log('Final stats:', finalStats);
       setStats(finalStats);
     } catch (error) {
       console.error('Error loading analytics:', error);

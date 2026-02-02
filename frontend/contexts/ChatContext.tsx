@@ -33,7 +33,6 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
   const toggleIncognito = useCallback(() => {
     activeChatIsIncognitoRef.current = !activeChatIsIncognitoRef.current;
-    console.log('Incognito mode:', activeChatIsIncognitoRef.current);
   }, []);
 
   const setIsIncognito = useCallback((value: boolean) => {

@@ -9,7 +9,7 @@
 
     "chat.welcomeTile": "¡Benvido/a a Ecosbot!",
     "chat.presentation": "Ola! Son o chatbot Ecosbot, e a miña misión é axudarche en casos de agresión e discriminación por motivos racistas, xenófobos ou islamófobos.\n\nPor favor, indícame se necesitas axuda urxente ou información non urxente.",
-    "chat.querySuggestion": "Introduce unha consulta",
+    "chat.querySuggestion": "Introduce un tipo de consulta",
     "chat.answerSuggestion": "Selecciona unha resposta",
     "chat.message.urgent": "Urxente",
     "chat.message.info": "Información",

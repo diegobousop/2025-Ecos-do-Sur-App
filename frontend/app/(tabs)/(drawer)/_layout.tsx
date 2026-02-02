@@ -137,10 +137,10 @@ const Layout = () => {
       <Drawer
         drawerContent={CustomDrawerContent}
         screenOptions={{
-          drawerActiveTintColor: '#000000', // Color del texto/icono cuando está activo
-          drawerInactiveTintColor: '#000000', // Color cuando está inactivo
-          drawerActiveBackgroundColor: '#F3F3F3', // Fondo cuando está activo
-          drawerInactiveBackgroundColor: 'transparent', // Fondo cuando está inactivo
+          drawerActiveTintColor: '#000000', 
+          drawerInactiveTintColor: '#000000', 
+          drawerActiveBackgroundColor: '#F3F3F3', 
+          drawerInactiveBackgroundColor: 'transparent',
        
           drawerLabelStyle: {
             fontFamily: 'OpenSans_600SemiBold', 
@@ -185,8 +185,7 @@ const Layout = () => {
             headerLeft: () => <DrawerMenuButton />,
           }}
         />
-        {user && user.role === 'admin' && (
-          <Drawer.Screen
+        <Drawer.Screen
           name='admin-panel'
           options={{
             title: "Panel de Administrador",
@@ -200,10 +199,9 @@ const Layout = () => {
             headerStyle: {
               backgroundColor: '#FFFFFF',
             },
+            drawerItemStyle: user?.role === 'admin' ? {} : { display: 'none' },
           }}
         />
-        )}
-        
 
         <Drawer.Screen
           name="(chat)/[id]"

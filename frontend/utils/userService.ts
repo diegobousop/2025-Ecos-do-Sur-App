@@ -1,3 +1,4 @@
+import * as SecureStore from 'expo-secure-store';
 import { getApiUrl } from './apiConfig';
 
 export interface ChatRequest {
@@ -38,9 +39,10 @@ class UserService {
         }
     }
 
-    async getAllUsers(page: number = 1, limit: number = 5) {
+    async getAllUsers(page: number = 1, limit: number = 5, userId?: string) {
         try {
-            const response = await fetch(getApiUrl('GET_ALL_USERS') + `?page=${page}&limit=${limit}`, {
+            const userIdParam = userId ? `&userId=${encodeURIComponent(userId)}` : '';
+            const response = await fetch(getApiUrl('GET_ALL_USERS') + `?page=${page}&limit=${limit}${userIdParam}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -76,6 +78,7 @@ class UserService {
 
     async saveChat(chatId: number, category: string, token: string) {
         try {
+            if (await SecureStore.getItemAsync('settings.saveDataToEcos') === 'false') {return;}
             const response = await fetch(getApiUrl('SAVE_CHAT'), {
                 method: 'POST',
                 headers: {
@@ -90,7 +93,6 @@ class UserService {
                 console.error('Server response:', response.status, text);
                 throw new Error(`Server error: ${response.status}`);
             }
-            console.log('Chat saved successfully:', await response.json());
             return response.json();
         }
         catch (error) {

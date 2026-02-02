@@ -57,10 +57,10 @@ const WelcomeScreenPage = ({
     };
 
     const normalGradientColors = colorScheme === 'dark'
-      ? ['#0f172a', '#1e293b', '#334155', '#475569', '#0f172a']
-      : ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#bfdbfe', '#ffffff'];
+      ? ['#000000', '#000000']
+      : ['#ffffff', '#ffffff'];
     
-    const incognitoGradientColors = ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#7A8C9D', '#ffffff'];
+    const incognitoGradientColors = ['#ffffff', '#ffffff'];
 
   return (
     <View style={{ flex: 1 }}>
@@ -83,22 +83,25 @@ const WelcomeScreenPage = ({
           style={{ flex: 1 }}
         />
       </Animated.View>
-      <View className="flex-1">
+      <View className="flex-1 mb-5">
         <BubbleButton
           onPress={openDrawer}
           iconName="menu"
-          additionalStyles="top-14 left-4 z-10"
+          additionalStyles="top-14 right-4 z-10"
         />
 
         <BubbleButton
           onPress={handleToggleIncognito}
-          additionalStyles="top-14 right-4 z-10"
+          additionalStyles="top-14 left-4 z-10"
           svgIcon= {isIncognito ? svgIcons.IncognitoIcon() : svgIcons.IncognitoIconOutline()}
         />
         <ScrollView>
           <View className="flex-1 justify-start items-center px-4 mt-32">
-            <Image source={require('@/assets/images/ecos-logo.png')} alt="EcosBot Illustration" resizeMode="contain" className="w-40 h-40 mb-12 mt-12" />
-            <Text style={{ fontFamily: 'Merriweather_400Regular', color: colorScheme === 'dark' ? 'white' : '#4054A1' }} className={`text-center text-[28px]`}>
+            <Text style={{ 
+              marginTop: 100,
+              marginBottom: 30,
+              fontFamily: 'Merriweather_400Regular', 
+              color: colorScheme === 'dark' ? 'white' : '#4054A1' }} className={`text-center text-[28px]`}>
               {t("chat.welcomeTile")}
             </Text>
             <Animated.Text 

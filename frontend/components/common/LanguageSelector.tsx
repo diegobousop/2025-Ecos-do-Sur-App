@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { Image, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 
 type LanguageCode = 'es' | 'en' | 'gl';
 
@@ -48,11 +48,14 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       <TouchableOpacity
         onPress={() => onSelect('gl')}
       >
-        <Text style={{ fontSize: 32, marginBottom: 4 }}>
-          🇪🇸
-        </Text>
+        <Image 
+          source={require('@/assets/images/bandeira-galicia.png')} 
+          style={{ width: 45, height: 45 }}
+          resizeMode="contain"
+        />
         <Text 
           style={{ 
+            marginBottom:2,
             fontSize: 12,
             fontWeight: selectedLanguage === 'gl' ? '600' : '400',
             color: selectedLanguage === 'gl'

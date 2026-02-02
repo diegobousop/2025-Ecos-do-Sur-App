@@ -6,10 +6,10 @@
     "common.cancel": "Cancelar",
     "common.delete": "Eliminar",
 
-    "chat.welcomeTile": "¡Bienvenido/a a Ecosbot!",
+    "chat.welcomeTile": "¡Hola!\nSoy EcosBot",
     "chat.presentation": "Mi misión es ayudarte en casos de agresión y discriminación por motivos racistas, xenófobos o islamófobos.\n\nPor favor, indícame si necesitas ayuda urgente o información no urgente.",
     "chat.incognitoPresentation": "El modo incógnito está activado. Esta sesión es completamente privada y no quedará ningún registro.",
-    "chat.querySuggestion": "Introduce una consulta",
+    "chat.querySuggestion": "Introduce el tipo de consulta",
     "chat.answerSuggestion": "Selecciona una respuesta",
     "chat.message.urgent": "Urgente",
     "chat.message.info": "Información",

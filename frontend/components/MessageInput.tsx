@@ -10,6 +10,7 @@ import BlurView from 'expo-blur/build/BlurView';
 import { svgIcons } from '@/constants/icons';
 import ScrollToBottomButton from './chat/ScrollToBottomButton';
 import { StreamingMessageListRef } from 'react-native-streaming-message-list';
+import BubbleButton from './common/BubbleButton';
 
 
 
@@ -119,6 +120,7 @@ const MessageInput = ({
     <View className={`flex flex-col border ${colorScheme === 'dark' ? 'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} style={{ maxHeight: '50%'}}>
       <View className="flex flex-row justify-center items-center gap-3">
             {(hasBackOption || options?.length === 0) && (
+          <>
           <BackButton 
             className=" z-10" 
             onPress={() => {
@@ -129,6 +131,7 @@ const MessageInput = ({
               }
             }} 
           />
+          </>
         )}
         <View>
           {options?.length !== 0 && query && (

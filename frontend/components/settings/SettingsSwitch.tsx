@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, View } from 'react-native';
 
 import Text from '@/components/common/Text';
@@ -11,6 +11,13 @@ interface SettingsSwitchProps {
 
 const SettingsSwitch = ({ title, value: externalValue, onValueChange }: SettingsSwitchProps) => {
   const [isEnabled, setIsEnabled] = useState(externalValue ?? false);
+
+  // Sincronizar con el valor externo cuando cambie
+  useEffect(() => {
+    if (externalValue !== undefined) {
+      setIsEnabled(externalValue);
+    }
+  }, [externalValue]);
 
   const toggleSwitch = (newValue: boolean) => {
     setIsEnabled(newValue);

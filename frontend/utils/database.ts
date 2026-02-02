@@ -1,3 +1,4 @@
+import * as SecureStore from 'expo-secure-store';
 import { type SQLiteDatabase } from 'expo-sqlite';
 import { Message, Role } from './interfaces';
 
@@ -38,6 +39,7 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
 }
 
 export const addChat = async (db: SQLiteDatabase, title: string, id: number, type: string) => {
+  if (await SecureStore.getItemAsync('settings.saveConversations') === 'false') {return;}
   const createdAt = new Date().toISOString();
   return await db.runAsync('INSERT OR IGNORE INTO chats (id, title, type, createdAt) VALUES (?, ?, ?, ?)', id, title, type, createdAt);
 };

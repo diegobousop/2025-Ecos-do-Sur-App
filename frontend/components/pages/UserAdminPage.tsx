@@ -1,4 +1,5 @@
 import Text from '@/components/common/Text';
+import { useAuth } from '@/contexts/AuthContext';
 import { UserData } from '@/utils/interfaces';
 import userService from '@/utils/userService';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,6 +8,7 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, RefreshControl, ScrollView, TouchableOpacity, View, useColorScheme } from 'react-native';
 
 const UserAdminPage = () => {
+  const { user } = useAuth();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const [responseData, setResponseData] = React.useState<UserData[]>([]);
@@ -22,7 +24,7 @@ const UserAdminPage = () => {
   const fetchUsers = async (pageNum: number = 1) => {
     try {
       setLoading(true);
-      const response = await userService.getAllUsers(pageNum, 5);
+      const response = await userService.getAllUsers(pageNum, 5, user?.id);
       setResponseData(response.users);
       setPagination({
         total: response.pagination.total,
@@ -55,7 +57,6 @@ const UserAdminPage = () => {
   };
 
   useEffect(() => {
-    console.log("loading data...")
     fetchUsers(1);
   }, [])
 

@@ -2,8 +2,8 @@ import MessageInput from '@/components/MessageInput'
 import BubbleButton from '@/components/common/BubbleButton'
 import { Message, MessageOption } from '@/utils/interfaces'
 import { DrawerActions, useNavigation } from '@react-navigation/core'
-import React from 'react'
-import { useColorScheme, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { Animated, useColorScheme, View } from 'react-native'
 import { StreamingMessageList, StreamingMessageListProvider, StreamingMessageListRef } from 'react-native-streaming-message-list'
 
 import { useChatContext } from '@/contexts/ChatContext'
@@ -37,15 +37,35 @@ const MessageListPage = ({
     const { getIsIncognito } = useChatContext();
     const isIncognito = getIsIncognito();
     const openDrawer = () => { navigation.dispatch(DrawerActions.openDrawer()); }
-    const topGradientColors = colorScheme === 'dark' ? ['#000000', 'transparent'] : ['#CFCFCF', 'transparent'];
+    const topGradientColors = colorScheme === 'dark' ? ['#000000', 'transparent'] : ['#ffffff', 'transparent'];
     
-    const normalGradientColors = colorScheme === 'dark'
-        ? ['#0f172a', '#1e293b', '#334155', '#475569', '#0f172a']
-        : ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#bfdbfe'];
+    const backgroundColor = colorScheme === 'dark' ? '#000000' : '#ffffff';
+    const gradientColors = [backgroundColor, backgroundColor];
     
-    const incognitoGradientColors =  ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#7A8C9D'];;
+    // Animated value for MessageInput position
+    const bottomPosition = useRef(new Animated.Value(-640)).current;
+    const previousPosition = useRef(-640);
     
-    const gradientColors = isIncognito ? incognitoGradientColors : normalGradientColors;
+    // Calculate target position based on options
+    const getTargetPosition = () => {
+      if (!currentOptions || currentOptions.length === 0) return -640;
+      if (currentOptions.length >= 5) return -330;
+      if (currentOptions.length >= 3) return -460;
+      return -520;
+    };
+    
+    // Animate position when options change
+    useEffect(() => {
+      const targetPosition = getTargetPosition();
+      if (targetPosition !== previousPosition.current) {
+        Animated.timing(bottomPosition, {
+          toValue: targetPosition,
+          duration: 200,
+          useNativeDriver: false,
+        }).start();
+        previousPosition.current = targetPosition;
+      }
+    }, [currentOptions]);
     
     const handleScroll = (event: any) => {
       const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
@@ -61,13 +81,13 @@ const MessageListPage = ({
             <BubbleButton
               onPress={openDrawer}
               iconName="menu"
-              additionalStyles="top-14 left-4 z-10"
+              additionalStyles="top-14 right-4 z-10"
             />
 
             <BubbleButton
               onPress={resetChat}
               iconName="create-outline"
-              additionalStyles="top-14 right-4 z-10"
+              additionalStyles="top-14 left-4 z-10"
 
             />
             <StreamingMessageList
@@ -87,64 +107,20 @@ const MessageListPage = ({
                 flexGrow: 1
               }}
             />
-
-
           </View>
 
-          {!currentOptions || currentOptions.length === 0 ? (
-            <View style={{ position: 'absolute', bottom: -640, width: '100%', height: '100%' }}>
-              <MessageInput
-                options={currentOptions}
-                onOptionSelect={handleOptionSelect}
-                chatInitialized={chatInitialized}
-                query={false}
-                chatHistoryId={id}
-                listRef={listRef}
-                showScrollButton={showScrollButton}
-                loading={loading}
-              />
-            </View>
-          ) : currentOptions.length >= 5 ? (
-            <View style={{ position: 'absolute', bottom: -330, width: '100%', height: '100%' }}>
-              <MessageInput
-                options={currentOptions}
-                onOptionSelect={handleOptionSelect}
-                chatInitialized={chatInitialized}
-                query={false}
-                chatHistoryId={id}
-                listRef={listRef}
-                showScrollButton={showScrollButton}
-                loading={loading}
-
-              />
-            </View>
-          ) : currentOptions.length >= 3 ? (
-            <View style={{ position: 'absolute', bottom: -460, width: '100%', height: '100%' }}>
-              <MessageInput
-                options={currentOptions}
-                onOptionSelect={handleOptionSelect}
-                chatInitialized={chatInitialized}
-                query={false}
-                chatHistoryId={id}
-                listRef={listRef}
-                showScrollButton={showScrollButton}
-                loading={loading}
-              />
-            </View>
-          ) : (
-            <View style={{ position: 'absolute', bottom: -520, width: '100%', height: '100%' }}>
-              <MessageInput
-                options={currentOptions}
-                onOptionSelect={handleOptionSelect}
-                chatInitialized={chatInitialized}
-                query={false}
-                chatHistoryId={id}
-                listRef={listRef}
-                showScrollButton={showScrollButton}
-                loading={loading}
-              />
-            </View>
-          )}
+          <Animated.View style={{ position: 'absolute', bottom: bottomPosition, width: '100%', height: '100%' }}>
+            <MessageInput
+              options={currentOptions}
+              onOptionSelect={handleOptionSelect}
+              chatInitialized={chatInitialized}
+              query={false}
+              chatHistoryId={id}
+              listRef={listRef}
+              showScrollButton={showScrollButton}
+              loading={loading}
+            />
+          </Animated.View>
 
           <LinearGradient
             colors={topGradientColors}
