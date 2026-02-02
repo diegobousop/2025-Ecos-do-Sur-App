@@ -110,6 +110,11 @@ mvn spring-boot:run
 
 Na saída, encontrarás varias opcións para abrir a app
 
+##  Ferramentas de desenvolvedor
+
+Para a execución dos tests
+
+
 - [compilación de desenvolvemento](https://docs.expo.dev/develop/development-builds/introduction/)
 - [emulador de Android](https://docs.expo.dev/workflow/android-studio-emulator/)
 - [simulador de iOS](https://docs.expo.dev/workflow/ios-simulator/)
