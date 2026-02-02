@@ -104,10 +104,9 @@ const ChatMessage = ({ content, role, loading }: ChatMessageProps) => {
                    {getDisplayContent(content)}
                 </FormattedText>
             </View>
-
             <View className="flex flex-row">
                 <TouchableOpacity
-                    className="flex-row items-center  ml-3  bg-transparent rounded-full self-start" 
+                    className="flex-row items-center  ml-3 bg-transparent rounded-full self-start" 
                     onPress={copyToClipboard}
                 >
                     <View className={`flex-row items-center p-2 rounded-full`}>
@@ -127,9 +126,6 @@ const ChatMessage = ({ content, role, loading }: ChatMessageProps) => {
                     </View>
                 </TouchableOpacity>
             </View>
-            
-
-
         </View>
     )
 }

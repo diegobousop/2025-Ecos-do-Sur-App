@@ -9,6 +9,7 @@ interface AccountSectionProps {
     user?: {
         username?: string;
         email?: string;
+        role?: string;
     } | null;
 }
 
@@ -32,7 +33,12 @@ const AccountSection = ({user}: AccountSectionProps) => {
     }
     return (
         <View className=" rounded-[28px]">
-            <Text className="font-sans-bold text-textSecondary ml-8 mb-2">Cuenta</Text>
+            {user.role === 'admin' ? (
+                <Text className="font-sans-bold text-textSecondary ml-8 mb-2">Cuenta de Admin</Text>
+
+            ):(
+                <Text className="font-sans-bold text-textSecondary ml-8 mb-2">Cuenta</Text>
+            )}
             <View className="bg-white py-8 rounded-[40px] px-4">
                 <SettingsOption 
                     title="Nombre de Usuario" 

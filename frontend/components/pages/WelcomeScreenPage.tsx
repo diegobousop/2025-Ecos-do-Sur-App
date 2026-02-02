@@ -1,15 +1,15 @@
-import { View, ScrollView, Image } from 'react-native'
-import React from 'react'
+import React, { useRef, useState } from 'react';
+import { Animated, Image, ScrollView, View } from 'react-native';
 
 import BubbleButton from '@/components/common/BubbleButton';
-import MessageInput from '@/components/MessageInput';
 import Text from '@/components/common/Text';
+import MessageInput from '@/components/MessageInput';
 
 import { MessageOption } from '@/utils/interfaces';
 
-import { LinearGradient } from 'expo-linear-gradient';
 import { svgIcons } from '@/constants/icons';
-import ScreenSelector from '../common/ScreenSelector';
+import { useChatContext } from '@/contexts/ChatContext';
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface WelcomeScreenPageProps {
   openDrawer: () => void;
@@ -33,12 +33,56 @@ const WelcomeScreenPage = ({
   t
 }: WelcomeScreenPageProps) => {
 
-    const gradientColors = colorScheme === 'dark'
-        ? ['#0f172a', '#1e293b', '#334155', '#475569', '#0f172a']
-        : ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#bfdbfe', '#ffffff'];
+    const { toggleIncognito, getIsIncognito } = useChatContext();
+    const [isIncognito, setIsIncognito] = useState(false);
+    const fadeAnim = useRef(new Animated.Value(1)).current;
+
+    const handleToggleIncognito = () => {
+      toggleIncognito();
+      const newIncognitoState = getIsIncognito();
+      
+      // Animación de fade para transición suave
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: true,
+      }).start(() => {
+        setIsIncognito(newIncognitoState);
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 400,
+          useNativeDriver: true,
+        }).start();
+      });
+    };
+
+    const normalGradientColors = colorScheme === 'dark'
+      ? ['#0f172a', '#1e293b', '#334155', '#475569', '#0f172a']
+      : ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#bfdbfe', '#ffffff'];
+    
+    const incognitoGradientColors = ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#7A8C9D', '#ffffff'];
 
   return (
-    <LinearGradient colors={gradientColors} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
+      <LinearGradient 
+        colors={normalGradientColors} 
+        start={{ x: 0, y: 0 }} 
+        end={{ x: 0, y: 1 }} 
+        style={{ position: 'absolute', width: '100%', height: '100%' }}
+      />
+      <Animated.View style={{ 
+        position: 'absolute', 
+        width: '100%', 
+        height: '100%',
+        opacity: isIncognito ? fadeAnim : 0 
+      }}>
+        <LinearGradient 
+          colors={incognitoGradientColors} 
+          start={{ x: 0, y: 0 }} 
+          end={{ x: 0, y: 1 }} 
+          style={{ flex: 1 }}
+        />
+      </Animated.View>
       <View className="flex-1">
         <BubbleButton
           onPress={openDrawer}
@@ -46,15 +90,10 @@ const WelcomeScreenPage = ({
           additionalStyles="top-14 left-4 z-10"
         />
 
-{/*         <ScreenSelector
-          onPress={openDrawer}
-          iconName="menu"
-        /> */}
-
         <BubbleButton
-          onPress={resetChat}
+          onPress={handleToggleIncognito}
           additionalStyles="top-14 right-4 z-10"
-          svgIcon={svgIcons.IncognitoIcon()}
+          svgIcon= {isIncognito ? svgIcons.IncognitoIcon() : svgIcons.IncognitoIconOutline()}
         />
         <ScrollView>
           <View className="flex-1 justify-start items-center px-4 mt-32">
@@ -62,9 +101,12 @@ const WelcomeScreenPage = ({
             <Text style={{ fontFamily: 'Merriweather_400Regular', color: colorScheme === 'dark' ? 'white' : '#4054A1' }} className={`text-center text-[28px]`}>
               {t("chat.welcomeTile")}
             </Text>
-            <Text className={`mt-5 px-5 ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>
-              {t("chat.presentation")}
-            </Text>
+            <Animated.Text 
+              style={{ opacity: fadeAnim }} 
+              className={`text-[16px] font-sans mt-5 px-5 text-center ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}
+            >
+              {isIncognito ? t("chat.incognitoPresentation") : t("chat.presentation")}
+            </Animated.Text>
           </View>
         </ScrollView>
         <MessageInput
@@ -75,7 +117,7 @@ const WelcomeScreenPage = ({
           query={true}
         />
       </View>
-    </LinearGradient>
+    </View>
   )
 }
 

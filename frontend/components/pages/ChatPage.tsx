@@ -1,7 +1,9 @@
 import { getLocale } from '@/app/i18n/i18n.config';
+import { useAuth } from '@/contexts/AuthContext';
 import { useChatContext } from '@/contexts/ChatContext';
 import chatbotService from '@/utils/chatbotService';
 import { Message, MessageOption, Role } from '@/utils/interfaces';
+import userService from '@/utils/userService';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, useColorScheme } from 'react-native';
@@ -25,7 +27,8 @@ const IndexChatPage = () => {
   let { id } = useLocalSearchParams<{ id: string }>();
   const colorScheme = useColorScheme()
   const { t } = useTranslation();
-  const { registerResetHandler, setActiveChatId } = useChatContext();
+  const { registerResetHandler, setActiveChatId, getIsIncognito, setIsIncognito } = useChatContext();
+  const { token } = useAuth();
   const navigation = useNavigation();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
@@ -55,7 +58,8 @@ const IndexChatPage = () => {
     setChatId(`chat_${Date.now()}`);
     setLoading(false);
     setChatInitialized(false);
-  }, []);
+    setIsIncognito(false);
+  }, [setIsIncognito]);
 
   useEffect(() => {
     if (id){
@@ -100,6 +104,30 @@ const IndexChatPage = () => {
     }
   };
 
+  const handleChatSave = async (callbackData: string, chatIdNum: number) => {
+    const isIncognito = getIsIncognito();
+    
+    if (isIncognito) {
+      console.log("incognito es true");
+      return;
+    }
+    
+    if (callbackData === 'U1') {
+      addChat(db, 'Nuevo Chat', chatIdNum, "urgent");
+      console.log("Saving urgent chat...");
+      if (token) {
+        userService.saveChat(chatIdNum, 'urgent', token).catch(console.error);
+      }
+    }
+    
+    if (callbackData === 'I1') {
+      addChat(db, 'Nuevo Chat', chatIdNum, "information");
+      if (token) {
+        userService.saveChat(chatIdNum, 'information', token).catch(console.error);
+      }
+    }
+  };
+
   const handleOptionSelect = async (callbackData: string) => {
     if (loading && !chatInitialized) {
       setFirstLoad(true);
@@ -122,13 +150,14 @@ const IndexChatPage = () => {
         content: "Cargando..."
       };
       setMessages(prev => [...prev, headerMessage]);
+      const isIncognito = getIsIncognito();
+      if (!isIncognito){
       Promise.all([
         addMessage(db, parseInt(chatId.split('_')[1]), userMessage),
         addMessage(db, parseInt(chatId.split('_')[1]), headerMessage)
       ]).catch(console.error);
-      
-      if (callbackData === 'U1') { addChat(db, 'Nuevo Chat', parseInt(chatId.split('_')[1]), "urgent");}
-      if (callbackData === 'I1') {addChat(db, 'Nuevo Chat', parseInt(chatId.split('_')[1]), "information");}
+    }
+      handleChatSave(callbackData, parseInt(chatId.split('_')[1]));
     }
     setLoading(true);
     await new Promise(resolve => setTimeout(resolve, 300));

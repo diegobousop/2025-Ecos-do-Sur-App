@@ -26,3 +26,13 @@ export interface Chat {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface UserData {
+    id: string;
+    userName: string;
+    email: string;
+    role: 'admin' | 'user';
+    numberOfChats: number;
+    numberOfUrgentChats: number;
+    numberOfInformationChats: number;
+}

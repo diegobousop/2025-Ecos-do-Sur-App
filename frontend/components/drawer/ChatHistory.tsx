@@ -1,13 +1,9 @@
-import { deleteDatabase, createDatabase } from '@/utils/database';
 import { Chat } from '@/utils/interfaces';
-import { useSQLiteContext } from 'expo-sqlite';
 import React from 'react';
-import { Alert, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Text from '../common/Text';
-
 import { svgIcons } from '@/constants/icons';
-import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
 interface ChatHistoryProps {
@@ -17,9 +13,8 @@ interface ChatHistoryProps {
   loadChats: () => Promise<void>;
 }
 
-const ChatHistory = ({ onSelectChat, activeChatId, history, loadChats }: ChatHistoryProps) => {
+const ChatHistory = ({ onSelectChat, activeChatId, history }: ChatHistoryProps) => {
   const { t } = useTranslation();
-  const db = useSQLiteContext();
   const [hideChats, setHideChats] = React.useState(false);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -90,26 +85,7 @@ const ChatHistory = ({ onSelectChat, activeChatId, history, loadChats }: ChatHis
             color: '#919191',
             fontSize: 16,
           }}>Conversaciones</Text>
-        <TouchableOpacity onPress={() => {
-          Alert.alert(t('drawer.delete_title'), t('drawer.delete_message'), [
-            {
-              text: t('common.cancel'),
-              style: 'cancel',
-            },
-            {
-              text: t('common.delete'),
-              style: 'destructive',
-              onPress: async () => {
-                await deleteDatabase(db);
-                await createDatabase(db);
-                await loadChats();
-              }
-            }
-          ]);
-        }}>      
-          <Ionicons name="trash" size={16} color="#919191" />
-        </TouchableOpacity>
-        
+       
         <TouchableOpacity onPress={() => {
           setHideChats(!hideChats);
         }}>

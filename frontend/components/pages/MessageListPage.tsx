@@ -6,6 +6,7 @@ import React from 'react'
 import { useColorScheme, View } from 'react-native'
 import { StreamingMessageList, StreamingMessageListProvider, StreamingMessageListRef } from 'react-native-streaming-message-list'
 
+import { useChatContext } from '@/contexts/ChatContext'
 import { LinearGradient } from 'expo-linear-gradient'
 
 interface MessageListPageProps {
@@ -33,12 +34,19 @@ const MessageListPage = ({
   listRef, showScrollButton, setShowScrollButton }: MessageListPageProps) => {
     const navigation = useNavigation();
     const colorScheme = useColorScheme();
+    const { getIsIncognito } = useChatContext();
+    const isIncognito = getIsIncognito();
     const openDrawer = () => { navigation.dispatch(DrawerActions.openDrawer()); }
     const topGradientColors = colorScheme === 'dark' ? ['#000000', 'transparent'] : ['#CFCFCF', 'transparent'];
     
-    const gradientColors = colorScheme === 'dark'
+    const normalGradientColors = colorScheme === 'dark'
         ? ['#0f172a', '#1e293b', '#334155', '#475569', '#0f172a']
         : ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#bfdbfe'];
+    
+    const incognitoGradientColors =  ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#7A8C9D'];;
+    
+    const gradientColors = isIncognito ? incognitoGradientColors : normalGradientColors;
+    
     const handleScroll = (event: any) => {
       const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
       const paddingToBottom = 100;
@@ -97,7 +105,7 @@ const MessageListPage = ({
               />
             </View>
           ) : currentOptions.length >= 5 ? (
-            <View style={{ position: 'absolute', bottom: -360, width: '100%', height: '100%' }}>
+            <View style={{ position: 'absolute', bottom: -330, width: '100%', height: '100%' }}>
               <MessageInput
                 options={currentOptions}
                 onOptionSelect={handleOptionSelect}
@@ -124,7 +132,7 @@ const MessageListPage = ({
               />
             </View>
           ) : (
-            <View style={{ position: 'absolute', bottom: -540, width: '100%', height: '100%' }}>
+            <View style={{ position: 'absolute', bottom: -520, width: '100%', height: '100%' }}>
               <MessageInput
                 options={currentOptions}
                 onOptionSelect={handleOptionSelect}

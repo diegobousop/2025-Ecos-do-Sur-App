@@ -1,8 +1,8 @@
-import { DrawerContentScrollView, DrawerItem, DrawerItemList, useDrawerStatus } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItemList, useDrawerStatus } from '@react-navigation/drawer';
 import { Link, router } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { useTranslation } from 'react-i18next';
@@ -11,19 +11,32 @@ import { ChatProvider, useChatContext } from '@/contexts/ChatContext';
 import { getChats } from '@/utils/database';
 import { useSQLiteContext } from 'expo-sqlite';
 
-import BubbleButton from '@/components/common/BubbleButton';
-import ChatHistory from '@/components/drawer/ChatHistory';
-import Text from '@/components/common/Text';
 import ActionButton from '@/components/common/ActionButton';
+import BubbleButton from '@/components/common/BubbleButton';
+import Text from '@/components/common/Text';
+import ChatHistory from '@/components/drawer/ChatHistory';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { Chat } from '@/utils/interfaces';
 import { Ionicons } from '@expo/vector-icons';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 const NewChatButton = () => {
   const { resetChat } = useChatContext();
   return (
     <BubbleButton onPress={resetChat} additionalStyles="top-2 right-2" />
+  );
+};
+
+const DrawerMenuButton = () => {
+  const navigation = useNavigation();
+  const openDrawer = () => { navigation.dispatch(DrawerActions.openDrawer()); };
+  return (
+    <BubbleButton
+      onPress={openDrawer}
+      iconName="menu"
+      additionalStyles="top-1 left-4 z-10"
+    />
   );
 };
 
@@ -39,6 +52,14 @@ export const CustomDrawerContent = (props: any) => {
   useEffect(() => {
     loadChats();
   }, [isDrawerOpen]);
+
+  // reload chats periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loadChats();
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (currentRoute === '(chat)/new') {
@@ -62,7 +83,7 @@ export const CustomDrawerContent = (props: any) => {
 
   return (
     <View className="flex-1 mt-10">
-      <ScrollView style={{ marginBottom: 100 }}>
+      <ScrollView>
         <DrawerContentScrollView {...props}>
           <DrawerItemList {...props} />
         </DrawerContentScrollView>
@@ -73,6 +94,7 @@ export const CustomDrawerContent = (props: any) => {
             activeChatId={activeChatId} 
             onSelectChat={handleSelectChat} 
             loadChats={loadChats}
+            
           />
         ) : (
           <View className="flex flex-col justify-between gap-5 text-center px-5 mb-10">
@@ -89,18 +111,18 @@ export const CustomDrawerContent = (props: any) => {
             2026 Ecos do Sur
         </Text>
       </ScrollView>
-
-      <View className="absolute top-[720px] px-4 ml-8 w-[75%] bg-white border-2 border-[#BCB6DC] rounded-[60px]">
-          <Link href="/(tabs)/(modal)/settings" asChild>
-            <TouchableOpacity>
-              <View className="flex flex-row items-center justify-between py-3">
-                <Ionicons name="person-outline" size={24} color="black" />
-                <Text>{user?.username || 'Usuario invitado'}</Text>
-                <Ionicons name="settings-outline" size={24} color="black" />
-              </View>
-            </TouchableOpacity>
-          </Link>
+      <TouchableOpacity onPress={() => router.push('/(tabs)/(modal)/settings')} className="mb-20 mr-6 px-4 ml-8 ">
+        <View className=" bg-white border-2 border-[#BCB6DC] rounded-[60px] px-10">
+         
+              
+                <View className="flex flex-row items-center justify-between py-3">
+                  <Ionicons name="person-outline" size={24} color="black" />
+                  <Text>{user?.username || 'Usuario invitado'}</Text>
+                  <Ionicons name="settings-outline" size={24} color="black" />
+                </View>
         </View>
+      </TouchableOpacity>
+      
     </View>
   )
 
@@ -108,11 +130,28 @@ export const CustomDrawerContent = (props: any) => {
 
 
 const Layout = () => {
+  const { user } = useAuth();
   const { t } = useTranslation();
   return (
     <ChatProvider>
       <Drawer
         drawerContent={CustomDrawerContent}
+        screenOptions={{
+          drawerActiveTintColor: '#000000', // Color del texto/icono cuando está activo
+          drawerInactiveTintColor: '#000000', // Color cuando está inactivo
+          drawerActiveBackgroundColor: '#F3F3F3', // Fondo cuando está activo
+          drawerInactiveBackgroundColor: 'transparent', // Fondo cuando está inactivo
+       
+          drawerLabelStyle: {
+            fontFamily: 'OpenSans_600SemiBold', 
+            fontSize: 16,
+            fontWeight: '500',
+          },
+          drawerItemStyle: {
+            marginHorizontal: 8,
+            paddingHorizontal: 8,
+          },
+        }}
       >
         <Drawer.Screen
           name='(chat)/new'
@@ -127,7 +166,7 @@ const Layout = () => {
             },
             drawerIcon: () => (
               <View>
-                <Text>💬</Text>
+                <Image source={require('@/assets/images/ecos-do-sur-logo-black.png')} style={{ width: 28, height: 28 }} />
               </View>
             ),
             headerRight: () => <NewChatButton />,
@@ -140,12 +179,31 @@ const Layout = () => {
             title: t('drawer.ecos'),
             drawerIcon: () => (
               <View>
-                <Text>🌍
-                </Text>
+                <Ionicons name="globe-outline" size={24} color="black" />
               </View>
-            )
+            ),
+            headerLeft: () => <DrawerMenuButton />,
           }}
         />
+        {user && user.role === 'admin' && (
+          <Drawer.Screen
+          name='admin-panel'
+          options={{
+            title: "Panel de Administrador",
+            drawerIcon: () => (
+              <View>
+                <Ionicons name="stats-chart-outline" size={24} color="black" />
+              </View>
+            ),
+            headerLeft: () => <DrawerMenuButton />,
+            headerShadowVisible: false,
+            headerStyle: {
+              backgroundColor: '#FFFFFF',
+            },
+          }}
+        />
+        )}
+        
 
         <Drawer.Screen
           name="(chat)/[id]"

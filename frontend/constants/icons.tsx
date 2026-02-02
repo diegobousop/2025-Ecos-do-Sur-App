@@ -104,6 +104,44 @@ export const svgIcons = {
     </Svg>
   ),
 
+  IncognitoIconOutline: (props: SvgProps) => (
+<Svg
+    width={22}
+    height={22}
+    viewBox="0 0 22 17"
+    fill="none"
+    {...props}
+  >
+     <Path
+      d="M2 6.25h18M4 6.25L4.5 3.5C4.8 2 5 1 6 .5 6.5 0 7.5 0 9 0h4c1.5 0 2.5 0 3 .5 1 .5 1.2 1.5 1.5 3l.5 2.75"
+      stroke="#4054A1"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Circle
+      cx={5.25}
+      cy={13.5}
+      r={2.75}
+      stroke="#4054A1"
+      strokeWidth={2}
+    />
+    <Circle
+      cx={16.75}
+      cy={13.5}
+      r={2.75}
+      stroke="#4054A1"
+      strokeWidth={2}
+    />
+    <Path
+      d="M8 13.5c0-.5.5-1.5 1.5-2 .5-.25 1-.375 1.5-.375s1 .125 1.5.375c1 .5 1.5 1.5 1.5 2"
+      stroke="#4054A1"
+      strokeWidth={2}
+      strokeLinecap="round"
+    />
+  </Svg>
+  ),
+
   ArrowIcon: (props: SvgProps) => (
     <Svg
       width={14}
