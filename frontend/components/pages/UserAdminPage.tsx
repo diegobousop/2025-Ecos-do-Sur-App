@@ -25,14 +25,24 @@ const UserAdminPage = () => {
     try {
       setLoading(true);
       const response = await userService.getAllUsers(pageNum, 5, user?.id);
-      setResponseData(response.users);
-      setPagination({
-        total: response.pagination.total,
-        totalPages: response.pagination.total_pages,
-        limit: response.pagination.limit
-      });
+      
+      // Validar que la respuesta tenga la estructura esperada
+      if (response.users && response.pagination) {
+        setResponseData(response.users);
+        setPagination({
+          total: response.pagination.total,
+          totalPages: response.pagination.total_pages,
+          limit: response.pagination.limit
+        });
+      } else {
+        console.error('Invalid response structure:', response);
+        setResponseData([]);
+        setPagination({ total: 0, totalPages: 0, limit: 5 });
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
+      setResponseData([]);
+      setPagination({ total: 0, totalPages: 0, limit: 5 });
     } finally {
       setLoading(false);
     }
@@ -104,7 +114,7 @@ const UserAdminPage = () => {
                     <View className="flex-row items-center gap-1">
                       <View className="w-2 h-2 rounded-full bg-red-500" />
                       <Text className="text-xs text-gray-600 dark:text-gray-400">
-                        Urgent: {user.numberOfUrgentChats}
+                        Urgente: {user.numberOfUrgentChats}
                       </Text>
                     </View>
                     <View className="flex-row items-center gap-1">
@@ -145,17 +155,17 @@ const UserAdminPage = () => {
                     ? 'text-gray-500 dark:text-gray-400'
                     : 'text-white'
                 }`}>
-                  Previous
+                  Anterior
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
 
             <View className="flex-col items-center">
               <Text className="text-gray-700 dark:text-gray-300 font-medium">
-                Page {page} of {pagination.totalPages}
+                Página {page} de {pagination.totalPages}
               </Text>
               <Text className="text-sm text-gray-500 dark:text-gray-400">
-                Total: {pagination.total} users
+                Total: {pagination.total} usuarios
               </Text>
             </View>
 
@@ -183,7 +193,7 @@ const UserAdminPage = () => {
                     ? 'text-gray-500 dark:text-gray-400'
                     : 'text-white'
                 }`}>
-                  Next
+                  Siguiente
                 </Text>
               </LinearGradient>
             </TouchableOpacity>

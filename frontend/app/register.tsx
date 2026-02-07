@@ -9,9 +9,9 @@ import { Image, Keyboard, ScrollView, TouchableOpacity, TouchableWithoutFeedback
 
 import Step1EmailForm from '@/components/pages/register/Step1EmailForm';
 import Step2UsernameForm from '@/components/pages/register/Step2UsernameForm';
-import Step3PasswordForm from '@/components/pages/register/Step3PasswordForm';
-import Step4ProfileForm from '@/components/pages/register/Step4ProfileForm';
-import Step5VerificationForm from '@/components/pages/register/Step5VerificationForm';
+import Step4PasswordForm from '@/components/pages/register/Step4PasswordForm';
+import Step5ProfileForm from '@/components/pages/register/Step5ProfileForm';
+import Step6VerificationForm from '@/components/pages/register/Step6VerificationForm';
 
 
 
@@ -283,7 +283,7 @@ export default function Register() {
         );
       case 3:
         return (
-          <Step3PasswordForm
+          <Step4PasswordForm
             password={password}
             setPassword={setPassword}
             confirmPassword={confirmPassword}
@@ -296,7 +296,7 @@ export default function Register() {
         );
       case 4:
         return (
-          <Step4ProfileForm
+          <Step5ProfileForm
             language={language}
             setLanguage={setLanguage}
             gender={gender}
@@ -307,7 +307,7 @@ export default function Register() {
         );
       case 5:
         return (
-          <Step5VerificationForm
+          <Step6VerificationForm
             email={email}
             verificationCode1={verificationCode1}
             setVerificationCode1={setVerificationCode1}

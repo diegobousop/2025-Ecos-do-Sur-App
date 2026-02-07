@@ -235,6 +235,31 @@ class ChatbotService {
             return false;
         }
     }
+
+    /**
+     * Elimina la cuenta del usuario autenticado
+     */
+    async deleteAccount(token: string): Promise<{ success: boolean; error?: string }> {
+        try {
+            const response = await fetch(getApiUrl('DELETE_ACCOUNT'), {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                return { success: true };
+            }
+
+            const data = await response.json();
+            return { success: false, error: data.error || 'failed_to_delete_account' };
+        } catch (error) {
+            console.error('Error deleting account:', error);
+            return { success: false, error: 'network_error' };
+        }
+    }
 }
 
 export default new ChatbotService();

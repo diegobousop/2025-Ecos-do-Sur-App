@@ -49,8 +49,8 @@ const MessageListPage = ({
     // Calculate target position based on options
     const getTargetPosition = () => {
       if (!currentOptions || currentOptions.length === 0) return -640;
-      if (currentOptions.length >= 5) return -330;
-      if (currentOptions.length >= 3) return -460;
+      if (currentOptions.length >= 5) return -250;
+      if (currentOptions.length >= 3) return -420;
       return -520;
     };
     

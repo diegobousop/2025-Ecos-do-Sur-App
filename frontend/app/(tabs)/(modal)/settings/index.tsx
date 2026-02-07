@@ -25,7 +25,7 @@ const SettingsPage = () => {
         <LogOutSection />
       </View>
       <Image source={require('@/assets/images/ecos-do-sur-logo-gray.png')} style={{ width: 50, height: 50, alignSelf: 'center', marginTop: 20 }} />
-      <Text className="text-center text-gray-500 mt-4 mb-5">Ecos do Sur App v1.3.0-SNAPSHOT</Text>
+      <Text className="text-center text-gray-500 mt-4 mb-5">Ecos do Sur App v1.3.0</Text>
     </ScrollView>
 
   )

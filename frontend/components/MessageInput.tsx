@@ -65,7 +65,9 @@ const MessageInput = ({
 
     return (
       <View 
-        className={`absolute bottom-0 left-0 right-0 border ${colorScheme === 'dark' ? 'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10`} 
+        className={`absolute bottom-0 left-0 right-0 border ${colorScheme === 'dark' ?
+           'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ?
+             'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10`} 
         style={{ maxHeight: '50%'}}>
         <Text className={`text-center text-[18px] mb-2 mt-2 ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>
           {t("chat.querySuggestion")}
@@ -116,8 +118,13 @@ const MessageInput = ({
   }
   return (
     <>
-    {listRef && (<ScrollToBottomButton listRef={listRef} showScrollButton={showScrollButton} loading={loading} />)}
-    <View className={`flex flex-col border ${colorScheme === 'dark' ? 'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ? 'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} style={{ maxHeight: '50%'}}>
+    {listRef && (
+    <ScrollToBottomButton listRef={listRef} showScrollButton={showScrollButton} loading={loading} />)}
+    <View className={`flex flex-col border 
+      ${colorScheme === 'dark' ? 'border-[#272727]' :
+       'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ?
+        'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} 
+      style={{ maxHeight: '60%'}}>
       <View className="flex flex-row justify-center items-center gap-3">
             {(hasBackOption || options?.length === 0) && (
           <>
@@ -135,10 +142,12 @@ const MessageInput = ({
         )}
         <View>
           {options?.length !== 0 && query && (
-            <Text className={`text-center text-[18px] mb-2 mt-2 ${colorScheme === 'dark' ? 'text-[#8F8F8F]' : 'text-black'}`}>{t("chat.querySuggestion")}</Text>
+            <Text className={`text-center text-[18px] mb-2 mt-2 ${colorScheme === 'dark' ?
+               'text-[#8F8F8F]' : 'text-black'}`}>{t("chat.querySuggestion")}</Text>
           )}
           {options?.length !== 0 && !query && (
-            <Text className={`text-center text-[18px] mb-2 mt-2 ${colorScheme === 'dark' ? 'text-[#8F8F8F]' : 'text-black'}`}>{t("chat.answerSuggestion")}</Text>
+            <Text className={`text-center text-[18px] mb-2 mt-2 ${colorScheme === 'dark' ?
+               'text-[#8F8F8F]' : 'text-black'}`}>{t("chat.answerSuggestion")}</Text>
           )}
         
           {firstLoad && (
@@ -165,8 +174,9 @@ const MessageInput = ({
           >
             {({ pressed }) => (
               <LinearGradient
-                colors={pressed ? (colorScheme === 'dark' ? ['#EFF6FF', '#D1E9FF'] : ['#FBFDFF', '#EEF7FF']) : (colorScheme === 'dark' ? ['#272727', 'transparent'] : ['#FBFDFF', '#EEF7FF'])}
-                className={`relative flex flex-row items-center justify-center mt-2 border ${colorScheme === 'dark' ? 'border-[#272727]' : 'border-[#E5E7EB]'} px-4 py-5 gap-3`}
+                colors={pressed ? ['#EFF6FF', '#D1E9FF'] : ['#FBFDFF', '#EEF7FF']}
+                className={`relative flex flex-row items-center justify-center mt-2 border ${colorScheme === 'dark' ?
+                   'border-[#272727]' : 'border-[#E5E7EB]'} px-4 py-5 gap-3`}
                 style={{
                   borderColor: pressed ? '#60A5FA' : '#262626',
                   borderRadius: 20,

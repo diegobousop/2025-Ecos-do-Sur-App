@@ -17,8 +17,8 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { setSession, isSignedIn } = useAuth();
-  const [identifier, setIdentifier] = useState('diegoxdash 2');
-  const [password, setPassword] = useState('123452');
+  const [identifier, setIdentifier] = useState('');
+  const [password, setPassword] = useState('');
   const [botResponse, setBotResponse] = useState<any>(null);
 
   const [identifierErrors, setIdentifierErrors] = useState<string>("");

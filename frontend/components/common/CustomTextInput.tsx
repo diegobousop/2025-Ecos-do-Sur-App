@@ -32,7 +32,7 @@ const CustomTextInput = forwardRef<TextInput, CustomTextInputProps>(({value, onC
     }),
     fontSize: animatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [16, 12],
+      outputRange: [14, 12],
     }),
     color: animatedValue.interpolate({
       inputRange: [0, 1],

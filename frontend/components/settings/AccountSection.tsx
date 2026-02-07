@@ -24,6 +24,12 @@ const AccountSection = ({user}: AccountSectionProps) => {
                     title="Nombre de Usuario" 
                     iconName="person-circle-outline"
                     value={user?.username || 'Usuario invitado'} 
+                />
+                <SettingsLink 
+                    title="Controles de datos" 
+                    iconName="settings-outline"
+                    value={user?.email || ''} 
+                    link={'storage'}
                     last
                 />
             </View>
@@ -50,12 +56,6 @@ const AccountSection = ({user}: AccountSectionProps) => {
                     title="Correo Electrónico" 
                     iconName="mail-outline"
                     value={user?.email || ''} 
-                />
-                <SettingsLink
-                    title="Cambiar datos personales" 
-                    iconName="pencil-outline"
-                    value={user?.email || ''} 
-                    link={'change-personal-info'}
                 />
                 <SettingsLink 
                     title="Controles de datos" 

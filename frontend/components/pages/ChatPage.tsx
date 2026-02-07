@@ -6,7 +6,7 @@ import { Message, MessageOption, Role } from '@/utils/interfaces';
 import userService from '@/utils/userService';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, useColorScheme } from 'react-native';
+import { ActivityIndicator, Alert, Platform, useColorScheme, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
 import ChatMessage from '@/components/ChatMessage';
@@ -16,6 +16,7 @@ import { AnchorItem, StreamingItem, StreamingMessageListRef } from 'react-native
 import { addChat, addMessage, changeChatTitle, getMessages } from '@/utils/database';
 import { useLocalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
+
 import WelcomeScreenPage from './WelcomeScreenPage';
 
 import MessageListPage from './MessageListPage';
@@ -28,7 +29,7 @@ const IndexChatPage = () => {
   const colorScheme = useColorScheme()
   const { t } = useTranslation();
   const { registerResetHandler, setActiveChatId, getIsIncognito, setIsIncognito } = useChatContext();
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const navigation = useNavigation();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
@@ -37,7 +38,8 @@ const IndexChatPage = () => {
   const [currentOptions, setCurrentOptions] = useState<MessageOption[][] | undefined>(undefined);
   const [chatInitialized, setChatInitialized] = useState(false);
   const [firstLoad, setFirstLoad] = useState(false);
-  const db = useSQLiteContext();
+  const [loadingMessages, setLoadingMessages] = useState(false);
+  const db = Platform.OS !== 'web' ? useSQLiteContext() : null;
   const listRef = useRef<StreamingMessageListRef>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
   
@@ -68,9 +70,12 @@ const IndexChatPage = () => {
   }, [id, setActiveChatId]);
 
   useEffect(() => {
-    if (id) {
+    if (id && db) {
+      setLoadingMessages(true);
       getMessages(db, parseInt(id)).then((res) => {
         setMessages(res);
+      }).finally(() => {
+        setLoadingMessages(false);
       });
     }
   }, [id, db]);
@@ -84,7 +89,9 @@ const IndexChatPage = () => {
     if (!chatInitialized) {
       handleOptionSelect('START');
       id = chatId.split('_')[1];
-      changeChatTitle(db, parseInt(id), "Nuevo Chat");
+      if (db) {
+        changeChatTitle(db, parseInt(id), "Nuevo Chat");
+      }
     }
   }, [chatInitialized]);
 
@@ -112,16 +119,18 @@ const IndexChatPage = () => {
       return;
     }
     
-    if (callbackData === 'U1') {
-      addChat(db, 'Nuevo Chat', chatIdNum, "urgent");
+    const currentUserId = user?.id || null;
+    
+    if (callbackData === 'U1' && db) {
+      addChat(db, 'Nuevo Chat', chatIdNum, "urgent", currentUserId);
       console.log("Saving urgent chat...");
       if (token) {
         userService.saveChat(chatIdNum, 'urgent', token).catch(console.error);
       }
     }
     
-    if (callbackData === 'I1') {
-      addChat(db, 'Nuevo Chat', chatIdNum, "information");
+    if (callbackData === 'I1' && db) {
+      addChat(db, 'Nuevo Chat', chatIdNum, "information", currentUserId);
       if (token) {
         userService.saveChat(chatIdNum, 'information', token).catch(console.error);
       }
@@ -151,7 +160,7 @@ const IndexChatPage = () => {
       };
       setMessages(prev => [...prev, headerMessage]);
       const isIncognito = getIsIncognito();
-      if (!isIncognito){
+      if (!isIncognito && db){
       Promise.all([
         addMessage(db, parseInt(chatId.split('_')[1]), userMessage),
         addMessage(db, parseInt(chatId.split('_')[1]), headerMessage)
@@ -182,9 +191,11 @@ const IndexChatPage = () => {
 
       if (chatInitialized) {
         setMessages(prev => [...prev, botResponse]);
-        addMessage(db, parseInt(chatId.split('_')[1]), botResponse);
-        const cleanedContent = botResponse.content.replace(/\*/g, '').split('\n')[0];
-        changeChatTitle(db, parseInt(chatId.split('_')[1]), cleanedContent.slice(0, 30) + '...');
+        if (db) {
+          addMessage(db, parseInt(chatId.split('_')[1]), botResponse);
+          const cleanedContent = botResponse.content.replace(/\*/g, '').split('\n')[0];
+          changeChatTitle(db, parseInt(chatId.split('_')[1]), cleanedContent.slice(0, 30) + '...');
+        }
       }
 
     } catch (error) {
@@ -230,6 +241,14 @@ const IndexChatPage = () => {
   };
 
   const openDrawer = () => { navigation.dispatch(DrawerActions.openDrawer()); }
+
+  if (loadingMessages) {
+    return (
+      <View className="flex-1 justify-center items-center bg-[#F5F5F5]">
+        <ActivityIndicator size="large" color="#000000" />
+      </View>
+    );
+  }
 
   if (messages.length !== 0 && chatInitialized) {
     return (

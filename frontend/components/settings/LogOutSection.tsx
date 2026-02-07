@@ -29,7 +29,7 @@ const LogOutSection = () => {
         <View className=" rounded-[28px]">
             <View className="bg-white rounded-[40px] px-4">
                 {!isSignedIn ? (
-                <View className="mb-6">
+                <View className="mb-3">
                 <View className="mt-3 rounded-xl  p-4 bg-white dark:bg-[#1C1C1E] gap-5">
                     <TouchableOpacity className="flex flex-row items-center" onPress={handleLeave}>
                     <Ionicons name="log-out-outline" className="w-[10%]" size={20} color={colorScheme === 'dark' ? '#D1D5DB' : '#4B5563'} />
@@ -38,7 +38,7 @@ const LogOutSection = () => {
                 </View>
                 </View>
                 ):(
-                <View className="mb-6">
+                <View className="mb-3">
                     <View className="mt-3 rounded-xl  p-4 bg-white dark:bg-[#1C1C1E] gap-5">
                         <TouchableOpacity 
                             className="flex flex-row items-center" 

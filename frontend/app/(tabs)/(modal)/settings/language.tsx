@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { Alert, ScrollView, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { Platform, ScrollView, useColorScheme, View } from 'react-native';
 
 import { setLocale } from '@/app/i18n/i18n.config';
 import Text from '@/components/common/Text';
-import SettingsSwitch from '@/components/settings/SettingsSwitch';
-import { createDatabase, deleteDatabase } from '@/utils/database';
 import { Picker } from '@react-native-picker/picker';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 const SettingsPage = () => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
-  const db = useSQLiteContext();
+  const db = Platform.OS !== 'web' ? useSQLiteContext() : null;
   const [selectedLanguage, setSelectedLanguage] = useState('es');
   
   const locales = [

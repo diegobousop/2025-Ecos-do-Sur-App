@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, { Path, Circle, Defs, Pattern, Use, Image, SvgProps } from "react-native-svg"
+import Svg, { Circle, Defs, Image, Path, Pattern, SvgProps, Use } from "react-native-svg";
 
 export const svgIcons = {
   StepIcon: (props: SvgProps) => (
@@ -174,6 +174,54 @@ export const svgIcons = {
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
+      />
+    </Svg>
+  ),
+
+  TrashIcon: (props: SvgProps) => (
+    <Svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M4.917 6.003a1 1 0 011.08.914l.849 10.248A2 2 0 008.839 19h6.322a2 2 0 001.993-1.834l.85-10.249a1 1 0 011.993.166l-.85 10.247A4 4 0 0115.162 21H8.84a4 4 0 01-3.987-3.67l-.85-10.247a1 1 0 01.914-1.08z"
+        fill={props.color || "#000"}
+      />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M3 7a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm7 2a1 1 0 011 1v6a1 1 0 01-2 0v-6a1 1 0 011-1zm4 0a1 1 0 011 1v4a1 1 0 01-2 0v-4a1 1 0 011-1z"
+        fill={props.color || "#000"}
+      />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M10.441 5a1 1 0 00-.948.684L8.95 7.316a1 1 0 01-1.898-.632l.544-1.633A3 3 0 0110.441 3h3.117a3 3 0 012.846 2.051l.545 1.633a1 1 0 11-1.898.632l-.544-1.632A1 1 0 0013.56 5H10.441z"
+        fill={props.color || "#000"}
+      />
+    </Svg>
+  ),
+
+  PinIcon : (props: SvgProps) => (
+  <Svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M16.735 6.505a2 2 0 00-2.615-.186l-2.913 2.185a9 9 0 01-4.127 1.71l-2.177.31c-.73.105-1.265.891-.913 1.662.331.723 1.385 2.63 4.36 5.72l-4.178 4.178a1 1 0 101.414 1.414l4.178-4.178c3.091 2.975 4.997 4.03 5.72 4.36.77.352 1.557-.183 1.661-.913l.311-2.177a9 9 0 011.71-4.127l2.184-2.913a2 2 0 00-.186-2.615l-4.429-4.43zM15.32 7.92l4.43 4.43-2.184 2.914a11 11 0 00-2.09 5.044l-.143 1.001c-.98-.624-2.603-1.837-4.869-4.103-2.264-2.266-3.478-3.888-4.102-4.868l1-.143a11 11 0 005.045-2.09L15.32 7.92z"
+        fill="#000"
       />
     </Svg>
   ),

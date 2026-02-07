@@ -1,7 +1,8 @@
 import Text from '@/components/common/Text';
+import { useAuth } from '@/contexts/AuthContext';
 import userService from '@/utils/userService';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Dimensions, RefreshControl, ScrollView, useColorScheme, View } from 'react-native';
+import { ActivityIndicator, Dimensions, RefreshControl, ScrollView, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { BarChart, LineChart, PieChart } from 'react-native-chart-kit';
 
 interface ConversationStats {
@@ -11,13 +12,17 @@ interface ConversationStats {
     info: number;
   };
   conversationsByUser: { userId: string; count: number }[];
-  dailyConversations: { date: string; count: number }[];
+  dailyConversationsUrgent: { date: string; count: number }[];
+  dailyConversationsInfo: { date: string; count: number }[];
+  timeRange: string;
 }
 
 const AnalyticsPage = () => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [stats, setStats] = useState<ConversationStats | null>(null);
+  const [timeRange, setTimeRange] = useState<'7days' | '30days' | '365days'>('7days');
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const screenWidth = Dimensions.get('window').width;
@@ -25,6 +30,12 @@ const AnalyticsPage = () => {
   useEffect(() => {
     loadAnalytics();
   }, []);
+
+  useEffect(() => {
+    if (user?.id) {
+      loadAnalytics();
+    }
+  }, [timeRange]);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -36,67 +47,23 @@ const AnalyticsPage = () => {
     try {
       setLoading(true);
       
-      // Obtener usuarios con sus estadísticas agregadas
-      const usersResponse = await userService.getAllUsers(1, 100);
-      const users = usersResponse.users;
-      
-      if (!users || users.length === 0) {
-        console.warn('No users found');
+      if (!user?.id) {
+        console.warn('No user ID available');
         setStats({
           totalConversations: 0,
           conversationsByType: { urgent: 0, info: 0 },
           conversationsByUser: [],
-          dailyConversations: [],
+          dailyConversationsUrgent: [],
+          dailyConversationsInfo: [],
+          timeRange: '7days'
         });
         return;
       }
+
+      // Obtener estadísticas del endpoint user-stats con el rango de tiempo
+      const statsData = await userService.getUserStats(user.id, timeRange);
       
-      // Calcular estadísticas basadas en los datos agregados de cada usuario
-      const totalConversations = users.reduce((sum, user) => sum + (user.numberOfChats || 0), 0);
-      const totalUrgent = users.reduce((sum, user) => sum + (user.numberOfUrgentChats || 0), 0);
-      const totalInfo = users.reduce((sum, user) => sum + (user.numberOfInformationChats || 0), 0);
-
-      const conversationsByType = {
-        urgent: totalUrgent,
-        info: totalInfo,
-      };
-
-      console.log('Conversations by type:', conversationsByType);
-
-      // Top 5 usuarios con más conversaciones
-      const conversationsByUser = users
-        .filter(u => u.numberOfChats > 0)
-        .map(u => ({ 
-          userId: u.userName, 
-          count: u.numberOfChats 
-        }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 5);
-
-      console.log('Top users:', conversationsByUser);
-
-      // Para el gráfico de días, generar datos simulados o vacíos 
-      // (no tenemos acceso a fechas individuales sin las conversaciones)
-      const today = new Date();
-      const dailyConversations = [];
-      for (let i = 6; i >= 0; i--) {
-        const date = new Date(today);
-        date.setDate(date.getDate() - i);
-        const dateStr = date.toISOString().split('T')[0];
-        
-        dailyConversations.push({
-          date: dateStr.slice(5), // MM-DD
-          count: 0, // No podemos calcular esto sin las conversaciones individuales
-        });
-      }
-
-      const finalStats = {
-        totalConversations,
-        conversationsByType,
-        conversationsByUser,
-        dailyConversations,
-      };
-      setStats(finalStats);
+      setStats(statsData);
     } catch (error) {
       console.error('Error loading analytics:', error);
     } finally {
@@ -114,7 +81,7 @@ const AnalyticsPage = () => {
     decimalPlaces: 0,
     labelColor: () => (isDark ? '#d1d5db' : '#374151'),
     propsForLabels: {
-      fontSize: 12,
+      fontSize: 10,
     },
   };
 
@@ -152,60 +119,177 @@ const AnalyticsPage = () => {
         {/* Conversaciones por tipo */}
         <View className="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-200 dark:border-gray-700">
           <Text className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Conversaciones por Tipo</Text>
-          <PieChart
-            data={[
-              {
-                name: 'Urgente',
-                population: stats.conversationsByType.urgent,
-                color: '#ef4444',
-                legendFontColor: isDark ? '#d1d5db' : '#374151',
-                legendFontSize: 12,
-              },
-              {
-                name: 'Info',
-                population: stats.conversationsByType.info,
-                color: '#3b82f6',
-                legendFontColor: isDark ? '#d1d5db' : '#374151',
-                legendFontSize: 12,
-              },
-            ]}
-            width={screenWidth - 60}
-            height={220}
-            chartConfig={chartConfig}
-            accessor="population"
-            backgroundColor="transparent"
-            paddingLeft="15"
-            absolute
-          />
+          {stats.conversationsByType.urgent === 0 && stats.conversationsByType.info === 0 ? (
+            <View className="h-[220px] justify-center items-center">
+              <Text className="text-gray-500 dark:text-gray-400">No hay conversaciones registradas</Text>
+            </View>
+          ) : (
+            <PieChart
+              data={[
+                {
+                  name: 'Urgente',
+                  population: stats.conversationsByType.urgent || 1,
+                  color: '#ef4444',
+                  legendFontColor: isDark ? '#d1d5db' : '#374151',
+                  legendFontSize: 12,
+                },
+                {
+                  name: 'Info',
+                  population: stats.conversationsByType.info || 1,
+                  color: '#3b82f6',
+                  legendFontColor: isDark ? '#d1d5db' : '#374151',
+                  legendFontSize: 12,
+                },
+              ]}
+              width={screenWidth - 60}
+              height={220}
+              chartConfig={chartConfig}
+              accessor="population"
+              backgroundColor="transparent"
+              paddingLeft="15"
+              absolute
+            />
+          )}
         </View>
 
-        {/* Conversaciones diarias (últimos 7 días) */}
+        {/* Selector de rango de tiempo */}
+        <View className="flex-row gap-2 justify-center">
+          <TouchableOpacity
+            onPress={() => setTimeRange('7days')}
+            className={`px-4 py-2 rounded-full ${
+              timeRange === '7days' 
+                ? 'bg-blue-500' 
+                : 'bg-gray-200 dark:bg-gray-700'
+            }`}
+          >
+            <Text className={`font-semibold ${
+              timeRange === '7days' 
+                ? 'text-white' 
+                : 'text-gray-700 dark:text-gray-300'
+            }`}>7 Días</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            onPress={() => setTimeRange('30days')}
+            className={`px-4 py-2 rounded-full ${
+              timeRange === '30days' 
+                ? 'bg-blue-500' 
+                : 'bg-gray-200 dark:bg-gray-700'
+            }`}
+          >
+            <Text className={`font-semibold ${
+              timeRange === '30days' 
+                ? 'text-white' 
+                : 'text-gray-700 dark:text-gray-300'
+            }`}>30 Días</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            onPress={() => setTimeRange('365days')}
+            className={`px-4 py-2 rounded-full ${
+              timeRange === '365days' 
+                ? 'bg-blue-500' 
+                : 'bg-gray-200 dark:bg-gray-700'
+            }`}
+          >
+            <Text className={`font-semibold ${
+              timeRange === '365days' 
+                ? 'text-white' 
+                : 'text-gray-700 dark:text-gray-300'
+            }`}>1 Año</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Conversaciones urgentes por período */}
         <View className="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-200 dark:border-gray-700">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Últimos 7 Días</Text>
-          <LineChart
-            data={{
-              labels: stats.dailyConversations.map(d => d.date),
-              datasets: [
-                {
-                  data: stats.dailyConversations.map(d => d.count),
+          <Text className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Conversaciones Urgentes - {timeRange === '7days' ? 'Últimos 7 Días' : timeRange === '30days' ? 'Último Mes' : 'Último Año'}
+          </Text>
+          <View style={{ borderRadius: 16, overflow: 'hidden' }}>
+            <LineChart
+              data={{
+                labels: (stats.dailyConversationsUrgent && stats.dailyConversationsUrgent.length > 0) 
+                  ? stats.dailyConversationsUrgent.map((d, i) => {
+                      // Para 30 días, mostrar cada 5 días
+                      if (timeRange === '30days' && i % 5 !== 0) return '';
+                      // Para 1 año, mostrar cada 30 días
+                      if (timeRange === '365days' && i % 30 !== 0) return '';
+                      return d.date;
+                    })
+                  : [''],
+                datasets: [
+                  {
+                    data: (stats.dailyConversationsUrgent && stats.dailyConversationsUrgent.length > 0) 
+                      ? stats.dailyConversationsUrgent.map(d => Math.max(d.count, 0))
+                      : [0],
+                  },
+                ],
+              }}
+              width={screenWidth - 92}
+              height={220}
+              chartConfig={{
+                ...chartConfig,
+                color: (opacity = 1) => `rgba(239, 68, 68, ${opacity})`,
+                propsForDots: {
+                  r: '6',
+                  strokeWidth: '2',
+                  stroke: '#ef4444',
                 },
-              ],
-            }}
-            width={screenWidth - 60}
-            height={220}
-            chartConfig={{
-              ...chartConfig,
-              propsForDots: {
-                r: '6',
-                strokeWidth: '2',
-                stroke: '#3b82f6',
-              },
-            }}
-            bezier
-            style={{
-              borderRadius: 16,
-            }}
-          />
+              }}
+              bezier
+              style={{
+                borderRadius: 16,
+              }}
+              yAxisInterval={1}
+              fromZero
+            />
+          </View>
+        </View>
+
+        {/* Conversaciones informativas por período */}
+        <View className="flex bg-white dark:bg-gray-800 p-4
+         rounded-2xl border border-gray-200 dark:border-gray-700">
+          <Text className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Conversaciones Informativas - {timeRange === '7days' ? 'Últimos 7 Días' : timeRange === '30days' ? 'Último Mes' : 'Último Año'}
+          </Text>
+          <View style={{ borderRadius: 16, overflow: 'hidden' }}>
+            <LineChart
+              data={{
+                labels: (stats.dailyConversationsInfo && stats.dailyConversationsInfo.length > 0) 
+                  ? stats.dailyConversationsInfo.map((d, i) => {
+                      // Para 30 días, mostrar cada 5 días
+                      if (timeRange === '30days' && i % 5 !== 0) return '';
+                      // Para 1 año, mostrar cada 30 días
+                      if (timeRange === '365days' && i % 30 !== 0) return '';
+                      return d.date;
+                    })
+                  : [''],
+                datasets: [
+                  {
+                    data: (stats.dailyConversationsInfo && stats.dailyConversationsInfo.length > 0) 
+                      ? stats.dailyConversationsInfo.map(d => Math.max(d.count, 0))
+                      : [0],
+                  },
+                ],
+              }}
+              width={screenWidth - 92}
+              height={220}
+              chartConfig={{
+                ...chartConfig,
+                propsForDots: {
+                  r: '6',
+                  strokeWidth: '2',
+                  stroke: '#3b82f6',
+                },
+              }}
+              bezier
+              style={{
+                borderRadius: 16,
+              }}
+              yAxisInterval={1}
+              fromZero
+            />
+          </View>
         </View>
 
         {stats.conversationsByUser.length > 0 && (
@@ -221,7 +305,7 @@ const AnalyticsPage = () => {
                   },
                 ],
               }}
-              width={screenWidth - 60}
+              width={screenWidth - 92}
               height={220}
               chartConfig={chartConfig}
               style={{

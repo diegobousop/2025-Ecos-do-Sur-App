@@ -347,8 +347,6 @@ cd frontend && npm test
 - `POST /api/check-user` - Verificar existencia de usuario
 - `POST /api/update-username` - Actualizar nome de usuario
 
-### Conversacións
-- `GET /api/conversations/:user_id` - Obter conversacións con filtros
 
 ---
 

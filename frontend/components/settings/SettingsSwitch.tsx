@@ -7,9 +7,10 @@ interface SettingsSwitchProps {
   title: string;
   value?: boolean;
   onValueChange?: (value: boolean) => void;
+  disabled?: boolean;
 }
 
-const SettingsSwitch = ({ title, value: externalValue, onValueChange }: SettingsSwitchProps) => {
+const SettingsSwitch = ({ title, value: externalValue, onValueChange, disabled = false }: SettingsSwitchProps) => {
   const [isEnabled, setIsEnabled] = useState(externalValue ?? false);
 
   // Sincronizar con el valor externo cuando cambie
@@ -26,10 +27,11 @@ const SettingsSwitch = ({ title, value: externalValue, onValueChange }: Settings
 
   return (
     <View className=" bg-white flex flex-row justify-between items-center px-8 py-7 rounded-full">
-      <Text className="text-lg">{title}</Text>
+      <Text className="text-lg" style={{ opacity: disabled ? 0.5 : 1 }}>{title}</Text>
       <Switch
         value={isEnabled}
         onValueChange={toggleSwitch}
+        disabled={disabled}
       />
     </View>
   )

@@ -56,6 +56,22 @@ class UserService {
         }
     }
 
+    async getUserStats(userId: string, timeRange: string = '7days') {
+        try {
+            const response = await fetch(getApiUrl('USER_STATS') + `?userId=${encodeURIComponent(userId)}&timeRange=${timeRange}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            return response.json();
+        }
+        catch (error) {
+            console.error('Error fetching user stats:', error);
+            throw error;
+        }
+    }
+
     async getUserConversations(userId: string, page: number = 1, limit: number = 20, includeMessages: boolean = false) {
         try {
             const messagesParam = includeMessages ? '&include_messages=true' : '';

@@ -1,10 +1,12 @@
+import { svgIcons } from '@/constants/icons';
+import { deleteChat, togglePinChat } from '@/utils/database';
 import { Chat } from '@/utils/interfaces';
+import { useSQLiteContext } from 'expo-sqlite';
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Modal, Platform, Pressable, TouchableOpacity, View } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Text from '../common/Text';
-import { svgIcons } from '@/constants/icons';
-import { useTranslation } from 'react-i18next';
 
 interface ChatHistoryProps {
   onSelectChat: (chatId: number) => void;
@@ -13,13 +15,49 @@ interface ChatHistoryProps {
   loadChats: () => Promise<void>;
 }
 
-const ChatHistory = ({ onSelectChat, activeChatId, history }: ChatHistoryProps) => {
+const ChatHistory = ({ onSelectChat, activeChatId, history, loadChats }: ChatHistoryProps) => {
   const { t } = useTranslation();
   const [hideChats, setHideChats] = React.useState(false);
+  const [menuVisible, setMenuVisible] = React.useState(false);
+  const [selectedChatId, setSelectedChatId] = React.useState<number | null>(null);
+  const db = Platform.OS !== 'web' ? useSQLiteContext() : null;
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: withTiming(hideChats ? '-90deg' : '0deg', { duration: 300 }) }],
   }));
+
+  const handleLongPress = (chatId: number) => {
+    setSelectedChatId(chatId);
+    setMenuVisible(true);
+  };
+
+  const handleDelete = async () => {
+    if (selectedChatId !== null && db) {
+      try {
+        await deleteChat(db, selectedChatId);
+        await loadChats();
+        console.log('Conversación eliminada:', selectedChatId);
+      } catch (error) {
+        console.error('Error al eliminar conversación:', error);
+      }
+    }
+    setMenuVisible(false);
+  };
+
+  const handleTogglePin = async () => {
+    if (selectedChatId !== null && db) {
+      try {
+        const selectedChat = history.find(chat => chat.id === selectedChatId);
+        const newFixedState = !selectedChat?.isFixed;
+        await togglePinChat(db, selectedChatId, newFixedState);
+        await loadChats();
+        console.log('Conversación fijada/desfijada:', selectedChatId, newFixedState);
+      } catch (error) {
+        console.error('Error al fijar/desfijar conversación:', error);
+      }
+    }
+    setMenuVisible(false);
+  };
 
   const formatDate = (dateInput?: string | number | null) => {
     if (dateInput == null || dateInput === '') return '';
@@ -77,7 +115,7 @@ const ChatHistory = ({ onSelectChat, activeChatId, history }: ChatHistoryProps) 
   }
 
   return (
-    <View className="p-5">
+    <View className="p-5 pt-0">
       <View className="flex flex-row justify-between items-center px-6 mb-8">
         <Text
           style={{
@@ -101,22 +139,60 @@ const ChatHistory = ({ onSelectChat, activeChatId, history }: ChatHistoryProps) 
           onPress={() => {
             onSelectChat(chat.id);
           }}
+          onLongPress={() => handleLongPress(chat.id)}
           className={`mb-4 p-2 rounded-[25px] ${chat.id === activeChatId ? 'bg-[#DCF0FF]' : 'bg-white'}`}
         >
-          <View className="flex flex-row items-center gap-3">
+          <View className="flex flex-row items-center gap-3 flex-1">
             {chat.type === 'urgent' && (
               <svgIcons.UrgentIcon width={20} height={20}  />
             )}
             {chat.type === 'information' && (
               <svgIcons.InformationIcon width={20} height={20}  />
             )}
-            <View className="flex flex-col ml-1">
+            <View className="flex flex-col ml-1 flex-1">
               <Text className="text-lg font-semibold">{chat.title}</Text>
               <Text className="text-sm text-gray-600 mt-1">{formatDate(chat.createdAt ?? chat.updatedAt)}</Text>
             </View>
+            {chat.isFixed && (
+              <View className="mr-2">
+                <svgIcons.PinIcon width={18} height={18} color="#9E9E9E" />
+              </View>
+            )}
           </View>
         </TouchableOpacity>
       ))}
+
+      <Modal
+        visible={menuVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setMenuVisible(false)}
+      >
+        <Pressable 
+          className="flex-1 bg-black/50 justify-center items-center"
+          onPress={() => setMenuVisible(false)}
+        >
+          <View className="bg-white rounded-2xl w-[80%] overflow-hidden">
+      
+            <TouchableOpacity
+              onPress={handleTogglePin}
+              className="flex-row items-center p-4 py-6"
+            >
+              <svgIcons.PinIcon width={25} height={25} color="#000000" />
+              <Text className="ml-5 text-base text-black">
+                {history.find(chat => chat.id === selectedChatId)?.isFixed ? 'Desfijar conversación' : 'Fijar conversación'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleDelete}
+              className="flex-row items-center p-4 py-6"
+            >
+              <svgIcons.TrashIcon width={25} height={25} color="#FF0000" />
+              <Text className="ml-5 text-base text-red-500">Eliminar conversación</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </Modal>
     </View>
   );
 };
