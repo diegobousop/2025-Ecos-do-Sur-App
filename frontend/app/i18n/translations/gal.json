@@ -53,6 +53,10 @@
     "drawer.delete_title": "Confirmar",
     "drawer.delete_message": "¿Estás seguro de que desexas eliminar todo o historial de chat?",
 
+    "chat.message.hate_speech_rs": "Discurso de odio nas redes sociais",
+    "chat.message.protected_hate": "Odio protexido",
+    "chat.message.hate_crime": "Delito de odio",
+
 
     "settings.account": "Conta",
     "settings.email": "Correo electrónico",

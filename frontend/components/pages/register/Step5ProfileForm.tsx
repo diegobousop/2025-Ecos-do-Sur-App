@@ -4,7 +4,7 @@ import Text from '@/components/common/Text';
 import SubmitButton from '@/components/SubmitButton';
 import { View } from 'react-native';
 
-type Language = 'es' | 'gl' | 'en';
+type Language = 'es' | 'gal' | 'en';
 type Gender = 'male' | 'female' | 'other' | 'prefer_not_say';
 
 interface Step4ProfileFormProps {

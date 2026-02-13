@@ -1,15 +1,14 @@
-import { Platform, TouchableOpacity, View } from 'react-native'
-import React from 'react'
 import Text from '@/components/common/Text'
-import { useAuth } from '@/contexts/AuthContext'
-import SettingsLink from './SettingsLink'
-import SettingsOption from './SettingsOption'
 import { svgIcons } from '@/constants/icons'
+import { useAuth } from '@/contexts/AuthContext'
 import { Ionicons } from '@expo/vector-icons'
-import { Linking } from 'react-native'
+import React from 'react'
+import { Linking, Platform, TouchableOpacity, View, useColorScheme } from 'react-native'
+import SettingsLink from './SettingsLink'
 
 const AccountSection = () => {
     const { user } = useAuth();
+    const colorScheme = useColorScheme();
 
     const handleOpenAppSettings = () => {
         if (Platform.OS === 'ios') {
@@ -22,25 +21,35 @@ const AccountSection = () => {
 
     return (
         <View className=" rounded-[28px]">
-            <Text className="font-sans-bold text-textSecondary ml-8 mb-2">Aplicación</Text>
-            <View className="bg-white py-8 rounded-[40px] px-4">
+            <Text className={`font-sans-bold ml-8 mb-2 ${colorScheme === 'dark' ? 'text-gray-400' : 'text-textSecondary'}`}>
+                Aplicación
+            </Text>
+            <View className={`${colorScheme === 'dark' ? 'bg-[#262626]' : 'bg-white'} py-8 rounded-[40px] px-4`}>
                 <SettingsLink 
                     title="Idioma" 
                     iconName="language-outline"
-                    value={user?.email || ''} 
+                    value={''} 
                     link={'language'}
                 />
 
                 <TouchableOpacity
-                className="bg-white"
+                className={colorScheme === 'dark' ? 'bg-[#262626]' : 'bg-white'}
                 onPress={() => handleOpenAppSettings()}
                 >
                     <View className="flex flex-row items-center justify-between px-4  text-right">
-                        <Ionicons className="w-[10%]" name="notifications-outline" size={20} color="black" />
-                        <Text className="text-left w-[85%] text-lg">Notificaciones</Text>
+                        <Ionicons 
+                            className="w-[10%]" 
+                            name="notifications-outline" 
+                            size={20} 
+                            color={colorScheme === 'dark' ? 'white' : 'black'} 
+                        />
+                        <Text 
+                            className={`text-left w-[85%] text-lg ${colorScheme === 'dark' ? 'text-white' : 'text-textSecondary'}`}>
+                                Notificaciones
+                        </Text>
                         <svgIcons.ArrowIcon
                         className="w-[5%]"
-                        stroke="#000000"
+                        stroke={colorScheme === 'dark' ? '#FFFFFF' : '#000000'}
                         style={{ transform: [{ rotate: '-90deg' }] }}
                         />
                     </View>

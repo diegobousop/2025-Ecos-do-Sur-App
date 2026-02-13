@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "426473110389",
+    "project_id": "ecosexpopushnotifications",
+    "storage_bucket": "ecosexpopushnotifications.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426473110389:android:9e58d1dfc000dca4fbf13c",
+        "android_client_info": {
+          "package_name": "com.diego.bouso.EcosBot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ9FQT6ITe1S5Ym3FsaRdHHYAm_eVEJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -37,44 +37,12 @@ O racismo e a xenofobia en 2026 seguen sendo problemas críticos que afectan a t
 
 ---
 
-## 💻 Pantallas de mostra
+
 
 <div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <img src="assets/readme/1.png" width="200" alt="Pantalla 1" />
-      </td>
-      <td align="center">
-        <img src="assets/readme/2.jpg" width="200" alt="Pantalla 2" />
-      </td>
-      <td align="center">
-        <img src="assets/readme/3.jpg" width="200" alt="Pantalla 3" />
-      </td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/readme/4.jpg" width="200" alt="Pantalla 4" />
-      </td>
-      <td align="center">
-        <img src="assets/readme/5.jpg" width="200" alt="Pantalla 5" />
-      </td>
-      <td align="center">
-        <img src="assets/readme/6.jpg" width="200" alt="Pantalla 6" />
-      </td>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="assets/readme/7.jpg" width="200" alt="Pantalla 7" />
-      </td>
-      <td align="center">
-        <img src="assets/readme/8.jpg" width="200" alt="Pantalla 8" />
-      </td>
-      <td align="center">
-        <img src="assets/readme/9.png" width="200" alt="Pantalla 9" />
-      </td>
-    </tr>
-  </table>
+  <img src="assets/readme/multiplatform.png" width="800" alt="Multiplataforma" />
+  <br/><br/>
+  <img src="assets/readme/presentacion-git.png" alt="Presentación" />
 </div>
 
 

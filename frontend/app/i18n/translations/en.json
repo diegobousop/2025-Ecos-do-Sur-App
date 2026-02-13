@@ -48,6 +48,10 @@
     "chat.message.answer_nine": "Question 9",
     "chat.message.answer_ten": "Question 10",
 
+    "chat.message.hate_speech_rs": "Hate speech on social media",
+    "chat.message.protected_hate": "Protected hate",
+    "chat.message.hate_crime": "Hate crime",
+
     "drawer.promo_text": "Save your conversations with Ecosbot and customize your experience",
     "drawer.register_or_login": "Register or login",
     "drawer.no_conversations": "No saved conversations",

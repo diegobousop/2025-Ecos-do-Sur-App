@@ -8,7 +8,6 @@ export type Props = {
     items: Array<{
         key: string;
         title: string;
-
     }>;
     onSelect: (key: string) => void;
 }

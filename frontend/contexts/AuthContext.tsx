@@ -1,5 +1,4 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Platform } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 
 export type AuthUser = {

@@ -1,26 +1,16 @@
-import React, { useState } from 'react';
-import { Platform, ScrollView, useColorScheme, View } from 'react-native';
+import React from 'react';
+import { ScrollView, useColorScheme, View } from 'react-native';
 
 import { setLocale } from '@/app/i18n/i18n.config';
+import LanguageSelector from '@/components/common/LanguageSelector';
 import Text from '@/components/common/Text';
-import { Picker } from '@react-native-picker/picker';
-import { useSQLiteContext } from 'expo-sqlite';
 import { useTranslation } from 'react-i18next';
 
 const SettingsPage = () => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const colorScheme = useColorScheme();
-  const db = Platform.OS !== 'web' ? useSQLiteContext() : null;
-  const [selectedLanguage, setSelectedLanguage] = useState('es');
-  
-  const locales = [
-    { code: 'es', label: 'español' },
-    { code: 'en', label: 'english' },
-    { code: 'gal', label: 'galego' }
-  ];
 
   const handleLanguageChange = (value: string) => {
-    setSelectedLanguage(value);
     setLocale(value);
   };
   
@@ -30,19 +20,21 @@ const SettingsPage = () => {
         backgroundColor: colorScheme === 'dark' ? '#000' : '#F3F2F8' }} 
         contentContainerStyle={{ padding: 16, paddingTop: 110 }}
     >
-                  <Text className="font-sans-bold text-textSecondary ml-8 mb-2">Idioma</Text>
+    <Text 
+      className={`font-sans-bold ml-8 mb-2 ${colorScheme === 'dark' ? 'text-gray-400' : 'text-textSecondary'}`}>
+        {t('settings.language')}
+    </Text>
 
     <View className="flex flex-col gap-6">
       
-      <View className="bg-white px-8 py-4 rounded-[48px]">
-        <Picker
-          selectedValue={selectedLanguage}
-          onValueChange={handleLanguageChange}
-        >
-          {locales.map(locale => (
-            <Picker.Item key={locale.code} label={locale.label} value={locale.code} />
-          ))}
-        </Picker>
+      <View className={`${colorScheme === 'dark' ? 'bg-gray-800' : 'bg-white'} px-4 py-4 rounded-[48px]`}>
+        <Text className={`text-center mb-2 text-sm ${colorScheme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+          {t('settings.selectLanguage')}
+        </Text>
+        <LanguageSelector
+          selectedLanguage={i18n.language}
+          onSelect={handleLanguageChange}
+        />
       </View>
     </View>    
 

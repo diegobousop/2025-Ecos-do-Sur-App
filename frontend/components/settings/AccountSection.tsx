@@ -1,7 +1,6 @@
-import { View } from 'react-native'
-import React from 'react'
 import Text from '@/components/common/Text'
-import { useAuth } from '@/contexts/AuthContext'
+import React from 'react'
+import { View, useColorScheme } from 'react-native'
 import SettingsLink from './SettingsLink'
 import SettingsOption from './SettingsOption'
 
@@ -14,21 +13,27 @@ interface AccountSectionProps {
 }
 
 const AccountSection = ({user}: AccountSectionProps) => {
+    const colorScheme = useColorScheme();
     
     if (!user) {
         return (
             <View className=" rounded-[28px]">
-            <Text className="font-sans-bold text-textSecondary ml-8 mb-2">Cuenta</Text>
-            <View className="bg-white py-8 rounded-[40px] px-4">
+            <Text 
+                className={`font-sans-bold ml-8 mb-2 ${colorScheme === 'dark' ? 'text-gray-400' :
+                 'text-textSecondary'}`}>
+                Cuenta
+            </Text>
+            <View className={`${colorScheme === 'dark' ? 'bg-gray-800' :
+                 'bg-white'} py-8 rounded-[40px] px-4`}>
                 <SettingsOption 
                     title="Nombre de Usuario" 
                     iconName="person-circle-outline"
-                    value={user?.username || 'Usuario invitado'} 
+                    value={'Usuario invitado'} 
                 />
                 <SettingsLink 
                     title="Controles de datos" 
                     iconName="settings-outline"
-                    value={user?.email || ''} 
+                    value={''} 
                     link={'storage'}
                     last
                 />
@@ -40,12 +45,21 @@ const AccountSection = ({user}: AccountSectionProps) => {
     return (
         <View className=" rounded-[28px]">
             {user.role === 'admin' ? (
-                <Text className="font-sans-bold text-textSecondary ml-8 mb-2">Cuenta de Admin</Text>
+                <Text 
+                    className={`font-sans-bold ml-8 mb-2 ${colorScheme === 'dark' ? 'text-gray-400' :
+                     'text-textSecondary'}`}>
+                        Cuenta de Admin
+                </Text>
 
             ):(
-                <Text className="font-sans-bold text-textSecondary ml-8 mb-2">Cuenta</Text>
+                <Text 
+                    className={`font-sans-bold ml-8 mb-2 ${colorScheme === 'dark' ? 'text-gray-400' :
+                     'text-textSecondary'}`}>
+                        Cuenta
+                </Text>
             )}
-            <View className="bg-white py-8 rounded-[40px] px-4">
+            <View className={`${colorScheme === 'dark' ? 'bg-[#262626]' :
+                 'bg-white'} py-8 rounded-[40px] px-4`}>
                 <SettingsOption 
                     title="Nombre de Usuario" 
                     iconName="person-circle-outline"

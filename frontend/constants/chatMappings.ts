@@ -23,6 +23,10 @@ export const CHAT_MESSAGE_MAPPINGS: Record<string, string> = {
   'ECOS_INFORMATION': 'chat.message.ecos_information',
   'HATE_SPEECH_DEF': 'chat.message.hate_speech_definition',
 
+  'HATE_SPEECH_RS': 'chat.message.hate_speech_rs',
+  'PROTECTED_HATE': 'chat.message.protected_hate',
+  'HATE_CRIME': 'chat.message.hate_crime',
+
   'HEALTHCARE': 'chat.message.healthcare',
   'RESOURCES': 'chat.message.resources',
   'RENT': 'chat.message.rent',

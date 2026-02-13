@@ -7,12 +7,13 @@ type BubbleButtonProps = {
   onPress: () => void;
   additionalStyles?: string;
   svgIcon?: React.JSX.Element;
-  iconName?: keyof typeof Ionicons.glyphMap; // Permite pasar cualquier icono de Ionicons
+  iconName?: keyof typeof Ionicons.glyphMap; 
 }
 
 const BubbleButton = ({ onPress, additionalStyles, iconName = 'create-outline', svgIcon }: BubbleButtonProps) => {
   return (
-    <TouchableOpacity onPress={onPress} className={'absolute border-2 border-[#BCB6DC] rounded-full ' + additionalStyles}>
+    <TouchableOpacity onPress={onPress} className={'absolute border-2 border-[#BCB6DC] rounded-full ' +
+     additionalStyles}>
       <BlurView intensity={30} tint="light" style={styles.blur}>
         {svgIcon ? svgIcon : <Ionicons name={iconName} size={24} color="#4054A1" />}
       </BlurView>

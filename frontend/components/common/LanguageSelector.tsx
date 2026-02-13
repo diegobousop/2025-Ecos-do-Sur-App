@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 
-type LanguageCode = 'es' | 'en' | 'gl';
+type LanguageCode = 'es' | 'en' | 'gal';
 
 type LanguageSelectorProps = {
   selectedLanguage: string;
@@ -11,10 +11,10 @@ type LanguageSelectorProps = {
 const languageData: Record<LanguageCode, { flag: string; name: string }> = {
   es: { flag: '🇪🇸', name: 'Español' },
   en: { flag: '🇬🇧', name: 'English' },
-  gl: { flag: '🇪🇸', name: 'Galego' },
+  gal: { flag: '🇪🇸', name: 'Galego' },
 };
 
-const availableLanguages: LanguageCode[] = ['es', 'gl', 'en'];
+const availableLanguages: LanguageCode[] = ['es', 'gal', 'en'];
 
 const LanguageSelector: React.FC<LanguageSelectorProps> = ({ 
   selectedLanguage, 
@@ -46,7 +46,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
       {/* Galego */}
       <TouchableOpacity
-        onPress={() => onSelect('gl')}
+        onPress={() => onSelect('gal')}
       >
         <Image 
           source={require('@/assets/images/bandeira-galicia.png')} 
@@ -57,8 +57,8 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
           style={{ 
             marginBottom:2,
             fontSize: 12,
-            fontWeight: selectedLanguage === 'gl' ? '600' : '400',
-            color: selectedLanguage === 'gl'
+            fontWeight: selectedLanguage === 'gal' ? '600' : '400',
+            color: selectedLanguage === 'gal'
               ? (colorScheme === 'dark' ? '#fff' : '#4054A1') 
               : (colorScheme === 'dark' ? '#fff' : '#333'),
           }}

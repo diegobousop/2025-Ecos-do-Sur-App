@@ -59,7 +59,6 @@ export default function TabLayout() {
     </Stack>
   );
   
-  // Solo usar SQLiteProvider en plataformas nativas (iOS/Android)
   if (Platform.OS === 'web') {
     return content;
   }

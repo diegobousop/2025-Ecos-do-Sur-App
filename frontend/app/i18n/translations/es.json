@@ -47,8 +47,15 @@
     "drawer.promo_text": "Guarda tus conversaciones con Ecosbot y personaliza tu experiencia",
     "drawer.register_or_login": "Registrarse o Iniciar sesión",
     "drawer.no_conversations": "No hay conversaciones guardadas",
+
+    "chat.message.hate_speech_rs": "Discurso de odio en las redes sociales",
+    "chat.message.protected_hate": "Odio protegido",
+    "chat.message.hate_crime": "Delito de odio",
+
     "drawer.delete_title": "Confirmar",
     "drawer.delete_message": "¿Estás seguro de que deseas eliminar todo el historial de chat?",
+
+    
 
     "settings.account": "Cuenta",
     "settings.email": "Correo electrónico",

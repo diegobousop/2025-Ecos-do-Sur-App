@@ -2,7 +2,7 @@ import { DrawerContentScrollView, DrawerItemList, useDrawerStatus } from '@react
 import { Link, router } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View, useColorScheme } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,21 @@ const NewChatButton = () => {
   );
 };
 
+const DrawerLogo = () => {
+  const colorScheme = useColorScheme();
+  return (
+    <View>
+      <Image 
+        source={colorScheme === 'dark' 
+          ? require('@/assets/images/ecos-do-sur-logo-gray.png')
+          : require('@/assets/images/ecos-do-sur-logo-black.png')
+        } 
+        style={{ width: 28, height: 28 }} 
+      />
+    </View>
+  );
+};
+
 const DrawerMenuButton = () => {
   const navigation = useNavigation();
   const openDrawer = () => { navigation.dispatch(DrawerActions.openDrawer()); };
@@ -44,6 +59,7 @@ export const CustomDrawerContent = (props: any) => {
   const { user } = useAuth();
   const [activeChatId, setActiveChatId] = useState<number | null>(null);
   const { t } = useTranslation();
+  const colorScheme = useColorScheme();
   const isDrawerOpen = useDrawerStatus() === 'open';
   const [history, setHistory] = useState<Chat[]>([]);
   const db = useSQLiteContext();
@@ -113,19 +129,20 @@ export const CustomDrawerContent = (props: any) => {
           </View>
         )}
         
-        <Text className="text-center mb-4 text-gray-500">
+        <Text className={`text-center mb-4 ${colorScheme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
             2026 Ecos do Sur
         </Text>
       </ScrollView>
       <TouchableOpacity onPress={() => router.push('/(tabs)/(modal)/settings')} className="mb-20 mr-2 px-4 ml-4 ">
-        <View className=" bg-white border-2 border-[#BCB6DC] rounded-[60px] px-10 py-2">
-         
-              
-                <View className="flex flex-row items-center justify-between py-3">
-                  <Ionicons name="person-outline" size={24} color="black" />
-                  <Text>{user?.userName || 'Usuario invitado'}</Text>
-                  <Ionicons name="settings-outline" size={24} color="black" />
-                </View>
+        <View className={`${colorScheme === 'dark' ? 'bg-[#374151] border-gray-600' :
+           'bg-white border-[#BCB6DC]'} border-2 rounded-[60px] px-10 py-2`}>
+          <View className="flex flex-row items-center justify-between py-3">
+            <Ionicons name="person-outline" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
+            <Text style={{fontFamily: 'OpenSans_600SemiBold'}} className={`text-lg ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>
+              {user?.username || 'Usuario invitado'}
+            </Text>
+            <Ionicons name="settings-outline" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
+          </View>
         </View>
       </TouchableOpacity>
       
@@ -138,14 +155,15 @@ export const CustomDrawerContent = (props: any) => {
 const Layout = () => {
   const { user } = useAuth();
   const { t } = useTranslation();
+  const colorScheme = useColorScheme();
   return (
     <ChatProvider>
       <Drawer
         drawerContent={CustomDrawerContent}
         screenOptions={{
-          drawerActiveTintColor: '#000000', 
-          drawerInactiveTintColor: '#000000', 
-          drawerActiveBackgroundColor: '#F3F3F3', 
+          drawerActiveTintColor: colorScheme === 'dark' ? '#FFFFFF' : '#000000', 
+          drawerInactiveTintColor: colorScheme === 'dark' ? '#9CA3AF' : '#000000', 
+          drawerActiveBackgroundColor: colorScheme === 'dark' ? '#374151' : '#F3F3F3', 
           drawerInactiveBackgroundColor: 'transparent',
           
        
@@ -172,13 +190,7 @@ const Layout = () => {
             headerStyle: {
               backgroundColor: 'transparent',
             },
-            drawerIcon: () => (
-              <View >
-                <Image 
-                  source={require('@/assets/images/ecos-do-sur-logo-black.png')} 
-                  style={{ width: 28, height: 28 }} />
-              </View>
-            ),
+            drawerIcon: () => <DrawerLogo />,
             headerRight: () => <NewChatButton />,
           }}
         />
@@ -189,12 +201,13 @@ const Layout = () => {
             title: t('drawer.ecos'),
             drawerIcon: () => (
               <View className="ml-1">
-                <Ionicons name="globe-outline" size={24} color="black" />
+                <Ionicons name="globe-outline" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
               </View>
             ),
             headerLeft: () => <DrawerMenuButton />,
             headerTitleStyle: {
               fontFamily: 'OpenSans_600SemiBold',
+              color: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
             },
           }}
         />
@@ -204,16 +217,17 @@ const Layout = () => {
             title: "Panel de Administrador",
             headerTitleStyle: {
               fontFamily: 'OpenSans_600SemiBold',
+              color: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
             },
             drawerIcon: () => (
               <View className="ml-5">
-                <Ionicons name="stats-chart-outline" size={24} color="black" />
+                <Ionicons name="stats-chart-outline" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
               </View>
             ),
             headerLeft: () => <DrawerMenuButton />,
             headerShadowVisible: false,
             headerStyle: {
-              backgroundColor: '#FFFFFF',
+              backgroundColor: colorScheme === 'dark' ? '#1F2937' : '#FFFFFF',
             },
             drawerItemStyle: user?.role === 'admin' ? {} : { display: 'none' },
           }}

@@ -161,11 +161,17 @@ const SettingsPage = () => {
         onValueChange={handleSaveConversationsChange}
         disabled={!user}
       />
-      <TouchableOpacity onPress={handleDeleteConversations} className=" bg-white flex flex-row justify-between items-center px-8 py-7 rounded-full">
+      <TouchableOpacity 
+        onPress={handleDeleteConversations} 
+        className={` bg-white flex flex-row justify-between items-center px-8 py-7 rounded-full 
+          ${colorScheme === 'dark' ? 'bg-[#262626]' : 'bg-white'}`}>
         <Text className="text-lg text-[#ff0000]">Eliminar todas las conversaciones</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={handleDeleteAccount} className=" bg-white flex flex-row justify-between items-center px-8 py-7 rounded-full" disabled={!user}>
+      <TouchableOpacity 
+        onPress={handleDeleteAccount} 
+        className={` bg-white flex flex-row justify-between items-center px-8 py-7 rounded-full 
+          ${colorScheme === 'dark' ? 'bg-[#262626]' : 'bg-white'}`} disabled={!user}>
         <Text className="text-lg text-[#ff0000]" style={{ opacity: user ? 1 : 0.5 }}>Eliminar cuenta</Text>
       </TouchableOpacity>
     </View>   

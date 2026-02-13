@@ -15,7 +15,7 @@ import Step6VerificationForm from '@/components/pages/register/Step6Verification
 
 
 
-type Language = 'es' | 'gl' | 'en';
+type Language = 'es' | 'gal' | 'en';
 type Gender = 'male' | 'female' | 'other' | 'prefer_not_say';
 
 export default function Register() {

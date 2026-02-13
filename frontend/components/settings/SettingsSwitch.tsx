@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, View } from 'react-native';
+import { Switch, useColorScheme, View } from 'react-native';
 
 import Text from '@/components/common/Text';
 
@@ -12,6 +12,7 @@ interface SettingsSwitchProps {
 
 const SettingsSwitch = ({ title, value: externalValue, onValueChange, disabled = false }: SettingsSwitchProps) => {
   const [isEnabled, setIsEnabled] = useState(externalValue ?? false);
+  const colorScheme = useColorScheme();
 
   // Sincronizar con el valor externo cuando cambie
   useEffect(() => {
@@ -26,8 +27,13 @@ const SettingsSwitch = ({ title, value: externalValue, onValueChange, disabled =
   };
 
   return (
-    <View className=" bg-white flex flex-row justify-between items-center px-8 py-7 rounded-full">
-      <Text className="text-lg" style={{ opacity: disabled ? 0.5 : 1 }}>{title}</Text>
+    <View className={` bg-white flex flex-row justify-between items-center px-8 py-7 rounded-full 
+      ${colorScheme === 'dark' ? 'bg-[#262626]' : 'bg-white'}`}>
+      <Text 
+        className={`text-lg ${colorScheme === 'dark' ? 'text-white' : 'text-textSecondary'}`} 
+        style={{ opacity: disabled ? 0.5 : 1 }}>
+          {title}
+      </Text>
       <Switch
         value={isEnabled}
         onValueChange={toggleSwitch}
