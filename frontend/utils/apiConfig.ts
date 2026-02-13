@@ -4,12 +4,22 @@ export const API_CONFIG = {
     BASE_URL: 'http://192.168.1.132:4000',
 
     ENDPOINTS: {
+        HEALTH: '/api/health',
+
         CHAT: '/api/chat',
         CALLBACK: '/api/callback',
-        HEALTH: '/api/health',
+
         LOGIN: '/api/login',
         REGISTER: '/api/signUp',
+        GET_ALL_USERS: '/api/users',
+        USER_STATS: '/api/user-stats',
+        GET_USER_CONVERSATIONS: '/api/conversations',
+        SAVE_CHAT: '/api/chat/save',
+        REQUEST_SIGNUP_CODE: '/api/signUp/request-code',
+        VERIFY_SIGNUP_CODE: '/api/signUp/verify-code',
         UPDATE_USERNAME: '/api/update-username',
+        CHECK_USER: '/api/check-user',
+        DELETE_ACCOUNT: '/api/user',
     }
 };
 

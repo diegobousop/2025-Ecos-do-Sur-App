@@ -51,27 +51,54 @@ export default function Login() {
     
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={{ flex: 1, padding: 30, justifyContent: 'flex-start', gap: 12, marginTop: 80}}>
+      <View style={{ 
+        backgroundColor: '#4054A1',  
+        flex: 1, 
+        padding: 30, 
+        justifyContent: 'flex-start', 
+        gap: 12,
+        paddingTop: 80}}>
+
        <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 10, flex : 1 }}>
         
         <Image 
-          source={require('@/assets/images/ecos-logo.png')} 
+          source={require('@/assets/images/logo-ecos-with-background.png')} 
           alt="EcosBot Illustration" resizeMode="contain" 
-          className="w-36 h-36 mb-8 self-center" 
+          className="w-62 h-36 mt-10 self-center" 
           />
         
-        <Text className="text-center text-[28px] " style={{ fontFamily: 'Merriweather_400Regular', color: colorScheme === 'dark' ? 'white' : '#4054A1' }}>
-          Ecos do Sur App
+        <Text className="text-center text-[28px] " 
+        style={{ 
+          fontSize: 24, 
+          fontFamily: 'Merriweather_700Bold', 
+          color: colorScheme === 'dark' ? 'white' : 'white' }}>
+          Infórmate y lucha
         </Text>
 
-        <TouchableOpacity className="absolute top-2 right-2 bg-gray-400 rounded-full" onPress={() => { router.push('/(tabs)/(drawer)/(chat)/new') }}>
+        <Text className="text-center text-[28px] " 
+        style={{ 
+          marginTop: 8,
+          fontFamily: 'OpenSans_400Regular',
+          fontSize: 16, 
+          color: colorScheme === 'dark' ? 'white' : 'white' }}>
+          Contra el odio y la discriminación
+        </Text>
+
+        <TouchableOpacity 
+          className="absolute top-2 right-2 bg-gray-400 rounded-full" 
+          onPress={() => { router.push('/(tabs)/(drawer)/(chat)/new') }}>
           <Ionicons name="close" size={32} color="white" />
         </TouchableOpacity>
 
        </View>
         
 
-        <SubmitButton message="Continuar como invitado" onPress={onGuestSignIn} props={{ style: { marginTop: 16 } }} />
+        <SubmitButton 
+          message="Continuar como invitado" 
+          onPress={onGuestSignIn} 
+          props={{ style: { marginTop: 16 } }} 
+        />
+
 
 
         <ActionButton iconName="log-in" message="Iniciar sesión" onPress={onNavigateToLogin} />

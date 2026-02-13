@@ -8,7 +8,8 @@
 
     "chat.welcomeTile": "Welcome to Ecosbot!",
     "chat.presentation": "Hello! I am the Ecosbot chatbot, and my mission is to help you in cases of aggression and discrimination based on racist, xenophobic, or Islamophobic motives.\n\nPlease let me know if you need urgent help or non-urgent information.",
-    "chat.querySuggestion": "Enter a query",
+    "chat.incognitoPresentation": "🕵️ Incognito Mode Activated\n\nYour conversations will not be saved or stored. This session is completely private and no record will be kept.",
+    "chat.querySuggestion": "Enter a type of query",
     "chat.answerSuggestion": "Select an answer",
     "chat.message.urgent": "Urgent",
     "chat.message.info": "Information",
@@ -46,6 +47,10 @@
     "chat.message.answer_eight": "Question 8",
     "chat.message.answer_nine": "Question 9",
     "chat.message.answer_ten": "Question 10",
+
+    "chat.message.hate_speech_rs": "Hate speech on social media",
+    "chat.message.protected_hate": "Protected hate",
+    "chat.message.hate_crime": "Hate crime",
 
     "drawer.promo_text": "Save your conversations with Ecosbot and customize your experience",
     "drawer.register_or_login": "Register or login",

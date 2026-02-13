@@ -3,7 +3,7 @@ import { svgIcons } from '@/constants/icons'
 import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View, useColorScheme } from 'react-native'
 
 interface SettingsLinkProps {
   title: string
@@ -14,21 +14,23 @@ interface SettingsLinkProps {
 }
 
 const SettingsLink = ({ title, iconName, value, last, link }: SettingsLinkProps) => {
+  const colorScheme = useColorScheme();
   return (
     <TouchableOpacity
-      className="bg-white"
+      className={colorScheme === 'dark' ? 'bg-[#262626]' : 'bg-white'}
       onPress={() => router.navigate(`/(tabs)/(modal)/settings/${link}`)}
     >
         <View className="flex flex-row items-center justify-between px-4  text-right">
-            <Ionicons className="w-[10%]" name={iconName} size={20} color="black" />
-            <Text className="text-left w-[85%] text-lg">{title}</Text>
+            <Ionicons className="w-[10%]" name={iconName} size={20} color={colorScheme === 'dark' ? 'white' : 'black'} />
+            <Text className={`text-left w-[85%] text-lg ${colorScheme === 'dark' ? 'text-white' : 'text-textSecondary'}`}>
+              {title}</Text>
             <svgIcons.ArrowIcon
               className="w-[5%]"
-              stroke="#000000"
+              stroke={colorScheme === 'dark' ? '#FFFFFF' : '#000000'}
               style={{ transform: [{ rotate: '-90deg' }] }}
             />
         </View>
-        {!last && <View className="h-px bg-gray-300 my-3" />}
+        {!last && <View className={`h-px my-3 ${colorScheme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'}`} />}
     </TouchableOpacity>
 
   )

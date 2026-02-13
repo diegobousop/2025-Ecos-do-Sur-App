@@ -22,7 +22,19 @@ export interface Chat {
     id: number;
     type: 'urgent' | 'information';
     title: string;
-    messages: Message[];
+    messages?: Message[];
     createdAt: string;
-    updatedAt: string;
+    updatedAt?: string;
+    isFixed?: boolean;
+    user_id?: string | null;
+}
+
+export interface UserData {
+    id: string;
+    userName: string;
+    email: string;
+    role: 'admin' | 'user';
+    numberOfChats: number;
+    numberOfUrgentChats: number;
+    numberOfInformationChats: number;
 }

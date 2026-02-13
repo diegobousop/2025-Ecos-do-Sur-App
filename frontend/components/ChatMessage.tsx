@@ -1,10 +1,10 @@
-import { Alert, Image, Platform, ToastAndroid, TouchableOpacity, useColorScheme, View, Share } from 'react-native';
-import React from 'react';
 import Text from '@/components/common/Text';
 import { CHAT_MESSAGE_MAPPINGS } from '@/constants/chatMappings';
 import { Message, Role } from '@/utils/interfaces';
 import * as Clipboard from 'expo-clipboard';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Alert, Image, Platform, Share, ToastAndroid, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { FormattedText } from './FormattedText';
 
 import { svgIcons } from '@/constants/icons';
@@ -104,14 +104,16 @@ const ChatMessage = ({ content, role, loading }: ChatMessageProps) => {
                    {getDisplayContent(content)}
                 </FormattedText>
             </View>
-
             <View className="flex flex-row">
                 <TouchableOpacity
-                    className="flex-row items-center  ml-3  bg-transparent rounded-full self-start" 
+                    className="flex-row items-center  ml-3 bg-transparent rounded-full self-start" 
                     onPress={copyToClipboard}
                 >
                     <View className={`flex-row items-center p-2 rounded-full`}>
-                        <svgIcons.CopyIcon width={16} height={16} />
+                        <svgIcons.CopyIcon 
+                            width={16} 
+                            height={16} 
+                            color={colorScheme === 'dark' ? 'white' : 'black'} />
                     </View>
                 </TouchableOpacity>
 
@@ -122,14 +124,12 @@ const ChatMessage = ({ content, role, loading }: ChatMessageProps) => {
                     <View className={`flex-row items-center p-2 rounded-full`}>
                         <Ionicons 
                             name="share-outline" 
-                            size={16} color={colorScheme === 'dark' ? 'white' : 'black'} 
+                            size={16} 
+                            color={colorScheme === 'dark' ? 'white' : 'black'} 
                         />
                     </View>
                 </TouchableOpacity>
             </View>
-            
-
-
         </View>
     )
 }

@@ -1,11 +1,11 @@
-import React from 'react'
-import { ScrollView, useColorScheme, View, Image } from 'react-native'
+import React from 'react';
+import { Image, ScrollView, useColorScheme, View } from 'react-native';
 
-import AccountSection from '@/components/settings/AccountSection'
+import Text from '@/components/common/Text';
+import AccountSection from '@/components/settings/AccountSection';
 import AppSection from '@/components/settings/AppSection';
 import LogOutSection from '@/components/settings/LogOutSection';
 import { useAuth } from '@/contexts/AuthContext';
-import Text from '@/components/common/Text'
 
 
 const SettingsPage = () => {
@@ -24,7 +24,12 @@ const SettingsPage = () => {
         <AppSection />
         <LogOutSection />
       </View>
-      <Text className="text-center text-gray-500 mt-10 mb-5">Ecos do Sur App v1.2.0</Text>
+      <Image 
+        source={require('@/assets/images/ecos-do-sur-logo-gray.png')} 
+        style={{ width: 50, height: 50, alignSelf: 'center', marginTop: 20 }} />
+      <Text className={`text-center mt-4 mb-5 ${colorScheme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+        Ecos do Sur App v1.3.0
+      </Text>
     </ScrollView>
 
   )
