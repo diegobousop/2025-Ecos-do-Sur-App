@@ -9,6 +9,7 @@ export const API_CONFIG = {
         CHAT: '/api/chat',
         CALLBACK: '/api/callback',
         FEED: '/api/feed',
+        SEARCH_NOTIFICATIONS: '/api/notifications/search',
 
         LOGIN: '/api/login',
         REGISTER: '/api/signUp',

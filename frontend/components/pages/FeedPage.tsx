@@ -3,7 +3,7 @@ import { RefreshControl, ScrollView, View } from 'react-native';
 
 import BubbleButton from '@/components/common/BubbleButton';
 import Text from '@/components/common/Text';
-import { fetchFeed } from '@/utils/feedService';
+import { fetchFeed, searchNotifications } from '@/utils/feedService';
 import { NotificationItem } from '@/utils/interfaces';
 import { DrawerActions, useNavigation } from '@react-navigation/core';
 import ScreenSelector from '../common/ScreenSelector';
@@ -23,38 +23,36 @@ const FeedPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const loadFeed = useCallback(async () => {
+  const loadFeed = useCallback(async (query: string) => {
     try {
-      const items = await fetchFeed();
+      const trimmed = query.trim();
+      const items = trimmed
+        ? await searchNotifications(trimmed)
+        : await fetchFeed();
       setFeedItems(items);
       setError(null);
     } catch (err) {
       setError('No se pudo cargar el feed');
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
+  // Loads the feed (or search results) whenever the query changes, debounced
+  // so we don't hit the backend on every keystroke.
   useEffect(() => {
-    let isMounted = true;
+    const handler = setTimeout(() => {
+      loadFeed(searchQuery);
+    }, 300);
 
-    const loadInitial = async () => {
-      await loadFeed();
-      if (isMounted) {
-        setIsLoading(false);
-      }
-    };
-
-    loadInitial();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [loadFeed]);
+    return () => clearTimeout(handler);
+  }, [searchQuery, loadFeed]);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await loadFeed();
+    await loadFeed(searchQuery);
     setRefreshing(false);
-  }, [loadFeed]);
+  }, [loadFeed, searchQuery]);
    
 
   return (
