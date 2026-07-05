@@ -8,14 +8,6 @@ type LanguageSelectorProps = {
   onSelect: (language: string) => void;
 };
 
-const languageData: Record<LanguageCode, { flag: string; name: string }> = {
-  es: { flag: '🇪🇸', name: 'Español' },
-  en: { flag: '🇬🇧', name: 'English' },
-  gal: { flag: '🇪🇸', name: 'Galego' },
-};
-
-const availableLanguages: LanguageCode[] = ['es', 'gal', 'en'];
-
 const LanguageSelector: React.FC<LanguageSelectorProps> = ({ 
   selectedLanguage, 
   onSelect 

@@ -37,7 +37,6 @@ const ChatHistory = ({ onSelectChat, activeChatId, history, loadChats }: ChatHis
       try {
         await deleteChat(db, selectedChatId);
         await loadChats();
-        console.log('Conversación eliminada:', selectedChatId);
       } catch (error) {
         console.error('Error al eliminar conversación:', error);
       }
@@ -52,7 +51,6 @@ const ChatHistory = ({ onSelectChat, activeChatId, history, loadChats }: ChatHis
         const newFixedState = !selectedChat?.isFixed;
         await togglePinChat(db, selectedChatId, newFixedState);
         await loadChats();
-        console.log('Conversación fijada/desfijada:', selectedChatId, newFixedState);
       } catch (error) {
         console.error('Error al fijar/desfijar conversación:', error);
       }

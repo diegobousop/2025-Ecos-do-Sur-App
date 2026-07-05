@@ -199,6 +199,7 @@ const Layout = () => {
           name='explore'
           options={{
             title: t('drawer.ecos'),
+            headerTitleAlign: 'center',
             drawerIcon: () => (
               <View className="ml-1">
                 <Ionicons name="globe-outline" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
@@ -211,10 +212,28 @@ const Layout = () => {
             },
           }}
         />
+
+        <Drawer.Screen
+          name='feed'
+          options={{
+            title: "",
+            drawerLabel: "Ecos Bot",
+            headerShown: false,
+            headerShadowVisible: false,
+            headerTransparent: true,
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            drawerIcon: () => <DrawerLogo />,
+            headerRight: () => <NewChatButton />,
+          }}
+        />
+
         <Drawer.Screen
           name='admin-panel'
           options={{
             title: "Panel de Administrador",
+            headerTitleAlign: 'center',
             headerTitleStyle: {
               fontFamily: 'OpenSans_600SemiBold',
               color: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
@@ -259,6 +278,14 @@ const Layout = () => {
           name="settings"
           options={{
             title: t('drawer.settings'),
+            drawerItemStyle: { display: 'none' },
+          }}
+        />
+
+        <Drawer.Screen
+          name="[notification-id]"
+          options={{
+            headerShown: false,
             drawerItemStyle: { display: 'none' },
           }}
         />

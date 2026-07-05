@@ -1,4 +1,16 @@
 {
+    "intro.slogan": "Infórmate y lucha",
+    "intro.sloganSecondary": "Contra el odio y la discriminación",
+    "intro.login": "Iniciar sesión",
+    "intro.register": "Crear una nueva cuenta",
+    "intro.guest": "Continuar como invitado",
+
+    "login.title": "Inicia sesión",
+    "login.description": "Obtendrás historial de conversaciones y contenido personalizado",
+    "login.inputEmailUsername": "Correo electrónico o nombre de usuario",
+    "login.inputPassword": "Contraseña",
+    "login.nextStep": "Siguiente",
+
     "drawer.chat":"EcosBot",
     "drawer.ecos":"Ecos do Sur",
     "drawer.settings":"Configuración",
@@ -44,6 +56,11 @@
     "chat.message.answer_eight": "Respuesta 8",
     "chat.message.answer_nine": "Respuesta 9",
     "chat.message.answer_ten": "Respuesta 10",
+
+    "chat.message.theft": "Robo",
+
+
+
     "drawer.promo_text": "Guarda tus conversaciones con Ecosbot y personaliza tu experiencia",
     "drawer.register_or_login": "Registrarse o Iniciar sesión",
     "drawer.no_conversations": "No hay conversaciones guardadas",
@@ -55,9 +72,19 @@
     "drawer.delete_title": "Confirmar",
     "drawer.delete_message": "¿Estás seguro de que deseas eliminar todo el historial de chat?",
 
-    
+    "settings.modalTitle": "Ajustes",
+
+
+    "settings.accountTitle": "Cuenta",
+    "settings.adminAccountTitle": "Cuenta de administrador",
+    "settings.appTitle": "Aplicación",
+
 
     "settings.account": "Cuenta",
+    "settings.userName": "Nombre de \nusuario",
+    "settings.dataControls": "Controles de datos",
+
+
     "settings.email": "Correo electrónico",
     "settings.notifications": "Notificaciones",
     "settings.application": "Aplicación",
@@ -68,6 +95,12 @@
     "settings.help-center": "Centro de ayuda",
     "settings.contact": "Contacto",
     "settings.sign-out": "Cerrar sesión",
-    "settings.userName": "Nombre de usuario",
-    "settings.leave": "Salir"
+    "settings.leave": "Salir",
+
+    "settings.storageDeleteAccount": "Eliminar cuenta",
+    "settings.storageDeleteConversations": "Eliminar todas las conversaciones",
+    "settings.saveConversations": "Guardar conversaciones",
+    "settings.sendDataToEcos": "Enviar datos a Ecos do Sur"
+
+
 }

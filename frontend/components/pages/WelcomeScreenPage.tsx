@@ -10,6 +10,7 @@ import { MessageOption } from '@/utils/interfaces';
 import { svgIcons } from '@/constants/icons';
 import { useChatContext } from '@/contexts/ChatContext';
 import { LinearGradient } from 'expo-linear-gradient';
+import ScreenSelector from '../common/ScreenSelector';
 
 interface WelcomeScreenPageProps {
   openDrawer: () => void;
@@ -90,27 +91,18 @@ const WelcomeScreenPage = ({
           additionalStyles="top-14 right-4 z-10"
         />
 
+        <ScreenSelector />
+
         <BubbleButton
           onPress={handleToggleIncognito}
           additionalStyles="top-14 left-4 z-10"
           svgIcon= {isIncognito ? svgIcons.IncognitoIcon() : svgIcons.IncognitoIconOutline()}
         />
-
-        {/* <BubbleButton
-          onPress={openDrawer}
-          iconName="menu"
-          additionalStyles="top-14 left-4 z-10"
-        />
-
-        <BubbleButton
-          onPress={handleToggleIncognito}
-          additionalStyles="top-14 right-4 z-10"
-          svgIcon= {isIncognito ? svgIcons.IncognitoIcon() : svgIcons.IncognitoIconOutline()}
-        /> */}
         <ScrollView>
-          <View className="flex-1 justify-start items-center px-4 mt-64">
-            {/* <Image source={require('@/assets/images/ecos-logo.png')} alt="EcosBot Illustration" resizeMode="contain" className="w-40 h-40 mb-12 mt-12" /> */}
-            <Text style={{ fontFamily: 'Merriweather_400Regular', color: colorScheme === 'dark' ? 'white' : '#4054A1' }} className={`text-center text-[28px]`}>
+          <View className="flex-1 justify-start items-center px-4 mt-64">            
+            <Text 
+              style={{ fontFamily: 'Merriweather_400Regular', color: colorScheme === 'dark' ? 'white' : '#4054A1' }} 
+              className={`text-center text-[28px]`}>
               {t("chat.welcomeTile")}
             </Text>
             <Animated.Text 

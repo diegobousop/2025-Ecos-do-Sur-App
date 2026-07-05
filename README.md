@@ -207,6 +207,27 @@ npm run test:coverage      # Con cobertura
 
 ## 🛠️ Ferramentas de desenvolvedor
 
+### Deployment
+
+#### Android
+
+- Build local (rápido, sin cuenta EAS)   
+cd frontend
+npx expo run:android --variant release
+
+- EAS Build (en la nube)
+Instalar EAS CLI si no lo tienes
+npm install -g eas-cli
+
+Login en Expo
+eas login
+
+Crear build de desarrollo para android: Crear APK (no AAB)
+
+eas build --platform android --profile development
+
+eas build -p android --profile preview
+
 ### Depuración e desenvolvemento
 
 - **[Compilación de desenvolvemento](https://docs.expo.dev/develop/development-builds/introduction/)** - Builds personalizadas para depuración

@@ -6,28 +6,27 @@ import { TouchableOpacity, View } from 'react-native';
 
 
 type ScreenSelectorProps = {
-  onPress: () => void;
   additionalStyles?: string;
   svgIcon?: React.JSX.Element;
   iconName?: keyof typeof Ionicons.glyphMap; // Permite pasar cualquier icono de Ionicons
 }
     
 
-const ScreenSelector = ({ onPress, additionalStyles = '', svgIcon, iconName }: ScreenSelectorProps) => {
+const ScreenSelector = ({ additionalStyles = '', svgIcon, iconName }: ScreenSelectorProps) => {
   const router = useRouter();
 
   return (
-    <View className="absolute top-20 right-28 w-[50%]">
+    <View className="absolute z-30 top-20 right-28 w-[50%]">
         <View className="flex flex-row">
         <TouchableOpacity
-          onPress={() => router.replace('/(tabs)/(drawer)/explore')}
-          className={' border-2 border-[#BCB6DC] rounded-full ' + additionalStyles}
+          onPress={() => router.replace('/(tabs)/(drawer)/new')}
+          className={'p-3 border-2 border-[#BCB6DC] rounded-full ' + additionalStyles}
         >
             <Text>EcosBot</Text>
 
         </TouchableOpacity>
-        <TouchableOpacity onPress={onPress} className={' border-2 border-[#BCB6DC] rounded-full ' + additionalStyles}>
-            <Text>Ecos do Sur</Text>
+        <TouchableOpacity onPress={() => router.replace('/(tabs)/(drawer)/feed')} className={'p-3 border-2 border-[#BCB6DC] rounded-full ' + additionalStyles}>
+            <Text>Centro de Ayuda</Text>
         </TouchableOpacity>
         </View>
     </View>

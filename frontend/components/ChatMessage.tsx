@@ -14,9 +14,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 interface ChatMessageProps extends Message {
     onOptionSelect?: (option: string) => void;
     loading?: boolean;
+    isLastBotHeader?: boolean;
 }
 
-const ChatMessage = ({ content, role, loading }: ChatMessageProps) => {
+const ChatMessage = ({ content, role, loading, isLastBotHeader }: ChatMessageProps) => {
     
     const colorScheme = useColorScheme();
     const { t } = useTranslation();
@@ -70,7 +71,7 @@ const ChatMessage = ({ content, role, loading }: ChatMessageProps) => {
         return (
             <View className="flex flex-col px-3  items-start justify-center ">
 
-                {loading  ? (
+                {loading && isLastBotHeader ? (
                     <View className="flex flex-row items-center py-4">
                         <Image 
                         source={require('@/assets/images/loading-ecos.gif')} 
@@ -104,9 +105,9 @@ const ChatMessage = ({ content, role, loading }: ChatMessageProps) => {
                    {getDisplayContent(content)}
                 </FormattedText>
             </View>
-            <View className="flex flex-row">
+            <View className="flex flex-row items-center justify-center">
                 <TouchableOpacity
-                    className="flex-row items-center  ml-3 bg-transparent rounded-full self-start" 
+                    className="flex-row items-center  ml-3 bg-transparent rounded-full mt-1" 
                     onPress={copyToClipboard}
                 >
                     <View className={`flex-row items-center p-2 rounded-full`}>
@@ -118,13 +119,13 @@ const ChatMessage = ({ content, role, loading }: ChatMessageProps) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    className="flex-row items-center ml-2 bg-transparent rounded-full self-start" 
+                    className="flex-row items-center ml-2 bg-transparent rounded-full" 
                     onPress={shareContent}
                 >
                     <View className={`flex-row items-center p-2 rounded-full`}>
                         <Ionicons 
                             name="share-outline" 
-                            size={16} 
+                            size={18} 
                             color={colorScheme === 'dark' ? 'white' : 'black'} 
                         />
                     </View>

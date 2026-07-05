@@ -1,13 +1,14 @@
 // Configuración del API
 export const API_CONFIG = {
     
-    BASE_URL: 'http://192.168.1.132:4000',
+    BASE_URL: 'http://192.168.1.136:4000',
 
     ENDPOINTS: {
         HEALTH: '/api/health',
 
         CHAT: '/api/chat',
         CALLBACK: '/api/callback',
+        FEED: '/api/feed',
 
         LOGIN: '/api/login',
         REGISTER: '/api/signUp',

@@ -1,0 +1,140 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import { RefreshControl, ScrollView, View } from 'react-native';
+
+import BubbleButton from '@/components/common/BubbleButton';
+import Text from '@/components/common/Text';
+import { fetchFeed } from '@/utils/feedService';
+import { NotificationItem } from '@/utils/interfaces';
+import { DrawerActions, useNavigation } from '@react-navigation/core';
+import ScreenSelector from '../common/ScreenSelector';
+
+import NewsTile from '../feed/NewsTile';
+import { router } from 'expo-router';
+import SearchBar from '../common/SearchBar';
+
+const FeedPage = () => {
+  const navigation = useNavigation();
+  
+  const openDrawer = () => { navigation.dispatch(DrawerActions.openDrawer()); }
+
+  const [feedItems, setFeedItems] = useState<NotificationItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const loadFeed = useCallback(async () => {
+    try {
+      const items = await fetchFeed();
+      setFeedItems(items);
+      setError(null);
+    } catch (err) {
+      setError('No se pudo cargar el feed');
+    }
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadInitial = async () => {
+      await loadFeed();
+      if (isMounted) {
+        setIsLoading(false);
+      }
+    };
+
+    loadInitial();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [loadFeed]);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await loadFeed();
+    setRefreshing(false);
+  }, [loadFeed]);
+   
+
+  return (
+    <View style={{ flex: 1 }}>
+      <View className="flex-1">
+        <BubbleButton
+          iconName="menu"
+          additionalStyles="top-14 right-4 z-10"
+          onPress={openDrawer}
+        />
+
+        <ScreenSelector />
+
+        <BubbleButton
+          additionalStyles="top-14 left-4 z-10"
+        />
+
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              progressViewOffset={150}
+            />
+          }
+        >
+          <View className="flex-1 justify-start items-center mt-40">            
+            <Text 
+              style={{ fontFamily: 'Merriweather_400Regular', color: 'black' }} 
+              className={`text-center text-[28px]`}>
+                Centro de Ayuda
+            </Text>
+            <SearchBar
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholder="Buscar"
+              keyboardType="default"
+              multiline={false}
+            
+            />
+            
+            {isLoading ? (
+              <Text className="mt-6">Cargando...</Text>
+            ) : null}
+            {error ? (
+              <Text className="mt-4 text-red-600">{error}</Text>
+            ) : null}
+            {!isLoading && !error && feedItems.length === 0 ? (
+              <Text className="mt-6">No hay noticias disponibles.</Text>
+            ) : null}
+            {feedItems.map((item) => (
+              <NewsTile
+                onPress={() =>
+                  router.push({
+                    pathname: '/(tabs)/(drawer)/[notification-id]',
+                    params: {
+                      'notification-id': item._id ?? '',
+                      titulo: item.titulo,
+                      fecha: item.fecha,
+                      cuerpo: item.cuerpo ?? '',
+                      enlace_externo: item.enlace_externo ?? '',
+                      url_imagen: item.url_imagen ?? '',
+                    },
+                  })
+                }
+                key={item._id ?? `${item.titulo}-${item.fecha}`}
+                title={item.titulo}
+                date={item.fecha}
+                body={item.cuerpo}
+                externalUrl={item.enlace_externo}
+              />
+            ))}
+
+          </View>
+        </ScrollView>
+       
+        
+      </View>
+    </View>
+  )
+}
+
+export default FeedPage

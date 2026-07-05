@@ -1,5 +1,17 @@
 {
-    
+    "intro.slogan": "Infórmate e loita",
+    "intro.sloganSecondary": "Contra o odio e a discriminación",
+    "intro.login": "Iniciar sesión",
+    "intro.register": "Crear unha nova conta",
+    "intro.guest": "Continuar como invitado",
+
+    "login.title": "Inicia sesión",
+    "login.description": "Obtenrás historial de conversacións y contenido personalizado",
+    "login.inputEmailUsername": "Correo electrónico o nome de usuario",
+    "login.inputPassword": "Contrasinal",
+    "login.nextStep": "Seguinte",
+
+
     "drawer.chat":"EcosBot",
     "drawer.Ecos":"Ecos do Sur",
     "drawer.settings":"Configuración",
@@ -57,6 +69,15 @@
     "chat.message.protected_hate": "Odio protexido",
     "chat.message.hate_crime": "Delito de odio",
 
+    "settings.modalTitle": "Ajustes",
+
+
+    "settings.accountTitle": "Conta",
+    "settings.adminAccountTitle": "Conta de administrador",
+    "settings.appTitle": "Aplicación",
+    "settings.userName": "Nome de \nusuario",
+    "settings.dataControls": "Controis de datos",
+
 
     "settings.account": "Conta",
     "settings.email": "Correo electrónico",
@@ -69,6 +90,12 @@
     "settings.help-center": "Centro de axuda",
     "settings.contact": "Contacto",
     "settings.sign-out": "Pechar sesión",
-    "settings.userName": "Nome de usuario",
-    "settings.leave": "Saír"
+    "settings.leave": "Saír",
+        
+    "settings.storageDeleteAccount": "Eliminar conta",
+    "settings.storageDeleteConversations": "Eliminar todas as conversacións",
+    "settings.saveConversations": "Gardar conversacións",
+    "settings.sendDataToEcos": "Enviar datos a Ecos do Sur"
+
+
 }

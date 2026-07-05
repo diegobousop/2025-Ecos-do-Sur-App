@@ -1,4 +1,16 @@
 {
+    "intro.slogan": "Stay informed and take action",
+    "intro.sloganSecondary": "Against hate and discrimination",
+    "intro.login": "Log in",
+    "intro.register": "Create a new account",
+    "intro.guest": "Continue as guest",
+
+    "login.title": "Log in",
+    "login.description": "You will get chat history and personalized content",
+    "login.inputEmailUsername": "Email or username",
+    "login.inputPassword": "Password",
+    "login.nextStep": "Next",
+
     "drawer.chat":"EcosBot",
     "drawer.Ecos":"Ecos do Sur",
     "drawer.settings":"Settings",
@@ -58,7 +70,17 @@
     "drawer.delete_title": "Confirm",
     "drawer.delete_message": "Are you sure you want to delete the entire chat history?",
 
+    "settings.modalTitle": "Settings",
+
+    "settings.accountTitle": "Account",
+    "settings.adminAccountTitle": "Admin Account",
+    "settings.appTitle": "App",
+
     "settings.account": "Account",
+    "settings.userName": "User name",
+    "settings.dataControls": "Data controls",
+
+
     "settings.email": "Email",
     "settings.notifications": "Notifications",
     "settings.application": "Application",
@@ -70,6 +92,11 @@
     "settings.contact": "Contact",
     "settings.sign-out": "Sign out",
     "settings.user.userName": "User name",
-    "settings.leave": "Leave"
+    "settings.leave": "Leave",
+
+    "settings.storageDeleteAccount": "Delete account",
+    "settings.storageDeleteConversations": "Delete all conversations",
+    "settings.saveConversations": "Save conversations",
+    "settings.sendDataToEcos": "Send data to Ecos do Sur"
 
 }

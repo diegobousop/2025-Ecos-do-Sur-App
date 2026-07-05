@@ -1,16 +1,13 @@
 import React from 'react';
-import { ActivityIndicator, Pressable, ScrollView, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, Text, useColorScheme, useWindowDimensions, View } from 'react-native';
 
 import { useChatContext } from '@/contexts/ChatContext';
 import { MessageOption } from '@/utils/interfaces';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
-import { BackButton } from './BackButton';
-import BlurView from 'expo-blur/build/BlurView';
-import { svgIcons } from '@/constants/icons';
-import ScrollToBottomButton from './chat/ScrollToBottomButton';
 import { StreamingMessageListRef } from 'react-native-streaming-message-list';
-import BubbleButton from './common/BubbleButton';
+import { BackButton } from './BackButton';
+import ScrollToBottomButton from './chat/ScrollToBottomButton';
 
 
 
@@ -49,6 +46,8 @@ const MessageInput = ({
   const { resetChat } = useChatContext();
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
+  const { width, height } = useWindowDimensions();
+  const maxHeight = height / width > 2.2 ? '50%' : '60%';
 
   const hasBackOption = options?.some(row => row.some(opt => opt.callback_data === 'BACK'));
 
@@ -124,7 +123,7 @@ const MessageInput = ({
       ${colorScheme === 'dark' ? 'border-[#272727]' :
        'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ?
         'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} 
-      style={{ maxHeight: '60%'}}>
+      style={{ maxHeight }}>
       <View className="flex flex-row justify-center items-center gap-3">
             {(hasBackOption || options?.length === 0) && (
           <>
@@ -232,7 +231,7 @@ const MessageInput = ({
             {({ pressed }) => (
               <LinearGradient
                 colors={pressed ? ['#EFF6FF', '#D1E9FF'] : ['#FBFDFF', '#EEF7FF']}
-                className="relative flex flex-row items-center justify-center mt-2  border px-4 py-2 gap-3"
+                className="relative flex flex-row items-center justify-center   border px-4 py-3 gap-3"
                 style={{
                   borderColor: pressed ? '#60A5FA' : '#E5E7EB',
                   borderRadius: 20,

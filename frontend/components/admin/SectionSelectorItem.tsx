@@ -25,7 +25,7 @@ const SectionSelectorItem: React.FC<SectionSelectorItemProps> = ({
       : ['#60a5fa', '#3b82f6'] // blue-400 to blue-500
     : isDark
     ? ['#374151', '#1f2937'] // gray-700 to gray-800
-    : ['#E6EDFF', '#ffffff']; // gray-200 to gray-300
+    : ['transparent', 'transparent']; // gray-200 to gray-300
 
   return (
     <TouchableOpacity

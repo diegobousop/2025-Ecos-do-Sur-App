@@ -28,9 +28,7 @@ const SettingsPage = () => {
     <View className="flex flex-col gap-6">
       
       <View className={`${colorScheme === 'dark' ? 'bg-gray-800' : 'bg-white'} px-4 py-4 rounded-[48px]`}>
-        <Text className={`text-center mb-2 text-sm ${colorScheme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-          {t('settings.selectLanguage')}
-        </Text>
+        
         <LanguageSelector
           selectedLanguage={i18n.language}
           onSelect={handleLanguageChange}

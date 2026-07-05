@@ -2,7 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { Animated, TextInput, View } from 'react-native';
 
-type CustomTextInputProps = {
+type SearchBarProps = {
     value: string;
     onChangeText: (text: string) => void;
     placeholder: string;
@@ -13,7 +13,8 @@ type CustomTextInputProps = {
   numberOfLines?: number;
 }
 
-const CustomTextInput = forwardRef<TextInput, CustomTextInputProps>(({value, onChangeText, placeholder, keyboardType, secureTextEntry, errors, multiline, numberOfLines}, ref) => {
+const SearchBar = forwardRef<TextInput, SearchBarProps>(({
+    value, onChangeText, placeholder, keyboardType, secureTextEntry, errors, multiline, numberOfLines}, ref) => {
   const [isFocused, setIsFocused] = useState(false);
   const animatedValue = useRef(new Animated.Value(value ? 1 : 0)).current;
 
@@ -48,7 +49,7 @@ const CustomTextInput = forwardRef<TextInput, CustomTextInputProps>(({value, onC
 
   return (
     
-    <View style={{ marginBottom: 8}}>
+    <View className=" w-full px-6" style={{ marginBottom: 8}}>
       <LinearGradient 
           colors={['#E6EDFF', '#ffffff']}
           start={{ x: 0, y: 0 }}
@@ -57,9 +58,7 @@ const CustomTextInput = forwardRef<TextInput, CustomTextInputProps>(({value, onC
             borderRadius: 45,
           }}
         >
-        <Animated.Text style={labelStyle}>
-          {placeholder}
-        </Animated.Text>
+       
         {secureTextEntry === true ? (
           <TextInput
           ref={ref}
@@ -91,7 +90,7 @@ const CustomTextInput = forwardRef<TextInput, CustomTextInputProps>(({value, onC
           ref={ref}
           value={value}
           onChangeText={onChangeText}
-          placeholder=""
+          placeholder={placeholder}
           autoCapitalize="none"
           secureTextEntry={false}
           multiline={multiline}
@@ -118,6 +117,6 @@ const CustomTextInput = forwardRef<TextInput, CustomTextInputProps>(({value, onC
   )
 });
 
-CustomTextInput.displayName = 'CustomTextInput';
+SearchBar.displayName = 'SearchBar';
 
-export default CustomTextInput
+export default SearchBar;
