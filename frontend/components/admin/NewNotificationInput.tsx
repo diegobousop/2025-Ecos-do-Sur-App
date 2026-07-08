@@ -164,7 +164,7 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
           'text-textSecondary'}`}>
           Nueva Notificación
       </Text>
-      <View className={`${bgColor} ${borderColor} rounded-3xl p-5 mx-4`}>
+      <View >
         {/* Title input (using shared CustomTextInput) */}
         <CustomTextInput
           value={title}
@@ -180,31 +180,15 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
           numberOfLines={3}
         />
 
-        {/* Optional 'Cuerpo' field */}
-        <CustomTextInput
-          value={cuerpo}
-          onChangeText={setCuerpo}
-          placeholder="Cuerpo (opcional)"
-        />
-
-        {/* Author input (optional) */}
-        <CustomTextInput
-          value={author}
-          onChangeText={setAuthor}
-          multiline={true}
-          numberOfLines={50}
-          placeholder="Autor (opcional)"
-        />
-
         {/* Bottom icons */}
         <View className="flex-row justify-center gap-6 mt-2">
-          <TouchableOpacity onPress={handleAddImageFromDevice}>
+          {/* <TouchableOpacity onPress={handleAddImageFromDevice}>
             <MaterialCommunityIcons 
               name="image-edit-outline" 
               size={28} 
               color={isDark ? '#A78BFA' : '#5B4CBA'} 
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           
           <TouchableOpacity onPress={handleAddImageFromUrl}>
             <MaterialCommunityIcons 

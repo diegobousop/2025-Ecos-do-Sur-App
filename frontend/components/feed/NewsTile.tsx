@@ -1,7 +1,7 @@
 import Text from '@/components/common/Text';
 import Ionicons from '@expo/vector-icons/build/Ionicons';
 import React from 'react';
-import { Linking, Share, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { Linking, Share, TouchableOpacity, useColorScheme, View, Image } from 'react-native';
 
 type NewsTileProps = {
     title: string;
@@ -63,32 +63,50 @@ const NewsTile = ({ title, date, body, externalUrl, onPress }: NewsTileProps) =>
 
     return (
         <TouchableOpacity
-            className="w-full border-b py-4 px-4"
+            className="w-full border-b border-[#E5E5E5] py-4 px-4"
             onPress={onPress}
         >
-            <Text className="text-[16px]">
-                {title}
-            </Text>
-            {body ? (
-                <Text className="text-[13px] text-gray-600 mt-1" numberOfLines={2}>
-                    {body}
-                </Text>
-            ) : null}
-            <View className="flex flex-row items-center justify-between mt-2">
-                <Text>{timeLabel}</Text>
-                <TouchableOpacity
-                    className="flex-row items-center ml-2 bg-transparent rounded-full"
-                    onPress={shareContent}
-                >
-                    <View className="flex-row items-center p-2 rounded-full">
-                        <Ionicons
-                            name="share-outline"
-                            size={18}
-                            color={colorScheme === 'dark' ? 'white' : 'black'}
-                        />
+            <View className="flex flex-row">
+                <View className="bg-[#F4F7FF] w-24 h-24  flex-col p-4 rounded-[22px]">
+                    <Image
+                        source={require('@/assets/images/ecos-do-sur-logo-gray.png')}
+                        className="w-[80%] h-[80%] self-center"
+                        resizeMode="cover"
+                    />
+                </View>
+
+                <View className="flex-col px-4 w-[80%]">
+
+                    <Text className="text-[16px] font-sans-semibold">
+                        {title}
+                    </Text>
+                    {body ? (
+                        <Text className="text-[13px] text-gray-600 mt-1" numberOfLines={2}>
+                            {body}
+                        </Text>
+                    ) : null}
+                    <View className="flex flex-row items-center justify-between mt-2">
+                        <Text>{timeLabel}</Text>
+                        <TouchableOpacity
+                            className="flex-row items-center ml-2 bg-transparent rounded-full"
+                            onPress={shareContent}
+                        >
+                            <View className="flex-row items-center p-2 rounded-full">
+                                <Ionicons
+                                    name="share-outline"
+                                    size={18}
+                                    color={colorScheme === 'dark' ? 'white' : 'black'}
+                                />
+                            </View>
+                        </TouchableOpacity>
                     </View>
-                </TouchableOpacity>
+
+                </View>
+
             </View>
+
+
+            
         </TouchableOpacity>
   )
 }

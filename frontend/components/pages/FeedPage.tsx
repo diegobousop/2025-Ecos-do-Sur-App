@@ -57,14 +57,14 @@ const FeedPage = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View className="flex-1">
+      <View className="flex-1 bg-white">
         <BubbleButton
           iconName="menu"
           additionalStyles="top-14 right-4 z-10"
           onPress={openDrawer}
         />
 
-        <ScreenSelector />
+        <ScreenSelector selectedScreen="feed" />
 
         <BubbleButton
           additionalStyles="top-14 left-4 z-10"
@@ -79,10 +79,10 @@ const FeedPage = () => {
             />
           }
         >
-          <View className="flex-1 justify-start items-center mt-40">            
+          <View className="flex-1 justify-start items-center mt-36">            
             <Text 
-              style={{ fontFamily: 'Merriweather_400Regular', color: 'black' }} 
-              className={`text-center text-[28px]`}>
+              style={{ fontFamily: 'Merriweather_400Regular', color: '#4054A1' }} 
+              className={`text-center text-[28px] mb-5`}>
                 Centro de Ayuda
             </Text>
             <SearchBar

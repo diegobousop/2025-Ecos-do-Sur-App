@@ -46,7 +46,15 @@
         }
       ],
       "expo-secure-store",
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "EcosBot necesita el micrófono para las consultas por voz.",
+          "speechRecognitionPermission": "EcosBot usa el reconocimiento de voz para convertir tu voz en texto.",
+          "androidSpeechServicePackages": ["com.google.android.googlequicksearchbox"]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

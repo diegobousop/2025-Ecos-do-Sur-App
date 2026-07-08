@@ -12,25 +12,29 @@ type ScreenSelectorProps = {
 }
     
 
-const ScreenSelector = ({ additionalStyles = '', svgIcon, iconName }: ScreenSelectorProps) => {
+const ScreenSelector = ({ additionalStyles = '', svgIcon, iconName, selectedScreen }: ScreenSelectorProps & { selectedScreen: 'chat' | 'feed' }) => {
   const router = useRouter();
 
-  return (
-    <View className="absolute z-30 top-20 right-28 w-[50%]">
-        <View className="flex flex-row">
-        <TouchableOpacity
-          onPress={() => router.replace('/(tabs)/(drawer)/new')}
-          className={'p-3 border-2 border-[#BCB6DC] rounded-full ' + additionalStyles}
-        >
-            <Text>EcosBot</Text>
+  const selectedStyles = 'p-3 border-2 border-[#BCB6DC] rounded-full ';
+  const unselectedStyles = 'p-3 ';
 
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.replace('/(tabs)/(drawer)/feed')} className={'p-3 border-2 border-[#BCB6DC] rounded-full ' + additionalStyles}>
-            <Text>Centro de Ayuda</Text>
-        </TouchableOpacity>
+  return (
+    <View className="absolute z-30 top-14 right-28 w-[50%]">
+        <View className="flex flex-row gap-2">
+          <TouchableOpacity
+            onPress={() => router.replace('/(tabs)/(drawer)/new')}
+            className={(selectedScreen === 'chat' ? selectedStyles : unselectedStyles) + additionalStyles}
+          >
+              <Text>EcosBot</Text>
+
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.replace('/(tabs)/(drawer)/feed')}
+          className={(selectedScreen === 'feed' ? selectedStyles : unselectedStyles) + additionalStyles}>
+              <Text>Centro de Ayuda</Text>
+          </TouchableOpacity>
         </View>
     </View>
-    
+
   )
 }
 

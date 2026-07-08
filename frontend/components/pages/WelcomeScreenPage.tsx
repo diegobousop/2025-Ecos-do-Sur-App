@@ -21,6 +21,7 @@ interface WelcomeScreenPageProps {
   firstLoad: boolean;
   colorScheme: 'light' | 'dark';
   t: (key: string) => string;
+  selectedScreen: 'chat' | 'feed';
 }
 
 const WelcomeScreenPage = ({
@@ -31,7 +32,8 @@ const WelcomeScreenPage = ({
   chatInitialized,
   firstLoad,
   colorScheme,
-  t
+  t,
+  selectedScreen
 }: WelcomeScreenPageProps) => {
 
     const { toggleIncognito, getIsIncognito } = useChatContext();
@@ -91,7 +93,7 @@ const WelcomeScreenPage = ({
           additionalStyles="top-14 right-4 z-10"
         />
 
-        <ScreenSelector />
+        <ScreenSelector selectedScreen={selectedScreen} />
 
         <BubbleButton
           onPress={handleToggleIncognito}

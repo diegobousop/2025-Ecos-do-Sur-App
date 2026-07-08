@@ -13,13 +13,13 @@ const NewNotificationPage = () => {
   return (
     <ScrollView 
           style={{ 
-            backgroundColor: colorScheme === 'dark' ? '#000' : '#F3F2F8' }} 
+            backgroundColor: colorScheme === 'dark' ? '#000' : '#FFFFFF' }} 
             contentContainerStyle={{ paddingTop: 20, paddingBottom: 240 }}
         >
       <NewNotificationInput importedData={importedData} />
 
-      <ImportFromX onImport={setImportedData} />
-      <ImportNew onImport={setImportedData} />
+      {/* <ImportFromX onImport={setImportedData} />
+      <ImportNew onImport={setImportedData} /> */}
     </ScrollView>
   )
 }

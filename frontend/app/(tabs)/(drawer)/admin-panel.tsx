@@ -71,9 +71,7 @@ const AdminPanel = () => {
 
   return (
     <View 
-      style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? '#000' : '#F3F2F8'  }} 
-      className="bg-white dark:bg-gray-900 pt-3"
-    >
+      style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? '#000' : '#FFFFFF'  }}>
       <View className="px-4  pb-2">
         <SectionSelector
           sections={sections}

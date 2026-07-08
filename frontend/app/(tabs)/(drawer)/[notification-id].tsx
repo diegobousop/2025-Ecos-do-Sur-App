@@ -1,9 +1,12 @@
 import BubbleButton from '@/components/common/BubbleButton';
+import ScreenSelector from '@/components/common/ScreenSelector';
 import Text from '@/components/common/Text';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { Image, Linking, ScrollView, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
+
 
 const asString = (value: string | string[] | undefined): string => {
   if (Array.isArray(value)) {
@@ -31,12 +34,12 @@ const NotificationDetail = () => {
   const enlaceExterno = asString(params.enlace_externo);
   const urlImagen = asString(params.url_imagen);
 
+  const navigation = useNavigation();
+  const openDrawer = () => { navigation.dispatch(DrawerActions.openDrawer()); }
+  
+
   const goBack = () => {
-    if (router.canGoBack()) {
-      router.back();
-    } else {
-      router.replace('/(tabs)/(drawer)/feed');
-    }
+    router.replace('/(tabs)/(drawer)/feed');
   };
 
   const openExternalLink = () => {
@@ -57,7 +60,15 @@ const NotificationDetail = () => {
         onPress={goBack}
       />
 
-      <ScrollView contentContainerStyle={{ paddingTop: 100, paddingBottom: 60, paddingHorizontal: 20 }}>
+      <BubbleButton
+          iconName="menu"
+          additionalStyles="top-14 right-4 z-10"
+          onPress={openDrawer}
+        />
+
+        <ScreenSelector selectedScreen="feed" />
+
+      <ScrollView contentContainerStyle={{ paddingTop: 120, paddingBottom: 60, paddingHorizontal: 20 }}>
         {urlImagen ? (
           <Image
             source={{ uri: urlImagen }}

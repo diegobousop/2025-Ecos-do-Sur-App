@@ -196,6 +196,26 @@ const Layout = () => {
         />
 
         <Drawer.Screen
+          name='feed'
+          options={{
+            title: "",
+            drawerLabel: "Centro de Ayuda",
+            headerShown: false,
+            headerShadowVisible: false,
+            headerTransparent: true,
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            drawerIcon: () => (
+              <View className="ml-1">
+                <Ionicons name="megaphone-outline" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
+              </View>
+            ),
+            headerRight: () => <NewChatButton />,
+          }}
+        />
+
+        <Drawer.Screen
           name='explore'
           options={{
             title: t('drawer.ecos'),
@@ -213,21 +233,7 @@ const Layout = () => {
           }}
         />
 
-        <Drawer.Screen
-          name='feed'
-          options={{
-            title: "",
-            drawerLabel: "Ecos Bot",
-            headerShown: false,
-            headerShadowVisible: false,
-            headerTransparent: true,
-            headerStyle: {
-              backgroundColor: 'transparent',
-            },
-            drawerIcon: () => <DrawerLogo />,
-            headerRight: () => <NewChatButton />,
-          }}
-        />
+        
 
         <Drawer.Screen
           name='admin-panel'

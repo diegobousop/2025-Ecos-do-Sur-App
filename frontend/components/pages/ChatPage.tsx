@@ -41,6 +41,7 @@ const IndexChatPage = () => {
   const db = Platform.OS !== 'web' ? useSQLiteContext() : null;
   const listRef = useRef<StreamingMessageListRef>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [selectedScreen, setSelectedScreen] = useState<'chat' | 'feed'>('chat');
 
   // Contador para generar IDs únicos
   const messageIdCounter = useRef(0);
@@ -253,6 +254,7 @@ const IndexChatPage = () => {
       firstLoad={firstLoad}
       colorScheme={colorScheme === 'dark' ? 'dark' : 'light'}
       t={t}
+      selectedScreen={selectedScreen}
     />
   )
 }

@@ -8,6 +8,7 @@ import { StreamingMessageList, StreamingMessageListProvider, StreamingMessageLis
 
 import { useChatContext } from '@/contexts/ChatContext'
 import { LinearGradient } from 'expo-linear-gradient'
+import ScreenSelector from '../common/ScreenSelector'
 
 interface MessageListPageProps {
   resetChat: () => void;
@@ -92,6 +93,8 @@ const MessageListPage = ({
               iconName="menu"
               additionalStyles="top-14 right-4 z-10"
             />
+
+            <ScreenSelector selectedScreen="chat" />
 
             <BubbleButton
               onPress={resetChat}

@@ -1,6 +1,7 @@
+import Ionicons from '@expo/vector-icons/build/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import { Animated, TextInput, View } from 'react-native';
+import { Animated, Pressable, TextInput, View } from 'react-native';
 
 type SearchBarProps = {
     value: string;
@@ -11,6 +12,7 @@ type SearchBarProps = {
   errors?: string;
   multiline?: boolean;
   numberOfLines?: number;
+  onMicPress?: () => void;
 }
 
 const SearchBar = forwardRef<TextInput, SearchBarProps>(({
@@ -26,32 +28,12 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(({
     }).start();
   }, [isFocused, value, animatedValue]);
 
-  const labelStyle = {
-    position: 'absolute' as const,
-    left: 16,
-    top: animatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [6, -8],
-    }),
-    fontSize: animatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [14, 12],
-    }),
-    color: animatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['#999', errors ? 'red' : isFocused ? '#4054A1' : '#666'],
-    }),
-    backgroundColor: 'transparent',
-    paddingHorizontal: 6,
-    paddingTop: 15,
-    fontFamily: 'OpenSans_400Regular',
-  };
 
   return (
     
-    <View className=" w-full px-6" style={{ marginBottom: 8}}>
+    <View className=" w-full px-6 mb-10" >
       <LinearGradient 
-          colors={['#E6EDFF', '#ffffff']}
+          colors={['#E6EDFF', '#FAFCFF']}
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
           style={{ 
@@ -102,10 +84,9 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(({
             borderColor: errors ? 'red' : isFocused ? '#4054A1' : '#ffffff', 
             borderRadius: 45, 
             padding: 12,
-            paddingTop: multiline ? 12 : 24,
             height: multiline ? undefined : 62,
             textAlignVertical: multiline ? 'top' : 'center',
-            fontSize: 16,
+            fontSize: 20,
             fontFamily: 'OpenSans_400Regular',
             paddingHorizontal : 20 
           }}

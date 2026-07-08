@@ -66,7 +66,7 @@ const MessageInput = ({
       <View 
         className={`absolute bottom-0 left-0 right-0 border ${colorScheme === 'dark' ?
            'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ?
-             'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10`} 
+             'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-14`} 
         style={{ maxHeight: '50%'}}>
         <Text className={`text-center text-[18px] mb-2 mt-2 ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>
           {t("chat.querySuggestion")}
@@ -122,7 +122,7 @@ const MessageInput = ({
     <View className={`flex flex-col border 
       ${colorScheme === 'dark' ? 'border-[#272727]' :
        'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ?
-        'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-10 ${options?.length === 0 ? 'h-32' : ''}`} 
+        'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-14 ${options?.length === 0 ? 'h-32' : ''}`} 
       style={{ maxHeight }}>
       <View className="flex flex-row justify-center items-center gap-3">
             {(hasBackOption || options?.length === 0) && (
