@@ -19,8 +19,27 @@
     "common.delete": "Delete",
 
     "chat.welcomeTile": "Welcome to Ecosbot!",
+    "chat.welcome.suffix": "\nI'm EcosBot",
+    "chat.welcome.anytime": [
+        "Hi{{name}}!",
+        "Welcome{{name}}!",
+        "How are you{{name}}?",
+        "Hey{{name}}!",
+        "Nice to see you{{name}}!"
+    ],
+    "chat.welcome.morning": [ 
+        "Good morning{{name}}!",
+        "Rise and shine{{name}}!"
+    ],
+    "chat.welcome.afternoon": [
+        "Good afternoon{{name}}!",
+        "Hope your afternoon's going well{{name}}!"
+    ],
+    "chat.welcome.night": [
+        "Good evening{{name}}!"
+    ],
     "chat.presentation": "Hello! I am the Ecosbot chatbot, and my mission is to help you in cases of aggression and discrimination based on racist, xenophobic, or Islamophobic motives.\n\nPlease let me know if you need urgent help or non-urgent information.",
-    "chat.incognitoPresentation": "🕵️ Incognito Mode Activated\n\nYour conversations will not be saved or stored. This session is completely private and no record will be kept.",
+    "chat.incognitoPresentation": " Incognito Mode Activated\n\nYour conversations will not be saved or stored. This session is completely private and no record will be kept.",
     "chat.querySuggestion": "Enter a type of query",
     "chat.answerSuggestion": "Select an answer",
     "chat.message.urgent": "Urgent",

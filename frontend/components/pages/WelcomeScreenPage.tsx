@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Animated, Image, ScrollView, View } from 'react-native';
 
 import BubbleButton from '@/components/common/BubbleButton';
@@ -8,8 +8,10 @@ import MessageInput from '@/components/MessageInput';
 import { MessageOption } from '@/utils/interfaces';
 
 import { svgIcons } from '@/constants/icons';
+import { useAuth } from '@/contexts/AuthContext';
 import { useChatContext } from '@/contexts/ChatContext';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTranslation } from 'react-i18next';
 import ScreenSelector from '../common/ScreenSelector';
 
 interface WelcomeScreenPageProps {
@@ -37,8 +39,43 @@ const WelcomeScreenPage = ({
 }: WelcomeScreenPageProps) => {
 
     const { toggleIncognito, getIsIncognito } = useChatContext();
+    const { user } = useAuth();
+    const { t: tt, i18n } = useTranslation();
     const [isIncognito, setIsIncognito] = useState(false);
     const fadeAnim = useRef(new Animated.Value(1)).current;
+
+    // Saludo de bienvenida: personalizado con el nombre si hay sesión, elegido
+    // al azar de una pool general + una pool según la hora del día.
+    const welcomeMessage = useMemo(() => {
+      // Primer nombre, con la inicial en mayúscula (ej. "diego" -> " Diego").
+      const rawName = (user?.name || user?.userName || '').trim().split(' ')[0];
+      const firstName = rawName ? rawName.charAt(0).toUpperCase() + rawName.slice(1) : '';
+      const namePart = firstName ? ` ${firstName}` : '';
+
+      // Pool según la franja horaria.
+      const hour = new Date().getHours();
+      const timeKey =
+        hour >= 5 && hour < 14
+          ? 'chat.welcome.morning'
+          : hour >= 14 && hour < 21
+          ? 'chat.welcome.afternoon'
+          : 'chat.welcome.night';
+
+      const anytime = tt('chat.welcome.anytime', { returnObjects: true });
+      const timed = tt(timeKey, { returnObjects: true });
+      const pool = [
+        ...(Array.isArray(anytime) ? anytime : []),
+        ...(Array.isArray(timed) ? timed : []),
+      ] as string[];
+
+      const template = pool.length
+        ? pool[Math.floor(Math.random() * pool.length)]
+        : '¡Hola{{name}}!';
+
+      return template.replace('{{name}}', namePart) + tt('chat.welcome.suffix');
+      // Se recalcula si cambia el usuario o el idioma (no en cada render).
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user?.name, user?.userName, i18n.language]);
 
     const handleToggleIncognito = () => {
       toggleIncognito();
@@ -102,10 +139,10 @@ const WelcomeScreenPage = ({
         />
         <ScrollView>
           <View className="flex-1 justify-start items-center px-4 mt-64">            
-            <Text 
-              style={{ fontFamily: 'Merriweather_400Regular', color: colorScheme === 'dark' ? 'white' : '#4054A1' }} 
+            <Text
+              style={{ fontFamily: 'Merriweather_400Regular', color: colorScheme === 'dark' ? 'white' : '#4054A1' }}
               className={`text-center text-[28px]`}>
-              {t("chat.welcomeTile")}
+              {welcomeMessage}
             </Text>
             <Animated.Text 
               style={{ opacity: fadeAnim }} 

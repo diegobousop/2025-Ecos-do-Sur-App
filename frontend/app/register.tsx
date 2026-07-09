@@ -136,49 +136,31 @@ export default function Register() {
     }
 
     setLoading(true);
+    setError(null);
+    setVerificationCodeErrors('');
     try {
-      const response = await chatbotService.register(userName.trim(), email.trim(), password.trim(), language, gender, '');
-      if (!response.token) {
-        setError('Error al crear la cuenta. Intenta de nuevo.');
-        return;
+      // Solicita el código de verificación por email y pasa a la pantalla de
+      // verificación. La cuenta se crea en handleVerifyAndSignUp tras validar el código.
+      await chatbotService.requestSignUpCode(email.trim());
+      setVerificationCode1('');
+      setVerificationCode2('');
+      setStep(5);
+    } catch (err: any) {
+      if (err?.status === 409) {
+        setEmailErrors('Este email ya está registrado');
+        setStep(1);
+      } else if (err?.status === 429) {
+        setVerificationCodeErrors('Ya enviamos un código recientemente. Espera unos segundos e inténtalo de nuevo.');
+        setStep(5);
+      } else if (err?.status === 400) {
+        setEmailErrors('Email inválido');
+        setStep(1);
+      } else {
+        setError('No pudimos enviar el código. Intenta de nuevo.');
       }
-      await setSession({
-        token: response.token,
-        user: response.user,
-      });
-      router.push('/(tabs)/(drawer)/(chat)/new');
-    } catch (error) {
-      console.error('Error creating account:', error);
-      setError('No pudimos crear la cuenta. Intenta de nuevo.');
     } finally {
       setLoading(false);
     }
-
-    // CÓDIGO ORIGINAL (DESACTIVADO):
-    // setLoading(true);
-    // setVerificationCodeErrors('');
-    // try {
-    //   console.warn('Requesting signup code for:', email.trim());
-    //   await chatbotService.requestSignUpCode(email.trim());
-    //   setVerificationCode1('');
-    //   setVerificationCode2('');
-    //   setStep(5);
-    // } catch (err: any) {
-    //   if (err?.status === 409) {
-    //     setEmailErrors('Este email ya está registrado');
-    //     setStep(1);
-    //   } else if (err?.status === 429) {
-    //     setVerificationCodeErrors('Ya enviamos un código recientemente. Espera unos segundos e inténtalo de nuevo.');
-    //     setStep(5);
-    //   } else if (err?.status === 400) {
-    //     setEmailErrors('Email inválido');
-    //     setStep(1);
-    //   } else {
-    //     setVerificationCodeErrors('No pudimos enviar el código. Intenta de nuevo.');
-    //   }
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
   const handleVerifyAndSignUp = async () => {

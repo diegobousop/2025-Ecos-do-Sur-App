@@ -232,7 +232,6 @@ export const svgIcons = {
       height={24}
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <Path
@@ -243,6 +242,24 @@ export const svgIcons = {
       />
     </Svg>
   ),
+
+  ShareIcon : (props: SvgProps) => (
+    <Svg
+      width={14}
+      height={14}
+      viewBox="0 0 13 14"
+      fill="none"
+      {...props}
+    >
+      <Path
+        d="M.75 7.75v4a1 1 0 001 1h9a1 1 0 001-1v-4m-5.5 1.5V1m3 2.75l-3-3-3 3"
+        stroke="currentColor"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  )
 
 
 

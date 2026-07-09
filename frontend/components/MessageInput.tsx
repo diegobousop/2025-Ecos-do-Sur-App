@@ -47,7 +47,7 @@ const MessageInput = ({
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
   const { width, height } = useWindowDimensions();
-  const maxHeight = height / width > 2.2 ? '50%' : '60%';
+  const maxHeight = height / width > 2.2 ? '50%' : '50%';
 
   const hasBackOption = options?.some(row => row.some(opt => opt.callback_data === 'BACK'));
 
@@ -66,7 +66,7 @@ const MessageInput = ({
       <View 
         className={`absolute bottom-0 left-0 right-0 border ${colorScheme === 'dark' ?
            'border-[#272727]' : 'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ?
-             'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-14`} 
+             'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 py-2 pb-0 mb-14`} 
         style={{ maxHeight: '50%'}}>
         <Text className={`text-center text-[18px] mb-2 mt-2 ${colorScheme === 'dark' ? 'text-white' : 'text-black'}`}>
           {t("chat.querySuggestion")}
@@ -122,7 +122,7 @@ const MessageInput = ({
     <View className={`flex flex-col border 
       ${colorScheme === 'dark' ? 'border-[#272727]' :
        'border-[#E5E7EB]'} mx-5 ${colorScheme === 'dark' ?
-        'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 mb-14 ${options?.length === 0 ? 'h-32' : ''}`} 
+        'bg-[#1A1A1A]' : 'bg-[#D1E9FF]'} rounded-[40px] p-5 py-2 pb-0  mb-14 ${options?.length === 0 ? 'h-32' : ''}`} 
       style={{ maxHeight }}>
       <View className="flex flex-row justify-center items-center gap-3">
             {(hasBackOption || options?.length === 0) && (
@@ -177,7 +177,7 @@ const MessageInput = ({
                 className={`relative flex flex-row items-center justify-center mt-2 border ${colorScheme === 'dark' ?
                    'border-[#272727]' : 'border-[#E5E7EB]'} px-4 py-5 gap-3`}
                 style={{
-                  borderColor: pressed ? '#60A5FA' : '#262626',
+                  borderColor: pressed ? '#60A5FA' : '#E5E7EB',
                   borderRadius: 20,
                   paddingVertical: 15,
                   marginBottom: 12,

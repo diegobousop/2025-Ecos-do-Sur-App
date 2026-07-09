@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, RefreshControl, ScrollView, View } from 'react-native';
+import { ActivityIndicator, RefreshControl, ScrollView, useColorScheme, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import BubbleButton from '@/components/common/BubbleButton';
 import Text from '@/components/common/Text';
@@ -14,7 +15,9 @@ import SearchBar from '../common/SearchBar';
 
 const FeedPage = () => {
   const navigation = useNavigation();
-  
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
   const openDrawer = () => { navigation.dispatch(DrawerActions.openDrawer()); }
 
   const [feedItems, setFeedItems] = useState<NotificationItem[]>([]);
@@ -129,8 +132,22 @@ const FeedPage = () => {
 
           </View>
         </ScrollView>
-       
-        
+
+        {/* Degradado superior: difumina el texto que sube por detrás de los
+            botones/selector. Opaco arriba -> transparente abajo, según el tema.
+            z-[5] lo deja por encima del contenido pero por debajo de los botones (z-10). */}
+        <LinearGradient
+          colors={
+            isDark
+              ? ['#000000', '#000000', 'rgba(0,0,0,0)']
+              : ['#FFFFFF', '#FFFFFF', 'rgba(255,255,255,0)']
+          }
+          locations={[0, 0.6, 1]}
+          pointerEvents="none"
+          className="absolute top-0 left-0 right-0 z-[5]"
+          style={{ height: 150 }}
+        />
+
       </View>
     </View>
   )

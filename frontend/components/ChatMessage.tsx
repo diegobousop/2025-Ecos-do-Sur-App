@@ -119,14 +119,14 @@ const ChatMessage = ({ content, role, loading, isLastBotHeader }: ChatMessagePro
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    className="flex-row items-center ml-2 bg-transparent rounded-full" 
+                    className="flex-row items-center ml-2 bg-transparent rounded-full mt-1" 
                     onPress={shareContent}
                 >
                     <View className={`flex-row items-center p-2 rounded-full`}>
-                        <Ionicons 
-                            name="share-outline" 
-                            size={18} 
-                            color={colorScheme === 'dark' ? 'white' : 'black'} 
+                        <svgIcons.ShareIcon
+                            width={14}
+                            height={14}
+                            color={colorScheme === 'dark' ? 'white' : 'black'}
                         />
                     </View>
                 </TouchableOpacity>

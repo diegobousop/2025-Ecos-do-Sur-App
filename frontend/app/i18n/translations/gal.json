@@ -20,6 +20,25 @@
     "common.delete": "Eliminar",
 
     "chat.welcomeTile": "¡Benvido/a a Ecosbot!",
+    "chat.welcome.suffix": "\nSon EcosBot",
+    "chat.welcome.anytime": [
+        "Ola{{name}}!",
+        "Benvido/a{{name}}!",
+        "Que tal{{name}}?",
+        "Ei{{name}}!",
+        "Alégrome de verte{{name}}!"
+    ],
+    "chat.welcome.morning": [
+        "Bos días{{name}}!",
+        "Feliz mañá{{name}}!"
+    ],
+    "chat.welcome.afternoon": [
+        "Boas tardes{{name}}!",
+        "Feliz tarde{{name}}!"
+    ],
+    "chat.welcome.night": [
+        "Boas noites{{name}}!"
+    ],
     "chat.presentation": "Ola! Son o chatbot Ecosbot, e a miña misión é axudarche en casos de agresión e discriminación por motivos racistas, xenófobos ou islamófobos.\n\nPor favor, indícame se necesitas axuda urxente ou información non urxente.",
     "chat.querySuggestion": "Introduce un tipo de consulta",
     "chat.answerSuggestion": "Selecciona unha resposta",

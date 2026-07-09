@@ -99,7 +99,7 @@ const NotificationDetail = () => {
         {enlaceExterno ? (
           <TouchableOpacity
             onPress={openExternalLink}
-            className="flex-row items-center mt-6 bg-[#5B4CBA] px-5 py-3 rounded-full self-start"
+            className="flex-row items-center mt-6 bg-[#4054A1] px-5 py-3 rounded-full self-start"
           >
             <Ionicons name="open-outline" size={18} color="white" />
             <Text className="text-white font-medium ml-2">Ver más</Text>
