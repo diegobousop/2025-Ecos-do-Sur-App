@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { ActivityIndicator, RefreshControl, ScrollView, View } from 'react-native';
 
 import BubbleButton from '@/components/common/BubbleButton';
 import Text from '@/components/common/Text';
@@ -68,6 +68,7 @@ const FeedPage = () => {
 
         <BubbleButton
           additionalStyles="top-14 left-4 z-10"
+          onPress={() => router.push('/(tabs)/(drawer)/new')}
         />
 
         <ScrollView
@@ -95,7 +96,7 @@ const FeedPage = () => {
             />
             
             {isLoading ? (
-              <Text className="mt-6">Cargando...</Text>
+              <ActivityIndicator size="large" color="#4054A1" className="mt-6" />
             ) : null}
             {error ? (
               <Text className="mt-4 text-red-600">{error}</Text>

@@ -50,7 +50,7 @@ const CustomTextInput = forwardRef<TextInput, CustomTextInputProps>(({value, onC
     
     <View style={{ marginBottom: 8}}>
       <LinearGradient 
-          colors={['#E6EDFF', '#ffffff']}
+          colors={['#E6EDFF', '#FAFCFF']}
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
           style={{ 

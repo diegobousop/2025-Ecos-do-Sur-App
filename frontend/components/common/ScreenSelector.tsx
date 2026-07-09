@@ -16,35 +16,26 @@ const ScreenSelector = ({ additionalStyles = '', svgIcon, iconName, selectedScre
   const router = useRouter();
 
   const selectedStyles = 'p-3 border-2 border-[#BCB6DC] rounded-full ';
-  const unselectedStyles = 'p-3 ';
+  const unselectedStyles = 'p-3 border-2 border-transparent rounded-full';
 
   return (
-    <View className="absolute z-30 top-14 right-28 w-[50%]">
+    <View className="absolute z-30 top-14 right-32  w-[50%]">
         <View className="flex flex-row gap-2">
           <TouchableOpacity
             onPress={() => router.replace('/(tabs)/(drawer)/new')}
             className={(selectedScreen === 'chat' ? selectedStyles : unselectedStyles) + additionalStyles}
           >
-              <Text>EcosBot</Text>
+              <Text className="font-sans-semibold">EcosBot</Text>
 
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.replace('/(tabs)/(drawer)/feed')}
-          className={(selectedScreen === 'feed' ? selectedStyles : unselectedStyles) + additionalStyles}>
-              <Text>Centro de Ayuda</Text>
+            className={(selectedScreen === 'feed' ? selectedStyles : unselectedStyles) + additionalStyles}>
+              <Text className="font-sans-semibold">Centro de Ayuda</Text>
           </TouchableOpacity>
         </View>
     </View>
 
   )
 }
-
-const styles = {
-  blur: {
-    padding: 10,
-    borderRadius: 9999, // Clase para hacer el borde completamente redondeado
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-};
 
 export default ScreenSelector

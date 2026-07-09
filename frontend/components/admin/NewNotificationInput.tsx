@@ -1,8 +1,10 @@
 import CustomTextInput from '@/components/common/CustomTextInput'
 import SubmitButton from '@/components/SubmitButton'
+import { svgIcons } from '@/constants/icons'
 import { usePushNotifications } from '@/hooks/use-push-notifications'
 import { API_CONFIG } from '@/utils/apiConfig'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import * as Clipboard from 'expo-clipboard'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState } from 'react'
  
@@ -44,6 +46,9 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
   const [images, setImages] = useState<AttachedImage[]>([])
   const [showUrlModal, setShowUrlModal] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
+  const [showLinkModal, setShowLinkModal] = useState(false)
+  const [linkUrl, setLinkUrl] = useState('')
+  const [clipboardLink, setClipboardLink] = useState<string | null>(null)
 
   useEffect(() => {
     if (importedData) {
@@ -60,6 +65,11 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
       setLinks(newLinks)
     }
   }, [importedData])
+
+  useEffect(() => {
+    checkClipboardForLink()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [links])
 
   const handleClear = () => {
     setTitle('')
@@ -150,6 +160,43 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
     setImages(prev => prev.filter((_, i) => i !== index))
   }
 
+  const isUrl = (text: string) => /^https?:\/\/\S+$/i.test(text.trim())
+
+  const checkClipboardForLink = async () => {
+    try {
+      const hasUrl = await Clipboard.hasUrlAsync().catch(() => false)
+      const text = (await Clipboard.getStringAsync()).trim()
+      if ((hasUrl || isUrl(text)) && !links.includes(text)) {
+        setClipboardLink(text)
+      } else {
+        setClipboardLink(null)
+      }
+    } catch (e) {
+      console.warn('Clipboard error', e)
+      setClipboardLink(null)
+    }
+  }
+
+  const handlePasteClipboardLink = () => {
+    if (clipboardLink) {
+      setLinks(prev => [...prev, clipboardLink])
+      setClipboardLink(null)
+    }
+  }
+
+  const handleAddLink = () => {
+    setShowLinkModal(true)
+  }
+
+  const confirmAddLink = () => {
+    const trimmed = linkUrl.trim()
+    if (trimmed) {
+      setLinks(prev => [...prev, trimmed])
+      setLinkUrl('')
+      setShowLinkModal(false)
+    }
+  }
+
   const isDark = colorScheme === 'dark'
   const textColor = isDark ? 'text-white' : 'text-black'
   const placeholderColor = isDark ? '#9CA3AF' : '#6B7280'
@@ -158,12 +205,8 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
   const modalBgColor = isDark ? '#1A1A1A' : '#FFFFFF'
 
   return (
-    <View>
-      <Text 
-        className={`font-sans-bold ml-8 mb-2 ${colorScheme === 'dark' ? 'text-gray-400' :
-          'text-textSecondary'}`}>
-          Nueva Notificación
-      </Text>
+    <View className="px-4">
+      
       <View >
         {/* Title input (using shared CustomTextInput) */}
         <CustomTextInput
@@ -177,34 +220,45 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
           onChangeText={setDescription}
           placeholder="Descripción"
           multiline={true}
-          numberOfLines={3}
+          numberOfLines={8}
         />
 
         {/* Bottom icons */}
         <View className="flex-row justify-center gap-6 mt-2">
           {/* <TouchableOpacity onPress={handleAddImageFromDevice}>
-            <MaterialCommunityIcons 
-              name="image-edit-outline" 
-              size={28} 
-              color={isDark ? '#A78BFA' : '#5B4CBA'} 
+            <MaterialCommunityIcons
+              name="image-edit-outline"
+              size={28}
+              color={isDark ? '#A78BFA' : '#5B4CBA'}
             />
           </TouchableOpacity> */}
-          
-          <TouchableOpacity onPress={handleAddImageFromUrl}>
-            <MaterialCommunityIcons 
-              name="link-variant-plus" 
-              size={28} 
-              color={isDark ? '#A78BFA' : '#5B4CBA'} 
-            />
-          </TouchableOpacity>
-        </View>
 
-        <SubmitButton 
-                  message={"Enviar"}
-                  onPress={handleSend} 
-                  props={{ style: { marginTop: 10 } }} 
-                  loading={loading} 
-                  />
+          <TouchableOpacity onPress={handleAddLink} className="flex-row items-center gap-2">
+            <svgIcons.AddLinkIcon width={30} height={30} fill={isDark ? '#A78BFA' : '#4054A1'} />
+            <Text className={textColor}>Añadir enlace</Text>
+          </TouchableOpacity>
+
+          {clipboardLink && (
+            <TouchableOpacity
+              onPress={handlePasteClipboardLink}
+              activeOpacity={0.8}
+              className={`flex-row items-center gap-2 px-3 py-2 rounded-full border ${borderColor} ${isDark ? 'bg-[#2A2440]' : 'bg-[#EEECFA]'}`}
+            >
+              <MaterialCommunityIcons
+                name="content-paste"
+                size={18}
+                color={isDark ? '#A78BFA' : '#5B4CBA'}
+              />
+              <Text
+                className={`max-w-[140px] font-sans-bold ${isDark ? 'text-[#A78BFA]' : 'text-[#5B4CBA]'}`}
+                numberOfLines={1}
+                ellipsizeMode="middle"
+              >
+                Pegar enlace
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
         {/* Links list */}
         {links.length > 0 && (
@@ -224,6 +278,15 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
             </View>
           </View>
         )}
+
+        <SubmitButton 
+                  message={"Enviar notificación"}
+                  onPress={handleSend} 
+                  props={{ style: { marginTop: 10 } }} 
+                  loading={loading} 
+                  />
+
+        
 
         {/* Attached images */}
         {images.length > 0 && (
@@ -300,6 +363,56 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
                 
                 <TouchableOpacity 
                   onPress={confirmAddImageUrl}
+                  className="bg-[#5B4CBA] px-4 py-2 rounded-lg"
+                >
+                  <Text className="text-white font-medium">Añadir</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        {/* Link Modal */}
+        <Modal
+          visible={showLinkModal}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setShowLinkModal(false)}
+        >
+          <View className="flex-1 justify-center items-center bg-black/50 px-6">
+            <View
+              className="w-full rounded-2xl p-5"
+              style={{ backgroundColor: modalBgColor }}
+            >
+              <Text className={`text-lg font-semibold mb-4 ${textColor}`}>
+                Añadir enlace
+              </Text>
+
+              <TextInput
+                value={linkUrl}
+                onChangeText={setLinkUrl}
+                placeholder="https://ejemplo.com"
+                placeholderTextColor={placeholderColor}
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="url"
+                onSubmitEditing={confirmAddLink}
+                className={`border ${isDark ? 'border-gray-600' : 'border-gray-300'} rounded-lg px-4 py-3 mb-4 ${textColor}`}
+              />
+
+              <View className="flex-row justify-end gap-3">
+                <TouchableOpacity
+                  onPress={() => {
+                    setLinkUrl('')
+                    setShowLinkModal(false)
+                  }}
+                  className="px-4 py-2"
+                >
+                  <Text className={textColor}>Cancelar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={confirmAddLink}
                   className="bg-[#5B4CBA] px-4 py-2 rounded-lg"
                 >
                   <Text className="text-white font-medium">Añadir</Text>

@@ -90,12 +90,11 @@ const AnalyticsPage = ({
 
   return (
     <ScrollView 
-      className="flex-1"
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <View className="p-4 gap-6">
+      <View className="gap-6 px-4">
         {/* Total de conversaciones */}
         <View className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700">
           <Text className="text-gray-600 dark:text-gray-400 text-sm mb-2">Total de Conversaciones</Text>

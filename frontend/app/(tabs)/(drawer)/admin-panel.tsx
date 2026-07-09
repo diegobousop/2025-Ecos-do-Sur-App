@@ -72,7 +72,7 @@ const AdminPanel = () => {
   return (
     <View 
       style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? '#000' : '#FFFFFF'  }}>
-      <View className="px-4  pb-2">
+      <View className="px-4  pb-2 mt-6">
         <SectionSelector
           sections={sections}
           activeSection={activeSection}
@@ -81,7 +81,7 @@ const AdminPanel = () => {
       </View>
 
       {/* Contenido de la sección */}
-      <View className="flex-1 px-4 py-2">
+      <View className="flex-1  py-2">
         {activeSection === 'notifications' && (
           <View className="flex-1">
             <NewNotificationPage />

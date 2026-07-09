@@ -1,3 +1,4 @@
+import SearchBar from '@/components/common/SearchBar';
 import Text from '@/components/common/Text';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserData } from '@/utils/interfaces';
@@ -11,21 +12,23 @@ const UserAdminPage = () => {
   const { user } = useAuth();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const PAGE_SIZE = 6;
   const [responseData, setResponseData] = React.useState<UserData[]>([]);
   const [refreshing, setRefreshing] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const [loading, setLoading] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState('');
   const [pagination, setPagination] = React.useState({
     total: 0,
     totalPages: 0,
-    limit: 5
+    limit: PAGE_SIZE
   });
 
-  const fetchUsers = async (pageNum: number = 1) => {
+  const fetchUsers = React.useCallback(async (pageNum: number = 1, search: string = '') => {
     try {
       setLoading(true);
-      const response = await userService.getAllUsers(pageNum, 5, user?.id);
-      
+      const response = await userService.getAllUsers(pageNum, PAGE_SIZE, user?.id, search);
+
       // Validar que la respuesta tenga la estructura esperada
       if (response.users && response.pagination) {
         setResponseData(response.users);
@@ -37,22 +40,28 @@ const UserAdminPage = () => {
       } else {
         console.error('Invalid response structure:', response);
         setResponseData([]);
-        setPagination({ total: 0, totalPages: 0, limit: 5 });
+        setPagination({ total: 0, totalPages: 0, limit: PAGE_SIZE });
       }
     } catch (error) {
       console.error('Error fetching data:', error);
       setResponseData([]);
-      setPagination({ total: 0, totalPages: 0, limit: 5 });
+      setPagination({ total: 0, totalPages: 0, limit: PAGE_SIZE });
     } finally {
       setLoading(false);
     }
+  }, [user?.id]);
+
+  // Reinicia a la primera página cuando cambia el término de búsqueda
+  const onChangeSearch = (text: string) => {
+    setSearchQuery(text);
+    setPage(1);
   };
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
-    await fetchUsers(page);
+    await fetchUsers(page, searchQuery);
     setRefreshing(false);
-  }, [page]);
+  }, [page, searchQuery, fetchUsers]);
 
   const handleNextPage = () => {
     if (page < pagination.totalPages && !loading) {
@@ -66,13 +75,15 @@ const UserAdminPage = () => {
     }
   };
 
+  // Carga los usuarios (o resultados de búsqueda) cuando cambia la página o el
+  // término de búsqueda, con debounce para no llamar al backend en cada tecla.
   useEffect(() => {
-    fetchUsers(1);
-  }, [])
+    const handler = setTimeout(() => {
+      fetchUsers(page, searchQuery);
+    }, 350);
 
-  useEffect(() => {
-    fetchUsers(page);
-  }, [page])
+    return () => clearTimeout(handler);
+  }, [page, searchQuery, fetchUsers])
 
   return (
     <ScrollView
@@ -80,13 +91,29 @@ const UserAdminPage = () => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
+      <View className="pt-4">
+        <SearchBar
+          value={searchQuery}
+          onChangeText={onChangeSearch}
+          placeholder="Buscar usuarios"
+          keyboardType="default"
+          multiline={false}
+        />
+      </View>
+
       {loading && page === 1 ? (
         <View className="flex-1 justify-center items-center py-8">
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#4054A1" />
+        </View>
+      ) : responseData.length === 0 ? (
+        <View className="flex-1 justify-center items-center py-8">
+          <Text className="text-gray-500 dark:text-gray-400">
+            No se encontraron usuarios
+          </Text>
         </View>
       ) : (
         <>
-          <View className="flex flex-col gap-4 ">
+          <View className="flex flex-col gap-4 px-4">
             {responseData?.map((user) => (
               <View
                 key={user._id}

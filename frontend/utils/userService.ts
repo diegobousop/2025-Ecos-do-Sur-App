@@ -39,10 +39,11 @@ class UserService {
         }
     }
 
-    async getAllUsers(page: number = 1, limit: number = 5, userId?: string) {
+    async getAllUsers(page: number = 1, limit: number = 5, userId?: string, search?: string) {
         try {
             const userIdParam = userId ? `&userId=${encodeURIComponent(userId)}` : '';
-            const response = await fetch(getApiUrl('GET_ALL_USERS') + `?page=${page}&limit=${limit}${userIdParam}`, {
+            const searchParam = search && search.trim() ? `&search=${encodeURIComponent(search.trim())}` : '';
+            const response = await fetch(getApiUrl('GET_ALL_USERS') + `?page=${page}&limit=${limit}${userIdParam}${searchParam}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
