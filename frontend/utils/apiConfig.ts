@@ -1,13 +1,15 @@
 // Configuración del API
 export const API_CONFIG = {
     
-    BASE_URL: 'http://192.168.1.132:4000',
+    BASE_URL: 'https://api.ecosdosur.org',
 
     ENDPOINTS: {
         HEALTH: '/api/health',
 
         CHAT: '/api/chat',
         CALLBACK: '/api/callback',
+        FEED: '/api/feed',
+        SEARCH_NOTIFICATIONS: '/api/notifications/search',
 
         LOGIN: '/api/login',
         REGISTER: '/api/signUp',

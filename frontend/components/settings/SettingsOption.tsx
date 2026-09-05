@@ -15,11 +15,23 @@ const SettingsOption = ({ title, iconName, value, last }: SettingsOptionProps) =
   return (
     <>
         <View className="flex flex-row items-center justify-between px-4  text-right">
-            <Ionicons className="w-[10%]" name={iconName} size={20} color={colorScheme === 'dark' ? 'white' : 'black'} />
-            <Text className={`text-left  w-[45%] text-lg ${colorScheme === 'dark' ? 'text-white' : 'text-textSecondary'}`}>{title}</Text>
-            <Text className={`w-[45%] text-lg ${colorScheme === 'dark' ? 'text-gray-400' : 'text-textSecondary'}`}>{value}</Text>
+            <Ionicons 
+              className="w-[10%]" 
+              name={iconName} 
+              size={20} 
+              color={colorScheme === 'dark' ? 'white' : 'black'} 
+            />
+            <Text 
+              className={`text-left  w-[45%] text-lg ${colorScheme === 'dark' ? 'text-white' :
+               'text-black'}`}>{title}
+            </Text>
+            <Text className={`w-[45%] text-lg ${colorScheme === 'dark' ? 'text-gray-400' :
+               'text-textSecondary'}`}>
+                {value}
+            </Text>
         </View>
-        {!last && <View className={`my-3 h-px ${colorScheme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'}`} />}
+        {!last && <View className={`my-3 h-px ${colorScheme === 'dark' ? 'bg-gray-700' :
+           'bg-gray-300'}`} />}
     </>
 
   )

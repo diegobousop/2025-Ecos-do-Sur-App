@@ -22,7 +22,8 @@ const SettingsLink = ({ title, iconName, value, last, link }: SettingsLinkProps)
     >
         <View className="flex flex-row items-center justify-between px-4  text-right">
             <Ionicons className="w-[10%]" name={iconName} size={20} color={colorScheme === 'dark' ? 'white' : 'black'} />
-            <Text className={`text-left w-[85%] text-lg ${colorScheme === 'dark' ? 'text-white' : 'text-textSecondary'}`}>
+            <Text className={`text-left w-[85%] text-lg ${colorScheme === 'dark' ? 'text-white' :
+               'text-black'}`}>
               {title}</Text>
             <svgIcons.ArrowIcon
               className="w-[5%]"

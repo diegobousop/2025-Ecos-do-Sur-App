@@ -1,8 +1,17 @@
-import { BackButton } from '@/components/BackButton';
-import { Stack } from 'expo-router';
-import React from 'react';
+import { Stack, useNavigation } from 'expo-router';
+import React, { useLayoutEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function SettingsLayout() {
+  const navigation = useNavigation();
+  const { t } = useTranslation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: t('settings.modalTitle'),
+    });
+  }, [navigation, t]);
+
   return (
     <Stack>
       <Stack.Screen 

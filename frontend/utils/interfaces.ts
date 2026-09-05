@@ -29,6 +29,16 @@ export interface Chat {
     user_id?: string | null;
 }
 
+export interface NotificationItem {
+    _id?: string;
+    titulo: string;
+    fecha: string;
+    cuerpo: string;
+    enlace_externo?: string | null;
+    url_imagen?: string | null;
+    type?: 'notification';
+}
+
 export interface UserData {
     id: string;
     userName: string;

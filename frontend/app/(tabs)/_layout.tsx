@@ -3,12 +3,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import { migrateDbIfNeeded } from '@/utils/database';
 import { router, Stack } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
-import React from 'react';
+import React, { Suspense } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Platform, TouchableOpacity, View } from 'react-native';
 
 
 export default function TabLayout() {
   const { isLoaded } = useAuth();
+  const { t } = useTranslation();
 
   if (!isLoaded) {
     return (
@@ -24,7 +26,7 @@ export default function TabLayout() {
       <Stack.Screen
           name="(modal)/settings"
           options={{
-            headerTitle: 'Ajustes',
+            headerTitle: t("settings.modalTitle"),
             headerTitleStyle: {
               fontFamily: 'OpenSans_600SemiBold',
             },
@@ -64,8 +66,10 @@ export default function TabLayout() {
   }
 
   return (
-    <SQLiteProvider databaseName="chat.db" onInit={migrateDbIfNeeded}>      
-      {content}
-    </SQLiteProvider>
+    <Suspense fallback={<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator /></View>}>
+      <SQLiteProvider databaseName="chat.db" onInit={migrateDbIfNeeded} useSuspense>      
+        {content}
+      </SQLiteProvider>
+    </Suspense>
   );
 }

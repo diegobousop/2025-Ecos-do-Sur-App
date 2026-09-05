@@ -5,9 +5,11 @@ import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { Linking, Platform, TouchableOpacity, View, useColorScheme } from 'react-native'
 import SettingsLink from './SettingsLink'
+import { useTranslation } from 'react-i18next'
 
 const AccountSection = () => {
     const { user } = useAuth();
+    const { t } = useTranslation();
     const colorScheme = useColorScheme();
 
     const handleOpenAppSettings = () => {
@@ -22,11 +24,13 @@ const AccountSection = () => {
     return (
         <View className=" rounded-[28px]">
             <Text className={`font-sans-bold ml-8 mb-2 ${colorScheme === 'dark' ? 'text-gray-400' : 'text-textSecondary'}`}>
-                Aplicación
+                {t("settings.appTitle")}
             </Text>
-            <View className={`${colorScheme === 'dark' ? 'bg-[#262626]' : 'bg-white'} py-8 rounded-[40px] px-4`}>
+            <View 
+                className={`${colorScheme === 'dark' ? 'bg-[#262626]' : 'bg-white'}
+                 py-8 rounded-[40px] px-4`}>
                 <SettingsLink 
-                    title="Idioma" 
+                    title={t("settings.language")} 
                     iconName="language-outline"
                     value={''} 
                     link={'language'}
@@ -44,8 +48,9 @@ const AccountSection = () => {
                             color={colorScheme === 'dark' ? 'white' : 'black'} 
                         />
                         <Text 
-                            className={`text-left w-[85%] text-lg ${colorScheme === 'dark' ? 'text-white' : 'text-textSecondary'}`}>
-                                Notificaciones
+                            className={`text-left w-[85%] text-lg ${colorScheme === 'dark' ?
+                             'text-white' : 'text-black'}`}>
+                            {t("settings.notifications")}
                         </Text>
                         <svgIcons.ArrowIcon
                         className="w-[5%]"

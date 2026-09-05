@@ -3,7 +3,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useChatContext } from '@/contexts/ChatContext';
 import chatbotService from '@/utils/chatbotService';
 import { Message, MessageOption, Role } from '@/utils/interfaces';
-import userService from '@/utils/userService';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Alert, Platform, useColorScheme, View } from 'react-native';
@@ -42,8 +41,7 @@ const IndexChatPage = () => {
   const db = Platform.OS !== 'web' ? useSQLiteContext() : null;
   const listRef = useRef<StreamingMessageListRef>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
-  
-
+  const [selectedScreen, setSelectedScreen] = useState<'chat' | 'feed'>('chat');
 
   // Contador para generar IDs únicos
   const messageIdCounter = useRef(0);
@@ -85,54 +83,30 @@ const IndexChatPage = () => {
   }, [registerResetHandler, resetChat]);
 
   useEffect(() => {
-    checkBackendConnection();
     if (!chatInitialized) {
       handleOptionSelect('START');
-      id = chatId.split('_')[1];
-      if (db) {
-        changeChatTitle(db, parseInt(id), "Nuevo Chat");
-      }
     }
   }, [chatInitialized]);
 
 
-
-  const checkBackendConnection = async () => {
-    try {
-      const isHealthy = await chatbotService.checkHealth();
-      if (!isHealthy) {
-        Alert.alert(
-          'Conexión',
-          'No se pudo conectar con el servidor del chatbot. Asegúrate de que el backend de Elixir esté ejecutándose.'
-        );
-      }
-    } catch (error) {
-      console.error('Error checking backend:', error);
-    }
-  };
-
   const handleChatSave = async (callbackData: string, chatIdNum: number) => {
     const isIncognito = getIsIncognito();
     
-    if (isIncognito) {
-      console.log("incognito es true");
-      return;
-    }
+    if (isIncognito) {return;}
     
     const currentUserId = user?.id || null;
     
     if (callbackData === 'U1' && db) {
       addChat(db, 'Nuevo Chat', chatIdNum, "urgent", currentUserId);
-      console.log("Saving urgent chat...");
       if (token) {
-        userService.saveChat(chatIdNum, 'urgent', token).catch(console.error);
+        //userService.saveChat(chatIdNum, 'urgent', token).catch(console.error);
       }
     }
     
     if (callbackData === 'I1' && db) {
       addChat(db, 'Nuevo Chat', chatIdNum, "information", currentUserId);
       if (token) {
-        userService.saveChat(chatIdNum, 'information', token).catch(console.error);
+        //userService.saveChat(chatIdNum, 'information', token).catch(console.error);
       }
     }
   };
@@ -220,6 +194,7 @@ const IndexChatPage = () => {
   const renderMessage = ({ item }: { item: Message; index: number }) => {
     const isLastUserMessage = item.role === Role.User && item.id === messages.slice().reverse().find(m => m.role === Role.User)?.id;
     const isLastAssistantMessage = item.role === Role.Bot && item.id === messages.slice().reverse().find(m => m.role === Role.Bot)?.id;
+    const isLastBotHeader = item.role === Role.BotHeader && item.id === messages.slice().reverse().find(m => m.role === Role.BotHeader)?.id;
 
     const entering = isLastAssistantMessage ? FadeIn.duration(500) : FadeIn.duration(300);
 
@@ -229,6 +204,7 @@ const IndexChatPage = () => {
         content={item.content}
         role={item.role}
         loading={loading}
+        isLastBotHeader={isLastBotHeader}
       />
     );
     if (isLastUserMessage) {
@@ -278,6 +254,7 @@ const IndexChatPage = () => {
       firstLoad={firstLoad}
       colorScheme={colorScheme === 'dark' ? 'dark' : 'light'}
       t={t}
+      selectedScreen={selectedScreen}
     />
   )
 }

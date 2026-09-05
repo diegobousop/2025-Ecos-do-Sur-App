@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "121c4c88-0067-4b31-b278-58534bc7562a"
+      }
+    },
+    "android": {
+      "package": "com.diego.bouso.ecosdosurapp"
+    }
+  }
+}

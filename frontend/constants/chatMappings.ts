@@ -42,6 +42,6 @@ export const CHAT_MESSAGE_MAPPINGS: Record<string, string> = {
   'Q9': 'chat.message.answer_nine',
   'Q10': 'chat.message.answer_ten',
 
-
+  'THEFT': 'chat.message.theft',
 
 };

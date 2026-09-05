@@ -7,28 +7,17 @@ import SubmitButton from '@/components/SubmitButton';
 import ActionButton from '@/components/common/ActionButton';
 import Text from '@/components/common/Text';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 
 export default function Login() {
   const colorScheme = useColorScheme()
+  const {t} = useTranslation();
   const router = useRouter();
   const { setSession, isSignedIn } = useAuth();
   const [userName, setUserName] = useState('diegoxdash 2');
   const [password, setPassword] = useState('123452');
   const [botResponse, setBotResponse] = useState<any>(null);
-
-  const onDevSignIn = async () => {
-
-    const response = await chatbotService.login(userName.trim(), password.trim());
-    setBotResponse(response);
-    if (!response.token) {
-      return;
-    }
-    await setSession({
-      token: response.token,
-      user: response.user,
-    }); 
-  };
 
   const onGuestSignIn = async () => {
   router.push('/(tabs)/(drawer)/(chat)/new');
@@ -72,7 +61,7 @@ export default function Login() {
           fontSize: 24, 
           fontFamily: 'Merriweather_700Bold', 
           color: colorScheme === 'dark' ? 'white' : 'white' }}>
-          Infórmate y lucha
+          {t("intro.slogan")}
         </Text>
 
         <Text className="text-center text-[28px] " 
@@ -81,7 +70,7 @@ export default function Login() {
           fontFamily: 'OpenSans_400Regular',
           fontSize: 16, 
           color: colorScheme === 'dark' ? 'white' : 'white' }}>
-          Contra el odio y la discriminación
+          {t("intro.sloganSecondary")}
         </Text>
 
         <TouchableOpacity 
@@ -94,17 +83,22 @@ export default function Login() {
         
 
         <SubmitButton 
-          message="Continuar como invitado" 
+          message={t("intro.guest")}
           onPress={onGuestSignIn} 
           props={{ style: { marginTop: 16 } }} 
         />
 
+        <ActionButton 
+          iconName="log-in" 
+          message={t("intro.login")} 
+          onPress={onNavigateToLogin} 
+        />
 
-
-        <ActionButton iconName="log-in" message="Iniciar sesión" onPress={onNavigateToLogin} />
-
-        <ActionButton iconName="person-add" message="Crear una cuenta nueva" onPress={onNavigateToRegister} />
-
+        <ActionButton 
+          iconName="person-add" 
+          message={t("intro.register")} 
+          onPress={onNavigateToRegister} 
+        />
 
         <Text style={{ textAlign: 'center', marginTop: 20, color: 'gray' }}>
           {botResponse && JSON.stringify(botResponse)}

@@ -8,11 +8,13 @@ import chatbotService from '@/utils/chatbotService';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, useNavigation, useRouter } from 'expo-router';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, Keyboard, ScrollView, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 
 
 export default function Login() {
+  const {t} = useTranslation();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -45,7 +47,13 @@ export default function Login() {
       headerLeft: step === 2 ? () => (
         <TouchableOpacity
           onPress={() => setStep(1)}
-          style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', transform: [{ rotate: '90deg' }] }}
+          style={{ 
+            width: 40, 
+            height: 40, 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            transform: [{ rotate: '90deg' }] 
+          }}
         >
           <svgIcons.ArrowIcon />
         </TouchableOpacity>
@@ -144,7 +152,12 @@ export default function Login() {
   return (
     
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
-      <LinearGradient colors={['#BCE0FF', '#ffffff']} start={{ x: 0, y: 2 }} end={{ x: 0, y: 0 }} style={{ flex: 1 }}>
+      <LinearGradient 
+        colors={['#BCE0FF', '#ffffff']} 
+        start={{ x: 0, y: 2 }} 
+        end={{ x: 0, y: 0 }} 
+        style={{ flex: 1 }}
+      >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={{ flex: 1, padding: 30, justifyContent: 'flex-start', gap: 5}}>
           <Image 
@@ -153,8 +166,12 @@ export default function Login() {
             className="w-16 h-16 mb-2 self-center" 
             />
           
-          <Text className="text-center font-sans" style={{ fontSize: 24 }}>Inicia sesión</Text>
-          <Text className="text-center text-regular color-textSecondary mb-4">Obtendrás historial de conversaciones y contenido personalizado</Text>
+          <Text className="text-center font-sans" style={{ fontSize: 24 }}>
+            {t("login.title")}
+          </Text>
+          <Text className="text-center text-regular color-textSecondary mb-4">
+            {t("login.description")}
+          </Text>
           
           {step === 1 ? (
             <>
@@ -162,23 +179,40 @@ export default function Login() {
                 ref={identifierInputRef}
                 value={identifier}
                 onChangeText={setIdentifier}
-                placeholder="Correo electrónico o nombre de usuario"
+                placeholder={t("login.inputEmailUsername")}
                 keyboardType="email-address"
                 errors={identifierErrors}
               />
 
               {identifierErrors.length > 0 && (
                 <View className="flex flex-row items-center">
-                  <svgIcons.UrgentIcon width={16} height={16} fill="gray" style={{ marginRight: 8, marginTop: 4 }} />
-                  <Text className="flex-1 text-left text-sm color-textSecondary">{identifierErrors}</Text>
+                  <svgIcons.UrgentIcon 
+                    width={16} 
+                    height={16} 
+                    fill="gray" 
+                    style={{ marginRight: 8, marginTop: 4 }} 
+                  />
+                  <Text 
+                    className="flex-1 text-left text-sm color-textSecondary">
+                      {identifierErrors}
+                  </Text>
                 </View>
               )}
 
-              <SubmitButton message="Siguiente" onPress={onNextStep} props={{ style: { marginTop: 10 } }} loading={loading} />
+              <SubmitButton 
+                message={t("login.nextStep")}
+                onPress={onNextStep} 
+                props={{ style: { marginTop: 10 } }} 
+                loading={loading} 
+                />
 
               <Text style={{ textAlign: 'center' }}>- o -</Text>
 
-              <ActionButton iconName="person-add" message="Crear una cuenta nueva" onPress={onNavigateToRegister} />
+              <ActionButton 
+                iconName="person-add" 
+                message={t("intro.register")} 
+                onPress={onNavigateToRegister} 
+              />
             </>
           ) : (
             <>
@@ -186,7 +220,7 @@ export default function Login() {
                 ref={passwordInputRef}
                 value={password}
                 onChangeText={setPassword}
-                placeholder="Contraseña"
+                placeholder={t("login.inputPassword")}
                 keyboardType='default'
                 secureTextEntry={true}
                 errors={passwordErrors}
@@ -194,13 +228,20 @@ export default function Login() {
 
               {passwordErrors.length > 0 && (
                 <View className="flex flex-row items-center">
-                  <svgIcons.UrgentIcon width={16} height={16} fill="gray" style={{ marginRight: 8, marginTop: 4 }} />
-                  <Text className="flex-1 text-left text-sm color-textSecondary">{passwordErrors}</Text>
+                  <svgIcons.UrgentIcon 
+                    width={16} 
+                    height={16} 
+                    fill="gray" 
+                    style={{ marginRight: 8, marginTop: 4 }} 
+                  />
+                  <Text className="flex-1 text-left text-sm color-textSecondary">
+                    {passwordErrors}
+                  </Text>
                 </View>
               )}
 
               <SubmitButton 
-                message="Continuar" 
+                message={t("login.nextStep")}
                 onPress={onDevSignIn} 
                 props={{ style: { marginTop: 16 } }}
                 loading={loading} />

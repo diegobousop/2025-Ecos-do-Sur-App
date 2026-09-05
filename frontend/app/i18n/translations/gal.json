@@ -1,5 +1,17 @@
 {
-    
+    "intro.slogan": "Infórmate e loita",
+    "intro.sloganSecondary": "Contra o odio e a discriminación",
+    "intro.login": "Iniciar sesión",
+    "intro.register": "Crear unha nova conta",
+    "intro.guest": "Continuar como invitado",
+
+    "login.title": "Inicia sesión",
+    "login.description": "Obtenrás historial de conversacións y contenido personalizado",
+    "login.inputEmailUsername": "Correo electrónico o nome de usuario",
+    "login.inputPassword": "Contrasinal",
+    "login.nextStep": "Seguinte",
+
+
     "drawer.chat":"EcosBot",
     "drawer.Ecos":"Ecos do Sur",
     "drawer.settings":"Configuración",
@@ -8,6 +20,25 @@
     "common.delete": "Eliminar",
 
     "chat.welcomeTile": "¡Benvido/a a Ecosbot!",
+    "chat.welcome.suffix": "\nSon EcosBot",
+    "chat.welcome.anytime": [
+        "Ola{{name}}!",
+        "Benvido/a{{name}}!",
+        "Que tal{{name}}?",
+        "Ei{{name}}!",
+        "Alégrome de verte{{name}}!"
+    ],
+    "chat.welcome.morning": [
+        "Bos días{{name}}!",
+        "Feliz mañá{{name}}!"
+    ],
+    "chat.welcome.afternoon": [
+        "Boas tardes{{name}}!",
+        "Feliz tarde{{name}}!"
+    ],
+    "chat.welcome.night": [
+        "Boas noites{{name}}!"
+    ],
     "chat.presentation": "Ola! Son o chatbot Ecosbot, e a miña misión é axudarche en casos de agresión e discriminación por motivos racistas, xenófobos ou islamófobos.\n\nPor favor, indícame se necesitas axuda urxente ou información non urxente.",
     "chat.querySuggestion": "Introduce un tipo de consulta",
     "chat.answerSuggestion": "Selecciona unha resposta",
@@ -57,6 +88,15 @@
     "chat.message.protected_hate": "Odio protexido",
     "chat.message.hate_crime": "Delito de odio",
 
+    "settings.modalTitle": "Ajustes",
+
+
+    "settings.accountTitle": "Conta",
+    "settings.adminAccountTitle": "Conta de administrador",
+    "settings.appTitle": "Aplicación",
+    "settings.userName": "Nome de \nusuario",
+    "settings.dataControls": "Controis de datos",
+
 
     "settings.account": "Conta",
     "settings.email": "Correo electrónico",
@@ -69,6 +109,12 @@
     "settings.help-center": "Centro de axuda",
     "settings.contact": "Contacto",
     "settings.sign-out": "Pechar sesión",
-    "settings.userName": "Nome de usuario",
-    "settings.leave": "Saír"
+    "settings.leave": "Saír",
+        
+    "settings.storageDeleteAccount": "Eliminar conta",
+    "settings.storageDeleteConversations": "Eliminar todas as conversacións",
+    "settings.saveConversations": "Gardar conversacións",
+    "settings.sendDataToEcos": "Enviar datos a Ecos do Sur"
+
+
 }

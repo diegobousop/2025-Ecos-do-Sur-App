@@ -19,7 +19,7 @@ const SectionSelector: React.FC<SectionSelectorProps> = ({
   onSectionChange,
 }) => {
   return (
-    <View className="flex-row gap-2 w-full items-center justify-center">
+    <View className="flex-row gap-6 w-full items-center justify-center">
       {sections.map((section) => (
         <SectionSelectorItem
           key={section.value}

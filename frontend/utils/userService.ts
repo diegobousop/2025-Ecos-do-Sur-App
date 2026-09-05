@@ -39,13 +39,14 @@ class UserService {
         }
     }
 
-    async getAllUsers(page: number = 1, limit: number = 5, userId?: string) {
+    async getAllUsers(page: number = 1, limit: number = 5, token?: string, search?: string) {
         try {
-            const userIdParam = userId ? `&userId=${encodeURIComponent(userId)}` : '';
-            const response = await fetch(getApiUrl('GET_ALL_USERS') + `?page=${page}&limit=${limit}${userIdParam}`, {
+            const searchParam = search && search.trim() ? `&search=${encodeURIComponent(search.trim())}` : '';
+            const response = await fetch(getApiUrl('GET_ALL_USERS') + `?page=${page}&limit=${limit}${searchParam}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
             });
             return response.json();
@@ -56,12 +57,13 @@ class UserService {
         }
     }
 
-    async getUserStats(userId: string, timeRange: string = '7days') {
+    async getUserStats(token: string, timeRange: string = '7days') {
         try {
-            const response = await fetch(getApiUrl('USER_STATS') + `?userId=${encodeURIComponent(userId)}&timeRange=${timeRange}`, {
+            const response = await fetch(getApiUrl('USER_STATS') + `?timeRange=${timeRange}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
             });
             return response.json();
