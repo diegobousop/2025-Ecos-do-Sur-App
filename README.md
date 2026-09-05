@@ -8,7 +8,7 @@ potencialmente vítimas de discriminación,
 agresións e violencias con base racista e
 xenófoba.**
 
-[![Version](https://img.shields.io/badge/version-1.3.0-blue?style=for-the-badge)](https://github.com)
+[![Version](https://img.shields.io/badge/version-1.3.1-blue?style=for-the-badge)](https://github.com)
 [![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
 [![Elixir](https://img.shields.io/badge/Elixir-4B275F?style=for-the-badge&logo=elixir&logoColor=white)](https://elixir-lang.org/)
 [![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev/)
