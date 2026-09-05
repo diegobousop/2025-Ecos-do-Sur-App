@@ -9,7 +9,7 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, RefreshControl, ScrollView, TouchableOpacity, View, useColorScheme } from 'react-native';
 
 const UserAdminPage = () => {
-  const { user } = useAuth();
+  const { token } = useAuth();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const PAGE_SIZE = 6;
@@ -27,7 +27,7 @@ const UserAdminPage = () => {
   const fetchUsers = React.useCallback(async (pageNum: number = 1, search: string = '') => {
     try {
       setLoading(true);
-      const response = await userService.getAllUsers(pageNum, PAGE_SIZE, user?.id, search);
+      const response = await userService.getAllUsers(pageNum, PAGE_SIZE, token ?? undefined, search);
 
       // Validar que la respuesta tenga la estructura esperada
       if (response.users && response.pagination) {
@@ -49,7 +49,7 @@ const UserAdminPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [user?.id]);
+  }, [token]);
 
   // Reinicia a la primera página cuando cambia el término de búsqueda
   const onChangeSearch = (text: string) => {

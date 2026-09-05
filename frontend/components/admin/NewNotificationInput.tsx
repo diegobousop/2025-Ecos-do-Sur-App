@@ -2,6 +2,7 @@ import CustomTextInput from '@/components/common/CustomTextInput'
 import SubmitButton from '@/components/SubmitButton'
 import { svgIcons } from '@/constants/icons'
 import { usePushNotifications } from '@/hooks/use-push-notifications'
+import { useAuth } from '@/contexts/AuthContext'
 import { API_CONFIG } from '@/utils/apiConfig'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import * as Clipboard from 'expo-clipboard'
@@ -43,6 +44,7 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
   const [links, setLinks] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
   const { expoPushToken } = usePushNotifications()
+  const { token } = useAuth()
   const [images, setImages] = useState<AttachedImage[]>([])
   const [showUrlModal, setShowUrlModal] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
@@ -104,7 +106,10 @@ const NewNotificationInput = ({ importedData }: NewNotificationInputProps) => {
 
     fetch(`${API_CONFIG.BASE_URL}/api/notify`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
       body: JSON.stringify(payload)
     })
       .then(async res => {

@@ -23,7 +23,7 @@ type StatsCache = Partial<Record<TimeRange, ConversationStats>>;
 const AdminPanel = () => {
   const colorScheme = useColorScheme();
   const [activeSection, setActiveSection] = React.useState<Section>('notifications');
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [statsCache, setStatsCache] = useState<StatsCache>({});
   const [currentTimeRange, setCurrentTimeRange] = useState<TimeRange>('365days');
   const [analyticsLoading, setAnalyticsLoading] = useState(true);
@@ -36,11 +36,11 @@ const AdminPanel = () => {
       return;
     }
 
-    if (!user?.id) return;
-    
+    if (!token) return;
+
     setAnalyticsLoading(true);
     try {
-      const stats = await userService.getUserStats(user.id, range);
+      const stats = await userService.getUserStats(token, range);
       setStatsCache(prev => ({ ...prev, [range]: stats }));
       setCurrentTimeRange(range);
     } catch (error) {
@@ -48,19 +48,19 @@ const AdminPanel = () => {
     } finally {
       setAnalyticsLoading(false);
     }
-  }, [user?.id, statsCache]);
+  }, [token, statsCache]);
 
   // Función para refrescar (forzar recarga)
   const refreshStats = useCallback(async () => {
-    if (!user?.id) return;
-    
+    if (!token) return;
+
     try {
-      const stats = await userService.getUserStats(user.id, currentTimeRange);
+      const stats = await userService.getUserStats(token, currentTimeRange);
       setStatsCache(prev => ({ ...prev, [currentTimeRange]: stats }));
     } catch (error) {
       console.error('Error refreshing analytics:', error);
     }
-  }, [user?.id, currentTimeRange]);
+  }, [token, currentTimeRange]);
 
   // Precargar analytics al montar el panel
   useEffect(() => {
